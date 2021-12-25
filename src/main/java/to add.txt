@@ -1,0 +1,7 @@
+configurable
+- MOTD
+- Join splash message
+- Join, leave and sleep messages
+
+Revamp
+- Coordinate saves - send command - add save option

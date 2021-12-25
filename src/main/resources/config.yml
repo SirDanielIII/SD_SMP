@@ -1,0 +1,93 @@
+# --------------------------------------
+config-version: 1.0
+# --------------------------------------
+
+# See "colour_codes.txt" for formatting options
+
+MoTD: # Message of the Day
+  1: "A Minecraft SMP"
+  2: ""
+
+welcome: # Welcome Message When You Join
+  title: "Hello There"
+  subtitle: "§6Welcome to the SMP :)"
+
+# --------------------------------------
+# Custom Event Messages → "Player <message>"
+# --------------------------------------
+enable-custom-join-messages: true
+join-messages:
+  - "is a CHUBBY CHEEK BOY HONDA CIVIC"
+  - "is stupido"
+  - "needs to get gooder"
+  - "is a donkey"
+  - "identifies as a toaster"
+  - "is adopted"
+  - "is awesome"
+  - "is awesomesauce"
+  - "is not intelligent"
+  - "is a silly little goost"
+  - "wants to be a hot tub streamer"
+  - "is not deserving of an insult"
+  - "doesn't wear socks"
+  - "is a chad"
+  - "is big brain"
+
+enable-custom-quit-messages: true
+quit-messages:
+  - "folded"
+  - "went to go get a girlfriend"
+  - "wanted to touch grass"
+  - "went to find their dad at the grocery store"
+  - "has a date with Shrek"
+  - "got cancelled"
+  - "went to go play Fortnite"
+  - "opened Premiere Pro"
+  - "opened After Effects"
+  - "was cringe and left"
+  - "didn't want to play anymore"
+  - "left the game"
+  - "clapped himself"
+  - "got a life"
+  - "was kidnapped by Monika"
+  - "§KLISD FH DFZIO UGHDRIO"
+  - "dipped"
+
+enable-custom-sleep-messages: true
+sleep-messages:
+  - "fell asleep"
+  - "dozed off dreaming"
+  - "crashed like Sir Daniel III's PC"
+  - "went AWOL"
+  - "commited sleep"
+  - "initiated hibernation"
+  - "started snoozing like a chad"
+  - "snores too loudly"
+  - "started dreaming of how dogwater they are at Fortnite"
+  - "started to sleep"
+  - "died of exhuastion"
+  - "collasped"
+  - "started napping"
+  - "started dreaming"
+  - "is having a nightmare"
+  - "has gone out like a lamp"
+  - "remembered that they are an orphan, \nand is now sleeping while contemplating the meaning of life"
+  - "wandered off to bed"
+
+# --------------------------------------
+# Config Death Statistics Messages
+# --------------------------------------
+kill: # Describing player kills [VERB] → E.G. "You have [been] ... due to <message>
+  - "brutally murdered"
+  - "slaughtered"
+  - "clapped"
+  - "massacred"
+  - "slayed"
+  - "dookie'ed on"
+  - "360 OOGA BOOGA BOOGA'ED"
+  - "killed"
+death: # Describing Non-PVP Deaths [NOUN] → "You have died ... due to <message>
+  - "your own stupidity"
+  - "lack of skill"
+  - "incompetence"
+  - "not having any earnings"

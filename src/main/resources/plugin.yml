@@ -1,0 +1,21 @@
+name: SD_SMP
+version: 1.00
+author: Sir Daniel III
+main: com.sirdanieliii.SD_SMP.SD_SMP
+api-version: 1.16
+commands:
+  coords:
+    description: Saves coords so you won't get lost
+    usage: /coords <action> <type>
+  death:
+    description: Statistics about your deaths and murders :D
+    usage: /death <stat>
+  ivan:
+    description: <OP Required> Spawns an Ivan (Donkey or Dog)
+    usage: /ivan <type>
+  wand:
+    description: <OP Required> Spawns a weapon of the Gods
+    usage: /wand
+  SMP:
+    description: Displays all 31 SMP plugin commands
+    usage: /SMP
