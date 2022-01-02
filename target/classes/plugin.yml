@@ -6,7 +6,7 @@ api-version: 1.16
 commands:
   coords:
     description: Saves coords so you won't get lost
-    usage: /coords <action> <type>
+    usage: /coords <action> <arguments>
   death:
     description: Statistics about your deaths and murders :D
     usage: /death <stat>
@@ -17,5 +17,5 @@ commands:
     description: <OP Required> Spawns a weapon of the Gods
     usage: /wand
   SMP:
-    description: Displays all 31 SMP plugin commands
+    description: Displays every SD_SMP command
     usage: /SMP
