@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
 import org.bukkit.util.Vector;
 
+import java.util.List;
+
 import static com.sirdanieliii.SD_SMP.commands.CommandManager.headers;
 import static com.sirdanieliii.SD_SMP.events.ErrorMessages.errorMessage;
 import static com.sirdanieliii.SD_SMP.events.Utilities.offsetFromDirection;
@@ -44,5 +46,10 @@ public class ivanDog extends SubCommand {
         player.playSound(player.getLocation(), Sound.ENTITY_WOLF_PANT, 1, 1);
         player.sendMessage(headers("IVAN") + "§FYou have spawned a little Ivan!");
         return true;
+    }
+
+    @Override
+    public List<String> getSubcommandArgs(Player player, String[] args) {
+        return null;
     }
 }

@@ -6,7 +6,7 @@
 
     <groupId>org.sirdanieliii</groupId>
     <artifactId>SD_SMP</artifactId>
-    <version>v1.0</version>
+    <version>1.0</version>
     <build>
         <plugins>
             <plugin>
@@ -18,6 +18,17 @@
                 </configuration>
             </plugin>
         </plugins>
+        <!-- Uses the properties in this file for plugin.yml and config.yml -->
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>plugin.yml</include>
+                    <include>config.yml</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
     <properties>

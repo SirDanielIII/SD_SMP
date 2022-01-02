@@ -1,38 +1,45 @@
 package com.sirdanieliii.SD_SMP.configuration;
 
-import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginDescriptionFile;
 
 import static com.sirdanieliii.SD_SMP.SD_SMP.SMP_CONFIG;
+import static com.sirdanieliii.SD_SMP.SD_SMP.getInstance;
 
 public class CreateSMPConfig {
     public static void createSMPConfig() {
         SMP_CONFIG.setup("", "config");
-        String[] headers = {"config-version", "MoTD", "welcome", "enable-custom-join-messages", "join-messages",
+        String[] headers = {"plugin-version", "MoTD", "welcome", "enable-custom-join-messages", "join-messages",
                 "enable-custom-quit-messages", "quit-messages", "enable-custom-sleep-messages", "sleep-messages", "kill", "death"};
-        String configVersion = "EARLY ACCESS";
+        PluginDescriptionFile version = getInstance().getDescription(); //Gets plugin.yml
+        String configVersion = version.getVersion();
 
         String[] joinMessages =
-                {"is a CHUBBY CHEEK BOY HONDA CIVIC",
-                        "is stupido",
+                {
+                        "didn't qualify for World Cup",
                         "needs to get gooder",
-                        "is a donkey",
-                        "identifies as a toaster",
-                        "is adopted",
+                        "always sings on-key",
                         "is awesome",
                         "is awesomesauce",
-                        "is not intelligent",
                         "is a silly little goose",
-                        "wants to be a hot tub streamer",
                         "is not deserving of an insult",
                         "doesn't wear socks",
+                        "is big brain",
+                        "doesn't even life",
+                        "is a jelly donut",
+                        "can't breathe underwater",
+                        "can't tie their own shoes",
+                        "has nothing better to do right now",
                         "is a chad",
-                        "is big brain"};
+                };
 
         String[] quitMessages =
-                {"folded",
+                {
+                        "folded",
                         "went to go get a girlfriend",
+                        "went to go get a snack",
                         "wanted to touch grass",
                         "went to find their dad at the grocery store",
+                        "rage quit",
                         "has a date with Shrek",
                         "got cancelled",
                         "went to go play Fortnite",
@@ -41,33 +48,41 @@ public class CreateSMPConfig {
                         "was cringe and left",
                         "didn't want to play anymore",
                         "left the game",
-                        "clapped himself",
                         "got a life",
                         "was kidnapped by Monika",
                         "§KLISD FH DFZIO UGHDRIO",
-                        "dipped"};
+                        "dipped",
+                        "has to do their homework",
+                        "had to log off because their mom said so",
+                        "yeeted themself",
+                        "says bye",
+                        "got tired of the people here",
+                        "left to ponder their life decisions",
+                        "left the stove on"
+                };
 
         String[] sleepMessages =
-                {"fell asleep",
+                {
+                        "fell asleep",
                         "dozed off dreaming",
                         "crashed like Sir Daniel III's PC",
                         "went AWOL",
-                        "commited sleep",
+                        "committed sleep",
                         "initiated hibernation",
+                        "went to dream world",
                         "started snoozing like a chad",
-                        "snores too loudly",
-                        "started dreaming of how dogwater they are at Fortnite",
+                        "snores loudly",
                         "started to sleep",
-                        "died of exhuastion",
-                        "collasped",
+                        "died of exhaustion",
+                        "collapsed",
                         "started napping",
                         "started dreaming",
                         "is having a nightmare",
                         "has gone out like a lamp",
-                        "remembered that they are an orphan, \nand is now sleeping while contemplating the meaning of life",
                         "wandered off to bed"};
 
-        String[] kill = {"brutally murdered",
+        String[] kill = {
+                "brutally murdered",
                 "slaughtered",
                 "clapped",
                 "massacred",
@@ -76,7 +91,8 @@ public class CreateSMPConfig {
                 "360 OOGA BOOGA BOOGA'ED",
                 "killed"};
 
-        String[] death = {"your own stupidity",
+        String[] death = {
+                "your own stupidity",
                 "lack of skill",
                 "incompetence",
                 "not having any earnings"};
@@ -86,7 +102,7 @@ public class CreateSMPConfig {
                 SMP_CONFIG.getConfig().createSection(header);
                 // Set Default Values
                 switch (header) {
-                    case ("config-version") -> SMP_CONFIG.getConfig().set("config-version", configVersion);
+                    case ("plugin-version") -> SMP_CONFIG.getConfig().set("plugin-version", Float.parseFloat(configVersion));
                     case ("MoTD") -> {
                         SMP_CONFIG.getConfig().set("MoTD.1", "A Minecraft SMP");
                         SMP_CONFIG.getConfig().set("MoTD.2", "");
@@ -105,6 +121,10 @@ public class CreateSMPConfig {
                     case ("death") -> SMP_CONFIG.getConfig().set("death", death);
                 }
             }
+        }
+        // Update Config Version
+        if (!configVersion.equalsIgnoreCase(String.valueOf(SMP_CONFIG.getConfig().getString("plugin-version")))) {
+            SMP_CONFIG.getConfig().set("plugin-version", CreateSMPConfig.class.getPackage().getImplementationVersion());
         }
         SMP_CONFIG.save();
     }

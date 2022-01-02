@@ -6,17 +6,14 @@ D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\
 D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\sirdanieliii\SD_SMP\items\ItemManager.java
 D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\sirdanieliii\SD_SMP\commands\subcommands\deathNonPVP.java
 D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\sirdanieliii\SD_SMP\commands\ShowAllCommands.java
-D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\sirdanieliii\SD_SMP\commands\tabcompletion\IvanTab.java
 D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\sirdanieliii\SD_SMP\commands\subcommands\coordsSend.java
 D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\sirdanieliii\SD_SMP\commands\subcommands\coordsClear.java
 D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\sirdanieliii\SD_SMP\commands\CommandManager.java
 D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\sirdanieliii\SD_SMP\configuration\ConfigManager.java
-D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\sirdanieliii\SD_SMP\commands\tabcompletion\CoordsTab.java
 D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\sirdanieliii\SD_SMP\commands\subcommands\deathKDR.java
 D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\sirdanieliii\SD_SMP\configuration\ReturnCoordsData.java
 D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\sirdanieliii\SD_SMP\commands\subcommands\coordsSet.java
 D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\sirdanieliii\SD_SMP\events\Events.java
-D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\sirdanieliii\SD_SMP\commands\tabcompletion\DeathTab.java
 D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\sirdanieliii\SD_SMP\configuration\CreateSMPConfig.java
 D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\sirdanieliii\SD_SMP\commands\SubCommand.java
 D:\Daniel's Files\Downloads\Coding\Java\Spigot_Plugins\SD_SMP\src\main\java\com\sirdanieliii\SD_SMP\events\Utilities.java

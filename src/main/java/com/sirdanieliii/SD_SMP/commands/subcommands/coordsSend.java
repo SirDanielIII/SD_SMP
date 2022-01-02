@@ -1,7 +1,19 @@
 package com.sirdanieliii.SD_SMP.commands.subcommands;
 
 import com.sirdanieliii.SD_SMP.commands.SubCommand;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import static com.sirdanieliii.SD_SMP.SD_SMP.PLAYER_CONFIG;
+import static com.sirdanieliii.SD_SMP.commands.CommandManager.headers;
+import static com.sirdanieliii.SD_SMP.configuration.ReturnCoordsData.*;
+import static com.sirdanieliii.SD_SMP.events.ErrorMessages.*;
+import static com.sirdanieliii.SD_SMP.events.ErrorMessages.dimensionStrings;
+import static com.sirdanieliii.SD_SMP.events.Utilities.toTitleCase;
 
 public class coordsSend extends SubCommand {
     @Override
@@ -11,57 +23,83 @@ public class coordsSend extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Send saved coordinate to other player(s)";
+        return "§7Sends saved coordinate to other player(s)";
     }
 
     @Override
     public String getSyntax() {
-        return "§6/coords send <name> <dimension> <player> [More Players]\n";
+        return "§6/coords send here <player> [Players] §7or\n§6/coords send <name> <dimension> <player> [Players]";
     }
 
     @Override
     public boolean perform(Player player, String[] args) {
-        player.sendMessage("This is currently broken");
-//        if (args.length == 1) {
-//            player.sendMessage("§C[!] Missing type, dimension and player name(s)");
-//        } else {
-//            if ((Stream.of("home", "overworld", "portal", "nether", "all").anyMatch(args[1]::equalsIgnoreCase))) {
-//                if (args.length == 2) {
-//                    player.sendMessage("§C[!] Missing player name(s)");
-//                } else {
-//                    String type = args[1].toLowerCase();
-//                    ArrayList<String> messages = new ArrayList<>();
-//                    if (Stream.of("home", "overworld").anyMatch(type::equalsIgnoreCase)) {
-//                        messages.add("§7§O--> " + toTitleCase(type) + " " + retrievePlayerCoords(player, type, "§O", "§O", "§O"));
-//                    } else if (Stream.of("nether").anyMatch(type::equalsIgnoreCase)) {
-//                        messages.add("§7§O--> " + toTitleCase(type) + " " + retrievePlayerCoords(player, type, "§O", "§O", "§O"));
-//                    } else if (Stream.of("portal").anyMatch(type::equalsIgnoreCase)) {
-//                        messages.add("§7§O--> " + "Nether Portal " + retrievePlayerCoords(player, type, "§O", "§O", "§O"));
-//                    } else if (Stream.of("all").anyMatch(type::equalsIgnoreCase)) {
-//                        messages.add("§7§O--> " + "Home " + retrievePlayerCoords(player, "home", "§O", "§O", "§O"));
-//                        messages.add("§7§O--> " + "Overworld " + retrievePlayerCoords(player, "overworld", "§O", "§O", "§O"));
-//                        messages.add("§7§O--> " + "Nether Portal " + retrievePlayerCoords(player, "portal", "§O", "§O", "§O"));
-//                        messages.add("§7§O--> " + "Nether " + retrievePlayerCoords(player, "nether", "§O", "§O", "§O"));
-//                    }
-//                    for (int i = 0; i < args.length - 2; i++) {
-//                        Player target = Bukkit.getPlayer(args[i + 2]);
-//                        if (target == null) {
-//                            player.sendMessage("§C[!] " + toTitleCase(args[i + 2]) + " isn't online or does not exist!");
-//                        } else if (target == player) {
-//                            player.sendMessage("§6[§FCoords§6] §FWhy would you send the coords to yourself lol");
-//                        } else {
-//                            target.sendMessage("§7§O" + player.getDisplayName() + " whispers to you: ");
-//                            player.sendMessage("§6[§FCoords§6] §AMessage successfully sent to " + target.getDisplayName());
-//                            for (String message : messages) {
-//                                target.sendMessage(message);
-//                            }
-//                        }
-//                    }
-//                }
-//            } else {
-//                player.sendMessage("§C[!] Send Type: §Ahome §F/ §Aoverworld §F/ §Dportal §F/ §Dnether §F/ §Ball");
-//            }
-//        }
+        if (args.length == 1) player.sendMessage(incorrectArgs("SEND"));
+        else if (args.length == 2) {
+            if (args[1].equalsIgnoreCase("here")) player.sendMessage(incorrectArgs("SEND_PLAYERS"));
+            else player.sendMessage(incorrectArgs("SEND_DIMENSION"));
+        } else if (args.length == 3) {
+            if (args[1].equalsIgnoreCase("here")) {
+                ArrayList<String> message = new ArrayList<>();
+                message.add(formatCoords(returnDimensionString(player.getWorld().getEnvironment().toString()),
+                        (int) player.getLocation().getX() + " " + (int) player.getLocation().getY() + " " + (int) player.getLocation().getZ()));
+                sendCoords(player, args, message, 2);
+            } else {
+                if (returnDimensionString(args[2]).equals("null")) player.sendMessage(errorMessage("DIMENSION", "\"" + toTitleCase(args[2]) + "\""));
+                else player.sendMessage(incorrectArgs("SEND_PLAYERS"));
+            }
+        } else sendCoords(player, args, retrieveCoord(player, toTitleCase(args[1]), returnDimensionString(args[2]), false), 3);
         return true;
+    }
+
+    private void sendCoords(Player player, String[] args, ArrayList<String> message, int startArg) {
+        if (message.size() == 0)
+            player.sendMessage(incorrectArgs("COORDINATE", toTitleCase(args[1]), toTitleCase(args[2])));
+        else {
+            for (int i = startArg; i < args.length; i++) {
+                Player target = Bukkit.getPlayer(args[i]);
+                if (target == null) player.sendMessage(errorMessage("PLAYER", args[i]));
+                else if (target == player) player.sendMessage(incorrectArgs("SEND_NULL"));
+                else {
+                    target.sendMessage("§7§O" + player.getDisplayName() + " whispers to you: ");
+                    for (String coords : message) {
+                        target.sendMessage("§7§O→ " + coords);
+                    }
+                    player.sendMessage(headers("COORDS") + "§FCoordinates §Asuccessfully §Fsent to §B" + target.getDisplayName());
+                }
+            }
+        }
+    }
+
+    @Override
+    public List<String> getSubcommandArgs(Player player, String[] args) {
+        // /coords send here <player> [Players] or /coords send <name> <dimension> <player> [Players]
+        if (args.length == 2) {
+            List<String> types = new ArrayList<>();
+            PLAYER_CONFIG.setup("playerdata", player.getUniqueId().toString());
+            PLAYER_CONFIG.reload();
+            for (String i : dimensionStrings) {
+                try {
+                    types.addAll(Objects.requireNonNull(PLAYER_CONFIG.getConfig().getConfigurationSection("coordinates." + i)).getKeys(false));
+                } catch (Exception ignored) {
+                }
+            }
+            types.add("here");
+            return types;
+        } else if (args.length == 3) {
+            List<String> types = new ArrayList<>();
+            if (args[1].equalsIgnoreCase("here")) {
+                for (Player p : Bukkit.getServer().getOnlinePlayers()) types.add(toTitleCase(p.getDisplayName()));
+            } else {
+                PLAYER_CONFIG.setup("playerdata", player.getUniqueId().toString());
+                PLAYER_CONFIG.reload();
+                for (String i : dimensionStrings) {
+                    if (PLAYER_CONFIG.getConfig().getString("coordinates." + i + "." + toTitleCase(args[1])) != null) {
+                        types.add(toTitleCase(returnDimensionString(i)));
+                    }
+                }
+            }
+            return types;
+        }
+        return null;
     }
 }

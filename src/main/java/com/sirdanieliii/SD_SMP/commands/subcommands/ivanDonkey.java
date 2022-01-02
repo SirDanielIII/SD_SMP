@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import java.util.List;
+
 import static com.sirdanieliii.SD_SMP.commands.CommandManager.headers;
 import static com.sirdanieliii.SD_SMP.events.ErrorMessages.errorMessage;
 import static com.sirdanieliii.SD_SMP.events.Utilities.offsetFromDirection;
@@ -46,5 +48,10 @@ public class ivanDonkey extends SubCommand {
         player.playSound(player.getLocation(), Sound.ENTITY_DONKEY_AMBIENT, 1, 1);
         player.sendMessage(headers("IVAN") + "§FYou have spawned a stoopid Ivan!");
         return true;
+    }
+
+    @Override
+    public List<String> getSubcommandArgs(Player player, String[] args) {
+        return null;
     }
 }

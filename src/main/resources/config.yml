@@ -2,7 +2,7 @@
 config-version: 1.0
 # --------------------------------------
 
-# See "colour_codes.txt" for formatting options
+# See "colour_codes.txt" for colour formatting options
 
 MoTD: # Message of the Day
   1: "A Minecraft SMP"

@@ -1,17 +1,20 @@
 package com.sirdanieliii.SD_SMP.commands.subcommands;
 
 import com.sirdanieliii.SD_SMP.commands.SubCommand;
-import com.sirdanieliii.SD_SMP.configuration.ConfigManager;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import static com.sirdanieliii.SD_SMP.SD_SMP.PLAYER_CONFIG;
 import static com.sirdanieliii.SD_SMP.commands.CommandManager.headers;
 import static com.sirdanieliii.SD_SMP.configuration.ReturnCoordsData.*;
-import static com.sirdanieliii.SD_SMP.events.ErrorMessages.errorMessage;
+import static com.sirdanieliii.SD_SMP.configuration.ReturnCoordsData.returnDimensionString;
+import static com.sirdanieliii.SD_SMP.events.ErrorMessages.*;
 import static com.sirdanieliii.SD_SMP.events.Utilities.*;
 
 public class coordsList extends SubCommand {
-    private static final ConfigManager PLAYER_CONFIG = new ConfigManager();
-
     @Override
     public String getName() {
         return "list";
@@ -24,35 +27,82 @@ public class coordsList extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "§6/coords list <name> [Dimension]\n§6/coords list all [Dimension]";
+        return "§6/coords list <name> [Dimension] §7or\n§6/coords list all [Dimension]";
     }
 
     @Override
     public boolean perform(Player player, String[] args) {
         if (args[1].equalsIgnoreCase("all")) {
             if (args.length == 2) { // coords list all
-                for (String output : retrieveAllCoords(player))
-                    player.sendMessage(headers("COORDS") + output);
-                return true;
+                if (retrieveAllCoords(player).size() != 0) {
+                    for (String output : retrieveAllCoords(player))
+                        player.sendMessage(headers("COORDS") + output);
+                } else player.sendMessage(incorrectArgs("LIST_ALL-NULL"));
             } else {  // coords list all [dimension]
                 if (!returnDimensionString(args[2]).equals("null")) {
-                    for (String output : retrieveAllCoordsDimension(player, returnDimensionString(args[2])))
-                        player.sendMessage(headers("COORDS") + output);
-                } else player.sendMessage(headers(errorMessage("DIMENSION")));
-                return true;
+                    if (retrieveAllCoordsDimension(player, returnDimensionString(args[2])).size() != 0) {
+                        for (String output : retrieveAllCoordsDimension(player, returnDimensionString(args[2])))
+                            player.sendMessage(headers("COORDS") + output);
+                    } else player.sendMessage(incorrectArgs("LIST_ALL_D-NULL", toTitleCase(args[2])));
+                } else player.sendMessage(errorMessage("DIMENSION"));
             }
+            return true;
         }
         // /coords list name [dimension]
         String dimension;
         try {
             dimension = args[2];
+            if (returnDimension(dimension) == null) {
+                player.sendMessage(errorMessage("DIMENSION", toTitleCase(dimension)));
+                return false;
+            }
         } catch (Exception e) {
-            dimension = returnDimensionString(player.getWorld().getEnvironment().toString());
+            dimension = returnDimensionString(player.getWorld().getEnvironment());
         }
-        for (String output : retrieveCoord(player, toTitleCase(args[1]), dimension))
-            player.sendMessage(headers("COORDS") + output);
+        if (returnDimensionString(dimension).equalsIgnoreCase("null")) dimension = returnDimensionString(player.getWorld().getEnvironment());
+        if (getCoordValue("X", player, returnDimensionString(dimension), toTitleCase(args[1])) != 0) {
+            for (String output : retrieveCoord(player, toTitleCase(args[1]), returnDimensionString(dimension), true))
+                player.sendMessage(headers("COORDS") + output);
+        } else {
+            try {
+                player.sendMessage(incorrectArgs("COORDINATE", toTitleCase(args[1]), toTitleCase(args[2])));
+            } catch (Exception e) {
+                player.sendMessage(incorrectArgs("COORDINATE", toTitleCase(args[1]), returnDimensionTitleString(dimension)));
+            }
+        }
         return true;
     }
+
+    @Override
+    public List<String> getSubcommandArgs(Player player, String[] args) {
+        // /coords list <name> [Dimension] or /coords list all [Dimension]
+        if (args.length == 2) {
+            List<String> types = new ArrayList<>();
+            PLAYER_CONFIG.setup("playerdata", player.getUniqueId().toString());
+            PLAYER_CONFIG.reload();
+            for (String i : dimensionStrings) {
+                try {
+                    types.addAll(Objects.requireNonNull(PLAYER_CONFIG.getConfig().getConfigurationSection("coordinates." + i)).getKeys(false));
+                } catch (Exception ignored) {
+                }
+            }
+            types.add("all");
+            return types;
+        } else if (args.length == 3) {
+            List<String> types = new ArrayList<>();
+            if (args[1].equalsIgnoreCase("all")) {
+                for (String i : dimensionStrings) types.add(toTitleCase(i));
+            } else {
+                PLAYER_CONFIG.setup("playerdata", player.getUniqueId().toString());
+                PLAYER_CONFIG.reload();
+                for (String i : dimensionStrings) {
+                    if (PLAYER_CONFIG.getConfig().getString("coordinates." + i + "." + toTitleCase(args[1])) != null) {
+                        types.add(toTitleCase(returnDimensionString(i)));
+                    }
+                }
+            }
+            return types;
+        }
+        return null;
+    }
 }
-// everything but /coords list name overworld bugs out
-// Add check and message when array is blank

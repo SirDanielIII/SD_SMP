@@ -1,9 +1,6 @@
 package com.sirdanieliii.SD_SMP;
 
 import com.sirdanieliii.SD_SMP.commands.*;
-import com.sirdanieliii.SD_SMP.commands.tabcompletion.CoordsTab;
-import com.sirdanieliii.SD_SMP.commands.tabcompletion.DeathTab;
-import com.sirdanieliii.SD_SMP.commands.tabcompletion.IvanTab;
 import com.sirdanieliii.SD_SMP.configuration.ConfigManager;
 import com.sirdanieliii.SD_SMP.events.Events;
 import com.sirdanieliii.SD_SMP.items.ItemManager;
@@ -43,10 +40,6 @@ public class SD_SMP extends JavaPlugin {
         Objects.requireNonNull(getCommand("death")).setExecutor(new CommandManager());
         Objects.requireNonNull(getCommand("SMP")).setExecutor(new ShowAllCommands());
         Objects.requireNonNull(getCommand("wand")).setExecutor(new Wand());
-        // Tab Completion
-        Objects.requireNonNull(getCommand("ivan")).setTabCompleter(new IvanTab());
-        Objects.requireNonNull(getCommand("coords")).setTabCompleter(new CoordsTab());
-        Objects.requireNonNull(getCommand("death")).setTabCompleter(new DeathTab());
     }
 
     @Override

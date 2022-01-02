@@ -1,5 +1,5 @@
 name: SD_SMP
-version: 1.00
+version: ${project.version}
 author: Sir Daniel III
 main: com.sirdanieliii.SD_SMP.SD_SMP
 api-version: 1.16

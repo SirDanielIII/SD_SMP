@@ -2,18 +2,17 @@ package com.sirdanieliii.SD_SMP.commands;
 
 import com.sirdanieliii.SD_SMP.commands.subcommands.*;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
 import static com.sirdanieliii.SD_SMP.events.ErrorMessages.incorrectArgs;
-import static com.sirdanieliii.SD_SMP.events.Utilities.toTitleCase;
 
-public class CommandManager implements CommandExecutor {
+public class CommandManager implements TabExecutor {
 
-    static Map<String, List<SubCommand>> subcommands = new HashMap<String, List<SubCommand>>();
+    static Map<String, List<SubCommand>> subcommands = new HashMap<>();
     List<SubCommand> ivan = new ArrayList<>();
     List<SubCommand> coords = new ArrayList<>();
     List<SubCommand> death = new ArrayList<>();
@@ -53,11 +52,29 @@ public class CommandManager implements CommandExecutor {
                 }
             } catch (Exception ignored) {
             }
-            if (!present) incorrectFirstArg(p, label, args);
+            if (!present) incorrectFirstArg(p, label, args); // Spit out message if it fails to retrieve subcommand
         } else {
             displayCommands(p, label);
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
+        if (args.length == 1) { // /command <subcommand> <args>
+            ArrayList<String> subcommandArgs = new ArrayList<>();
+            for (int i = 0; i < getSubcommands(cmd.getName()).size(); i++) {
+                subcommandArgs.add(getSubcommands(cmd.getName()).get(i).getName());
+            }
+            return subcommandArgs;
+        } else if (args.length >= 2) {
+            for (int i = 0; i < getSubcommands(cmd.getName()).size(); i++) {
+                if (args[0].equalsIgnoreCase(getSubcommands(cmd.getName()).get(i).getName())) {
+                    return getSubcommands(cmd.getName()).get(i).getSubcommandArgs((Player) sender, args);
+                }
+            }
+        }
+        return null;
     }
 
     public static String headers(String type) {
@@ -111,7 +128,7 @@ public class CommandManager implements CommandExecutor {
         player.sendMessage("<-------------------------------------------------->");
     }
 
-    public static void displayAllCommands(Player player) {
+    public static void displayAllCommands(Player player) { // Maybe add pages to this one day
         // Make header a variable from config
         player.sendMessage("------------ | §6§L" + "31 SMP Commands" + "§R§F | ------------>");
         for (List<SubCommand> i : subcommands.values()) {
@@ -123,4 +140,3 @@ public class CommandManager implements CommandExecutor {
         player.sendMessage("<-------------------------------------------------->");
     }
 }
-// Maybe one day add pages

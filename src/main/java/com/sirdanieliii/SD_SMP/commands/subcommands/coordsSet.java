@@ -1,10 +1,14 @@
 package com.sirdanieliii.SD_SMP.commands.subcommands;
 
 import com.sirdanieliii.SD_SMP.commands.SubCommand;
-import com.sirdanieliii.SD_SMP.configuration.ConfigManager;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static com.sirdanieliii.SD_SMP.SD_SMP.PLAYER_CONFIG;
 import static com.sirdanieliii.SD_SMP.commands.CommandManager.headers;
 import static com.sirdanieliii.SD_SMP.configuration.ReturnCoordsData.returnDimension;
 import static com.sirdanieliii.SD_SMP.configuration.ReturnCoordsData.returnDimensionString;
@@ -12,8 +16,6 @@ import static com.sirdanieliii.SD_SMP.events.ErrorMessages.*;
 import static com.sirdanieliii.SD_SMP.events.Utilities.*;
 
 public class coordsSet extends SubCommand {
-    private static final ConfigManager PLAYER_CONFIG = new ConfigManager();
-
     @Override
     public String getName() {
         return "set";
@@ -21,45 +23,64 @@ public class coordsSet extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Saves a coordinate under a specified name";
+        return "§7Saves coordinate under given name";
     }
 
     @Override
     public String getSyntax() {
-        return "§6/coords set here <name> §7or \n§6/coords set <X Y Z> <name> [dimension]";
+        return "§6/coords set <name> here §7or\n§6/coords set <name> <X Y Z> <dimension>";
     }
 
     @Override
     public boolean perform(Player player, String[] args) {
-        if (args.length == 1) { // args[0]
-            player.sendMessage(incorrectArgs("SET_ARG0"));
-        } else if (args.length == 2) { // args[1]
-            if ("here".equalsIgnoreCase(args[1])) {
-                player.sendMessage(incorrectArgs("SET_ARG1-NAME-1"));
-            } else player.sendMessage(incorrectArgs("SET_COORDS"));
-            return false;
-        } else if (args.length == 3) { // args[2]
-            if ("here".equalsIgnoreCase(args[1])) {
+        if (args.length == 1) player.sendMessage(incorrectArgs("SET_ARG0")); // args[0]
+        else if (args.length == 2) player.sendMessage(incorrectArgs("SET_ARG1"));
+        else if (args.length == 3) {
+            if (args[2].equalsIgnoreCase("here")) {
                 savePlayerCoords(player,
                         (int) player.getLocation().getX(),
                         (int) player.getLocation().getY(),
                         (int) player.getLocation().getZ(),
-                        toTitleCase(args[2]), player.getWorld().getEnvironment());
+                        toTitleCase(args[1]), player.getWorld().getEnvironment());
                 return true;
-            } else player.sendMessage(incorrectArgs("SET_COORDS"));
-        } else if (args.length == 4) player.sendMessage(incorrectArgs("SET_ARG1-NAME-2")); // args[3]
-        else { // args[4]
+            } else player.sendMessage(incorrectArgs("SET_COORDS_X"));
+        } else if (args.length == 4) player.sendMessage(incorrectArgs("SET_COORDS_Y"));
+        else if (args.length == 5) player.sendMessage(incorrectArgs("SET_ARG4"));
+        else {
             try {
-                int x = Integer.parseInt(args[1]);
-                int y = Integer.parseInt(args[2]);
-                int z = Integer.parseInt(args[3]);
+                int x, y, z;
+                if (args[2].equalsIgnoreCase("~")) x = (int) player.getLocation().getX();
+                else
+                    try {
+                        x = Integer.parseInt(args[2]);
+                    } catch (NumberFormatException n) {
+                        player.sendMessage(errorMessage("INTEGER"));
+                        return false;
+                    }
+                if (args[3].equalsIgnoreCase("~")) y = (int) player.getLocation().getY();
+                else
+                    try {
+                        y = Integer.parseInt(args[3]);
+                    } catch (NumberFormatException n) {
+                        player.sendMessage(errorMessage("INTEGER"));
+                        return false;
+                    }
+                if (args[4].equalsIgnoreCase("~")) z = (int) player.getLocation().getZ();
+                else
+                    try {
+                        z = Integer.parseInt(args[4]);
+                    } catch (NumberFormatException n) {
+                        player.sendMessage(errorMessage("INTEGER"));
+                        return false;
+                    }
                 World.Environment dimension;
-                try {
+                if (returnDimension(args[5]) != null) {
                     dimension = returnDimension(args[5]);
-                } catch (Exception e) {
-                    dimension = player.getWorld().getEnvironment();
+                    savePlayerCoords(player, x, y, z, toTitleCase(args[1]), dimension);
+                } else {
+                    player.sendMessage(errorMessage("DIMENSION", toTitleCase(args[5])));
+                    return false;
                 }
-                savePlayerCoords(player, x, y, z, toTitleCase(args[4]), dimension);
             } catch (NumberFormatException n) {
                 player.sendMessage(errorMessage("INTEGER"));
                 return false;
@@ -84,5 +105,38 @@ public class coordsSet extends SubCommand {
         PLAYER_CONFIG.getConfig().set("coordinates." + returnDimensionString(String.valueOf(dimension)) + "." + name + ".Z", z);
         PLAYER_CONFIG.save();
     }
+
+    @Override
+    public List<String> getSubcommandArgs(Player player, String[] args) {
+        //  §6/coords set <name> here §7or\n§6/coords set <name> <X Y Z> [Dimension]"
+        if (args.length == 2) {
+            List<String> types = new ArrayList<>();
+            types.add("name");
+            return types;
+        } else if (args.length == 3) {
+            List<String> types = new ArrayList<>();
+            types.add("~");
+            types.add("here");
+            Collections.sort(types);
+            return types;
+        }
+        if (!args[2].equalsIgnoreCase("here")) {
+            if (args.length == 4) {
+                List<String> types = new ArrayList<>();
+                types.add("~");
+                return types;
+            } else if (args.length == 5) {
+                List<String> types = new ArrayList<>();
+                types.add("~");
+                return types;
+            } else if (args.length == 6) {
+                List<String> types = new ArrayList<>();
+                types.add("Overworld");
+                types.add("Nether");
+                types.add("The_End");
+                return types;
+            }
+        }
+        return null;
+    }
 }
-// Add description feature in the future?
