@@ -44,7 +44,7 @@ public class SD_SMP extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        this.getLogger().info("Cancelling tasks...");
+        this.getLogger().info("Unloading files...");
         this.getServer().getScheduler().cancelTasks(this);
     }
 

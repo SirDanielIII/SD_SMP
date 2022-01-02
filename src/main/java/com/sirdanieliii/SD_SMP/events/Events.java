@@ -1,6 +1,5 @@
 package com.sirdanieliii.SD_SMP.events;
 
-import com.sirdanieliii.SD_SMP.configuration.ConfigManager;
 import com.sirdanieliii.SD_SMP.items.ItemManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.*;
@@ -16,13 +15,12 @@ import org.bukkit.util.Vector;
 
 import java.util.Objects;
 
+import static com.sirdanieliii.SD_SMP.SD_SMP.PLAYER_CONFIG;
 import static com.sirdanieliii.SD_SMP.SD_SMP.SMP_CONFIG;
 import static com.sirdanieliii.SD_SMP.configuration.CreatePlayerConfig.createPlayerConfig;
 import static com.sirdanieliii.SD_SMP.events.Utilities.randomMessage;
 
 public class Events implements Listener {
-    private static final ConfigManager PLAYER_CONFIG = new ConfigManager();
-
     @EventHandler
     public void onServerListPing(ServerListPingEvent event) {
         SMP_CONFIG.setup("", "config");
@@ -74,10 +72,10 @@ public class Events implements Listener {
         Player player = event.getEntity();
         Player killer = player.getKiller();
         double deaths;
+        PLAYER_CONFIG.setup("playerdata", player.getUniqueId().toString());
+        PLAYER_CONFIG.reload();
         if (killer != null) {
             // Add to death count (Player)
-            PLAYER_CONFIG.setup("playerdata", player.getUniqueId().toString());
-            PLAYER_CONFIG.reload();
             deaths = PLAYER_CONFIG.getConfig().getDouble("death_by_player") + 1.0D;
             PLAYER_CONFIG.getConfig().set("death_by_player", deaths);
             PLAYER_CONFIG.save();
@@ -86,14 +84,11 @@ public class Events implements Listener {
             PLAYER_CONFIG.reload();
             double kills = PLAYER_CONFIG.getConfig().getDouble("murders") + 1.0D;
             PLAYER_CONFIG.getConfig().set("murders", kills);
-            PLAYER_CONFIG.save();
         } else {
-            PLAYER_CONFIG.setup("playerdata", player.getUniqueId().toString());
-            PLAYER_CONFIG.reload();
             deaths = PLAYER_CONFIG.getConfig().getDouble("death_by_other") + 1.0D;
             PLAYER_CONFIG.getConfig().set("death_by_other", deaths);
-            PLAYER_CONFIG.save();
         }
+        PLAYER_CONFIG.save();
     }
 
     @EventHandler

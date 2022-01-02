@@ -16,7 +16,6 @@ public class CreatePlayerConfig {
                 switch (header) {
                     case ("UUID") -> PLAYER_CONFIG.getConfig().set("UUID", player.getUniqueId().toString());
                     case ("murders") -> PLAYER_CONFIG.getConfig().set("murders", 0.0D);
-                    case ("total_deaths") -> PLAYER_CONFIG.getConfig().set("total_deaths", 0.0D);
                     case ("death_by_player") -> PLAYER_CONFIG.getConfig().set("death_by_player", 0.0D);
                     case ("death_by_other") -> PLAYER_CONFIG.getConfig().set("death_by_other", 0.0D);
                 }

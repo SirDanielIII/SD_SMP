@@ -11,17 +11,16 @@ import static com.sirdanieliii.SD_SMP.events.ErrorMessages.errorMessage;
 
 public class Wand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage(errorMessage("PLAYER_ONLY"));
             return true;
         }
-        Player player = (Player) sender;
         if (!player.isOp()) {
             sender.sendMessage(errorMessage("OP_ONLY"));
             return true;
         }
         if (cmd.getName().equalsIgnoreCase("wand")) {
-            Bukkit.broadcastMessage("§6§OA wand of the gods has been summoned...");
+            Bukkit.broadcastMessage("§6§OA Wand of the Gods Has Been Summoned...");
             player.getInventory().addItem(ItemManager.wand);
         }
         return true;
