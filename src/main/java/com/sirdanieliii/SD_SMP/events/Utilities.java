@@ -1,12 +1,9 @@
 package com.sirdanieliii.SD_SMP.events;
 
-import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 import static com.sirdanieliii.SD_SMP.SD_SMP.SMP_CONFIG;
 
