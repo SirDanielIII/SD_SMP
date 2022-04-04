@@ -26,8 +26,8 @@ public class CommandManager implements TabExecutor {
         coords.add(new coordsSet());
         death.add(new deathKDR());
         death.add(new deathMurders());
-        death.add(new deathNonPVP());
-        death.add(new deathPVP());
+        death.add(new deathNonPlayer());
+        death.add(new deathPlayer());
         death.add(new deathTotal());
         subcommands.put("ivan", ivan);
         subcommands.put("death", death);

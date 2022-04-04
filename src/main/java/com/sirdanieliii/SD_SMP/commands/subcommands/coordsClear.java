@@ -32,6 +32,10 @@ public class coordsClear extends SubCommand {
 
     @Override
     public boolean perform(Player player, String[] args) {
+        if (!(player.hasPermission("coords.clear"))) {
+            player.sendMessage(errorMessage("PERMISSION"));
+            return true;
+        }
         PLAYER_CONFIG.setup("playerdata", player.getUniqueId().toString());
         PLAYER_CONFIG.reload();
         if (args.length == 2) {

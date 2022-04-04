@@ -33,6 +33,10 @@ public class coordsSend extends SubCommand {
 
     @Override
     public boolean perform(Player player, String[] args) {
+        if (!(player.hasPermission("coords.send"))) {
+            player.sendMessage(errorMessage("PERMISSION"));
+            return true;
+        }
         if (args.length == 1) player.sendMessage(incorrectArgs("SEND"));
         else if (args.length == 2) {
             if (args[1].equalsIgnoreCase("here")) player.sendMessage(incorrectArgs("SEND_PLAYERS"));

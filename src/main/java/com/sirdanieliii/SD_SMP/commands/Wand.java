@@ -11,12 +11,9 @@ import static com.sirdanieliii.SD_SMP.events.ErrorMessages.errorMessage;
 
 public class Wand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!(sender instanceof Player player)) {
-            sender.sendMessage(errorMessage("PLAYER_ONLY"));
-            return true;
-        }
-        if (!player.isOp()) {
-            sender.sendMessage(errorMessage("OP_ONLY"));
+        Player player = (Player) sender;
+        if (!(player.hasPermission("god.wand"))) {
+            player.sendMessage(errorMessage("PERMISSION"));
             return true;
         }
         if (cmd.getName().equalsIgnoreCase("wand")) {

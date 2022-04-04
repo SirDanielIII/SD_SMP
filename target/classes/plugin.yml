@@ -1,5 +1,5 @@
 name: SD_SMP
-version: 1.0
+version: 1.1
 author: Sir Daniel III
 main: com.sirdanieliii.SD_SMP.SD_SMP
 api-version: 1.16
@@ -19,3 +19,63 @@ commands:
   SMP:
     description: Displays every SD_SMP command
     usage: /SMP
+permissions:
+  god.wand:
+    description: Lets you use the wand
+    default: true
+  ivan.*:
+    description: Gives access to all Ivan commands
+    children:
+      ivan.dog: true
+      ivan.donkey: true
+  ivan.dog:
+    description: Spawns a dog named Ivan
+    default: true
+  ivan.donkey:
+    description: Spawns a donkey named Ivan
+    default: true
+  coords.*:
+    description: Gives access to most Coords commands
+    children:
+      coords.clear: true
+      coords.list: true
+      coords.send: true
+      coords.set: true
+  coords.clear:
+    description: Clears a saved coordinate
+    default: true
+  coords.list:
+    description: Lists a saved coordinate
+    default: true
+  coords.send:
+    description: Sends a saved coordinate
+    default: true
+  coords.set:
+    description: Sets a saved coordinate
+    default: true
+  coords.teleport:
+    description: Allows you to teleport to a saved coordinate
+    default: false
+  death.*:
+    description: Gives access to all Death commands
+    children:
+      death.kdr: true
+      death.murders: true
+      death.nonplayer: true
+      death.player: true
+      death.total: true
+  death.kdr:
+    description: Returns KDR value
+    default: true
+  death.murders:
+    description: Returns murder count
+    default: true
+  death.nonplayer:
+    description: Returns death count (No PVP)
+    default: true
+  death.player:
+    description: Returns death count (Only PVP)
+    default: true
+  death.total:
+    description: Returns lifetime death count
+    default: true

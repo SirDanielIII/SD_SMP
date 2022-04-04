@@ -32,6 +32,10 @@ public class coordsList extends SubCommand {
 
     @Override
     public boolean perform(Player player, String[] args) {
+        if (!(player.hasPermission("coords.list"))) {
+            player.sendMessage(errorMessage("PERMISSION"));
+            return true;
+        }
         if (args[1].equalsIgnoreCase("all")) {
             if (args.length == 2) { // coords list all
                 if (retrieveAllCoords(player).size() != 0) {

@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 import static com.sirdanieliii.SD_SMP.configuration.ReturnDeathData.totalDeaths;
+import static com.sirdanieliii.SD_SMP.events.ErrorMessages.errorMessage;
 
 public class deathTotal extends SubCommand {
     @Override
@@ -15,7 +16,7 @@ public class deathTotal extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Shows your lifetime death count";
+        return "§7Returns your lifetime death count";
     }
 
     @Override
@@ -25,6 +26,10 @@ public class deathTotal extends SubCommand {
 
     @Override
     public boolean perform(Player player, String[] args) {
+        if (!(player.hasPermission("death.total"))) {
+            player.sendMessage(errorMessage("PERMISSION"));
+            return true;
+        }
         totalDeaths(player);
         return true;
     }

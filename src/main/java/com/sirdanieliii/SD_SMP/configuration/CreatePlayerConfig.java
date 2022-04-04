@@ -3,7 +3,7 @@ package com.sirdanieliii.SD_SMP.configuration;
 import org.bukkit.entity.Player;
 
 public class CreatePlayerConfig {
-    private static final ConfigManager PLAYER_CONFIG = new ConfigManager();
+    private static final PlayerManager PLAYER_CONFIG = new PlayerManager();
 
     public static void createPlayerConfig(Player player) {
         String[] headers = {"UUID", "name", "murders", "death_by_player", "death_by_other", "coordinates"};

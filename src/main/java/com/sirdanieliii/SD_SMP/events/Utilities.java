@@ -53,27 +53,25 @@ public class Utilities {
     }
 
     public static String randomMessage(String type, Player player) {
-        SMP_CONFIG.setup("", "config");
-        SMP_CONFIG.reload();
         switch (type) {
             case ("join") -> {
-                List<String> joinMessages = SMP_CONFIG.getConfig().getStringList("join-messages");
+                List<String> joinMessages = SMP_CONFIG.joinMessages;
                 return joinMessages.get(new Random().nextInt(joinMessages.size()));
             }
             case ("quit") -> {
-                List<String> quitMessages = SMP_CONFIG.getConfig().getStringList("quit-messages");
+                List<String> quitMessages = SMP_CONFIG.quitMessages;
                 return quitMessages.get(new Random().nextInt(quitMessages.size()));
             }
             case ("sleep") -> {
-                List<String> sleepMessage = SMP_CONFIG.getConfig().getStringList("sleep-messages");
+                List<String> sleepMessage = SMP_CONFIG.sleepMessages;
                 return sleepMessage.get(new Random().nextInt(sleepMessage.size()));
             }
             case ("kill") -> { // Describing player kills
-                List<String> killDescription = SMP_CONFIG.getConfig().getStringList("kill");
+                List<String> killDescription = SMP_CONFIG.describeKill;
                 return killDescription.get(new Random().nextInt(killDescription.size()));
             }
             case ("death") -> { // Describing deaths (not including PVP)
-                List<String> deathDescription = SMP_CONFIG.getConfig().getStringList("death");
+                List<String> deathDescription = SMP_CONFIG.describeDeath;
                 return deathDescription.get(new Random().nextInt(deathDescription.size()));
             }
         }

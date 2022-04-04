@@ -8,9 +8,9 @@ public class ErrorMessages {
     public static String errorMessage(String type) {
         return switch (type) {
             case ("OP_ONLY") -> "§4[§C§L!§R§4] §CSorry, but only operators can use this command";
-            case ("PLAYER_ONLY") -> "§4[§C§L!§R§4] §CSorry, but only players can use this command";
             case ("INTEGER") -> "§4[§C§L!§R§4] §C<X Y Z> Coordinates Must be Integer, Not String";
             case ("DIMENSION") -> "§4[§C§L!§R§4] §CNot a valid dimension\n   §7(Must be Overworld / Nether / The_End)";
+            case ("PERMISSION") -> "§4[§C§L!§R§4] §CYou do not have permission to do that!";
             default -> null;
         };
     }

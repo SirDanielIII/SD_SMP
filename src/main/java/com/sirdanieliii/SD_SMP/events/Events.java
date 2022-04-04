@@ -10,7 +10,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.Objects;
@@ -23,33 +22,26 @@ import static com.sirdanieliii.SD_SMP.events.Utilities.randomMessage;
 public class Events implements Listener {
     @EventHandler
     public void onServerListPing(ServerListPingEvent event) {
-        SMP_CONFIG.setup("", "config");
-        SMP_CONFIG.reload();
-        event.setMotd(SMP_CONFIG.getConfig().getString("MoTD.1") + "\n" + SMP_CONFIG.getConfig().getString("MoTD.2"));
+        event.setMotd(SMP_CONFIG.MoTD.get(0) + "\n" + SMP_CONFIG.MoTD.get(1));
     }
 
     @EventHandler
     //Player Join Message
     public static void onPlayerJoin(PlayerJoinEvent event) {
-        SMP_CONFIG.setup("", "config");
-        SMP_CONFIG.reload();
         Player player = event.getPlayer();
-        if (SMP_CONFIG.getConfig().getBoolean("enable-custom-join-messages")) {
+        if (SMP_CONFIG.customJoinMessages) {
             String message = randomMessage("join", player);
             event.setJoinMessage("§E" + player.getName() + " " + message + " :)");
             createPlayerConfig(player);
         }
-        player.sendTitle(SMP_CONFIG.getConfig().getString("welcome.title"),
-                SMP_CONFIG.getConfig().getString("welcome.subtitle"), 20, 70, 20);
+        player.sendTitle(SMP_CONFIG.welcome.get(0), SMP_CONFIG.welcome.get(1), 20, 70, 20);
     }
 
     @EventHandler
     //Player Quit Message
     public static void onPlayerLeave(PlayerQuitEvent event) {
-        SMP_CONFIG.setup("", "config");
-        SMP_CONFIG.reload();
         Player player = event.getPlayer();
-        if (SMP_CONFIG.getConfig().getBoolean("enable-custom-quit-messages")) {
+        if (SMP_CONFIG.customQuitMessages) {
             String message = randomMessage("quit", player);
             event.setQuitMessage("§C" + player.getName() + " " + message);
         }
@@ -58,7 +50,7 @@ public class Events implements Listener {
     @EventHandler
     //Player Sleep Message
     public static void onPlayerSleep(final PlayerBedEnterEvent event) {
-        if (SMP_CONFIG.getConfig().getBoolean("enable-custom-sleep-messages")) {
+        if (SMP_CONFIG.customSleepMessages) {
             if (event.getBedEnterResult() == PlayerBedEnterEvent.BedEnterResult.OK) {
                 Player player = event.getPlayer();
                 String message = randomMessage("sleep", player);
@@ -102,7 +94,7 @@ public class Events implements Listener {
             player.getWorld().createExplosion((Objects.requireNonNull(event.getClickedBlock())).getLocation(), 3.5F);
         }
 
-        if (event.getAction() == Action.RIGHT_CLICK_AIR && Objects.equals(((ItemStack) Objects.requireNonNull(event.getItem())).getItemMeta(),
+        if (event.getAction() == Action.RIGHT_CLICK_AIR && Objects.equals((Objects.requireNonNull(event.getItem())).getItemMeta(),
                 ItemManager.wand.getItemMeta())) {
             player = event.getPlayer();
             Fireball fire = player.getWorld().spawn(event.getPlayer().getLocation().add(new Vector(0.0D, 1.5D, 0.0D))

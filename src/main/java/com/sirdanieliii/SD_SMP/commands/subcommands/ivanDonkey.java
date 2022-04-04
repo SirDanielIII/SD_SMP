@@ -33,9 +33,9 @@ public class ivanDonkey extends SubCommand {
 
     @Override
     public boolean perform(Player player, String[] args) {
-        if (!player.isOp()) {
-            player.sendMessage(errorMessage("OP_ONLY"));
-            return false;
+        if (!(player.hasPermission("ivan.donkey"))) {
+            player.sendMessage(errorMessage("PERMISSION"));
+            return true;
         }
         Vector offset = offsetFromDirection(player, 2.0D); // Calculates 2 block forward offset
         Donkey donkey = (Donkey) player.getWorld().spawnEntity(player.getLocation().add(offset), EntityType.DONKEY);

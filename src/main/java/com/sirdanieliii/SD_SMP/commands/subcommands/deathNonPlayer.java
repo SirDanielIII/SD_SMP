@@ -5,27 +5,33 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-import static com.sirdanieliii.SD_SMP.configuration.ReturnDeathData.pvpDeaths;
+import static com.sirdanieliii.SD_SMP.configuration.ReturnDeathData.nonPVPDeaths;
+import static com.sirdanieliii.SD_SMP.events.ErrorMessages.errorMessage;
 
-public class deathPVP extends SubCommand {
+
+public class deathNonPlayer extends SubCommand {
     @Override
     public String getName() {
-        return "player";
+        return "nonplayer";
     }
 
     @Override
     public String getDescription() {
-        return "§7Shows death count (Only PVP)";
+        return "§7Returns death count (No PVP)";
     }
 
     @Override
     public String getSyntax() {
-        return "§4/death player";
+        return "§4/death nonplayer";
     }
 
     @Override
     public boolean perform(Player player, String[] args) {
-        pvpDeaths(player);
+        if (!(player.hasPermission("death.nonplayer"))) {
+            player.sendMessage(errorMessage("PERMISSION"));
+            return true;
+        }
+        nonPVPDeaths(player);
         return true;
     }
 

@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 import static com.sirdanieliii.SD_SMP.configuration.ReturnDeathData.kdr;
+import static com.sirdanieliii.SD_SMP.events.ErrorMessages.errorMessage;
 
 public class deathKDR extends SubCommand {
     @Override
@@ -25,6 +26,10 @@ public class deathKDR extends SubCommand {
 
     @Override
     public boolean perform(Player player, String[] args) {
+        if (!(player.hasPermission("death.kdr"))) {
+            player.sendMessage(errorMessage("PERMISSION"));
+            return true;
+        }
         kdr(player);
         return true;
     }
