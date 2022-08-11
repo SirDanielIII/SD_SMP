@@ -26,7 +26,7 @@ public class deathTotal extends SubCommand {
 
     @Override
     public boolean perform(Player player, String[] args) {
-        if (!(player.hasPermission("death.total"))) {
+        if (!(player.hasPermission("sd_smp.death.total"))) {
             player.sendMessage(errorMessage("PERMISSION"));
             return true;
         }

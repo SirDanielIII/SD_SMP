@@ -27,4 +27,10 @@ public class CreatePlayerConfig {
         }
         PLAYER_CONFIG.save();
     }
+//    public void saveDefaultConfig() {
+//        if (!this.configFile.exists()) {
+//            this.saveResource("config.yml", false);
+//        }
+//
+//    }
 }

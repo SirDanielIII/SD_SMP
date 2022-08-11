@@ -6,7 +6,7 @@
 
     <groupId>org.sirdanieliii</groupId>
     <artifactId>SD_SMP</artifactId>
-    <version>1.1</version>
+    <version>2.0</version>
     <build>
         <plugins>
             <plugin>

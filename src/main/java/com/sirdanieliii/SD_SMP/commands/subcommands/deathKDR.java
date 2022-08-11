@@ -26,7 +26,7 @@ public class deathKDR extends SubCommand {
 
     @Override
     public boolean perform(Player player, String[] args) {
-        if (!(player.hasPermission("death.kdr"))) {
+        if (!(player.hasPermission("sd_smp.death.kdr"))) {
             player.sendMessage(errorMessage("PERMISSION"));
             return true;
         }

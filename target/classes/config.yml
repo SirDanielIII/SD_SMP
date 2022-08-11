@@ -1,44 +1,67 @@
 # --------------------------------------
-config-version: 1.0
+config-version: Subscribe to Sir Daniel III  # DO NOT CHANGE THIS
 # --------------------------------------
-
 # See "colour_codes.txt" for colour formatting options
 
-MoTD: # Message of the Day
-  1: "A Minecraft SMP"
-  2: ""
+MoTD: # Message of the Day (in server listing) - Doesn't work on BungeeCord'ed servers
+  line_1: "A Minecraft SMP"
+  line_2: ""
 
-welcome: # Welcome Message When You Join
+welcome: # Welcome message when you join
   title: "Hello There"
   subtitle: "§6Welcome to the SMP :)"
 
+
 # --------------------------------------
-# Custom Event Messages → "Player <message>"
+# Gameplay Toggleable Changes
 # --------------------------------------
 enable-custom-join-messages: true
+enable-custom-quit-messages: true
+enable-custom-sleep-messages: true
+lightning_on_player_kill: false  # Like PVP servers. The lightning won't destroy anything and/or create fire
+netherite:
+  disable_smithing_table: # Prevents you from interacting / right-clicking with a smithing table
+    enabled: false
+    send_message: false
+    message: "[SD_SMP] GOD DISAPPROVES OF THIS BEHAVIOUR"
+  prevent_crafting_tools: # Disables making Netherite tools & weapons in the smithing table
+    enabled: false
+    send_message: false
+    message: "[SD_SMP] GOD DISAPPROVES OF THIS BEHAVIOUR"
+  prevent_crafting_armour: # Disables making Netherite armour in the smithing table
+    enabled: false
+    send_message: false
+    message: "[SD_SMP] GOD DISAPPROVES OF THIS BEHAVIOUR"
+
+
+# --------------------------------------
+# Custom Event Messages | E.G. "Player <message>"
+# --------------------------------------
 join-messages:
-  - "is a CHUBBY CHEEK BOY HONDA CIVIC"
-  - "is stupido"
+  - "didn't qualify for World Cup"
   - "needs to get gooder"
-  - "is a donkey"
-  - "identifies as a toaster"
-  - "is adopted"
+  - "always sings on-key"
   - "is awesome"
   - "is awesomesauce"
-  - "is not intelligent"
-  - "is a silly little goost"
-  - "wants to be a hot tub streamer"
+  - "is a silly little goose"
   - "is not deserving of an insult"
   - "doesn't wear socks"
-  - "is a chad"
   - "is big brain"
+  - "doesn't even life"
+  - "is a jelly donut"
+  - "can't breathe underwater"
+  - "can't tie their own shoes"
+  - "has nothing better to do right now"
+  - "is a chad"
+  - "is a roosta"
 
-enable-custom-quit-messages: true
 quit-messages:
   - "folded"
   - "went to go get a girlfriend"
+  - "went to go get a snack"
   - "wanted to touch grass"
   - "went to find their dad at the grocery store"
+  - "rage quit"
   - "has a date with Shrek"
   - "got cancelled"
   - "went to go play Fortnite"
@@ -47,37 +70,42 @@ quit-messages:
   - "was cringe and left"
   - "didn't want to play anymore"
   - "left the game"
-  - "clapped himself"
   - "got a life"
   - "was kidnapped by Monika"
   - "§KLISD FH DFZIO UGHDRIO"
   - "dipped"
+  - "has to do their homework"
+  - "had to log off because their mom said so"
+  - "yeeted themself"
+  - "says bye"
+  - "got tired of the people here"
+  - "left to ponder their life decisions"
+  - "left the stove on"
 
-enable-custom-sleep-messages: true
 sleep-messages:
   - "fell asleep"
   - "dozed off dreaming"
-  - "crashed like Sir Daniel III's PC"
+  - "crashed like Vine"
   - "went AWOL"
-  - "commited sleep"
+  - "committed sleep"
   - "initiated hibernation"
+  - "went to dream world"
   - "started snoozing like a chad"
-  - "snores too loudly"
-  - "started dreaming of how dogwater they are at Fortnite"
+  - "snores loudly"
   - "started to sleep"
-  - "died of exhuastion"
-  - "collasped"
+  - "died of exhaustion"
+  - "collapsed"
   - "started napping"
   - "started dreaming"
   - "is having a nightmare"
   - "has gone out like a lamp"
-  - "remembered that they are an orphan, \nand is now sleeping while contemplating the meaning of life"
   - "wandered off to bed"
 
+
 # --------------------------------------
-# Config Death Statistics Messages
+# Death Statistics Messages
 # --------------------------------------
-kill: # Describing player kills [VERB] → E.G. "You have [been] ... due to <message>
+describe_kill: # [PVP, VERB] → E.G. "You have been <message> ...
   - "brutally murdered"
   - "slaughtered"
   - "clapped"
@@ -86,7 +114,7 @@ kill: # Describing player kills [VERB] → E.G. "You have [been] ... due to <mes
   - "dookie'ed on"
   - "360 OOGA BOOGA BOOGA'ED"
   - "killed"
-death: # Describing Non-PVP Deaths [NOUN] → "You have died ... due to <message>
+describe_death: # [Non-PVP, NOUN] | E.G. "You have died ... due to <message>"
   - "your own stupidity"
   - "lack of skill"
   - "incompetence"

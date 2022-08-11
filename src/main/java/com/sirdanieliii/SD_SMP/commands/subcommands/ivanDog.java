@@ -32,7 +32,7 @@ public class ivanDog extends SubCommand {
 
     @Override
     public boolean perform(Player player, String[] args) {
-        if (!(player.hasPermission("ivan.dog"))) {
+        if (!(player.hasPermission("sd_smp.ivan.dog"))) {
             player.sendMessage(errorMessage("PERMISSION"));
             return true;
         }

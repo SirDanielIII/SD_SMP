@@ -33,7 +33,7 @@ public class coordsSet extends SubCommand {
 
     @Override
     public boolean perform(Player player, String[] args) {
-        if (!(player.hasPermission("coords.set"))) {
+        if (!(player.hasPermission("sd_smp.coords.set"))) {
             player.sendMessage(errorMessage("PERMISSION"));
             return true;
         }

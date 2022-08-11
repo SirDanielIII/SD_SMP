@@ -12,10 +12,11 @@ import static com.sirdanieliii.SD_SMP.events.ErrorMessages.errorMessage;
 public class Wand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player player = (Player) sender;
-        if (!(player.hasPermission("god.wand"))) {
+        if (!(player.hasPermission("sd_smp.god.wand"))) {
             player.sendMessage(errorMessage("PERMISSION"));
             return true;
         }
+        Bukkit.broadcastMessage("Passed permissions check");
         if (cmd.getName().equalsIgnoreCase("wand")) {
             Bukkit.broadcastMessage("§6§OA Wand of the Gods Has Been Summoned...");
             player.getInventory().addItem(ItemManager.wand);

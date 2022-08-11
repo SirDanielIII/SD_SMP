@@ -32,7 +32,7 @@ public class coordsClear extends SubCommand {
 
     @Override
     public boolean perform(Player player, String[] args) {
-        if (!(player.hasPermission("coords.clear"))) {
+        if (!(player.hasPermission("sd_smp.coords.clear"))) {
             player.sendMessage(errorMessage("PERMISSION"));
             return true;
         }

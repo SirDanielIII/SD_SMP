@@ -32,7 +32,7 @@ public class coordsList extends SubCommand {
 
     @Override
     public boolean perform(Player player, String[] args) {
-        if (!(player.hasPermission("coords.list"))) {
+        if (!(player.hasPermission("sd_smp.coords.list"))) {
             player.sendMessage(errorMessage("PERMISSION"));
             return true;
         }

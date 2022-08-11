@@ -16,9 +16,9 @@ public class ReturnDeathData {
         } else {
             PLAYER_CONFIG.reload();
             if (kills == 1.0) {
-                player.sendMessage(headers("DEATH") + "§FYou have " + randomMessage("kill", player) + " §A" + (int) kills + " person!");
+                player.sendMessage(headers("DEATH") + "§FYou have " + randomMessage("kill") + " §A" + (int) kills + " person!");
             } else {
-                player.sendMessage(headers("DEATH") + "§FYou have " + randomMessage("kill", player) + " §A" + (int) kills + " people!");
+                player.sendMessage(headers("DEATH") + "§FYou have " + randomMessage("kill") + " §A" + (int) kills + " people!");
             }
         }
     }
@@ -32,9 +32,9 @@ public class ReturnDeathData {
         } else {
             PLAYER_CONFIG.reload();
             if (deaths == 1) {
-                player.sendMessage(headers("DEATH") + "§FYou have been " + randomMessage("kill", player) + " §Conce!");
+                player.sendMessage(headers("DEATH") + "§FYou have been " + randomMessage("kill") + " §Conce!");
             } else {
-                player.sendMessage(headers("DEATH") + "§FYou have been " + randomMessage("kill", player) + " §C" + (int) deaths + " times!");
+                player.sendMessage(headers("DEATH") + "§FYou have been " + randomMessage("kill") + " §C" + (int) deaths + " times!");
             }
         }
     }
@@ -44,13 +44,13 @@ public class ReturnDeathData {
         PLAYER_CONFIG.reload();
         double deaths = PLAYER_CONFIG.getConfig().getDouble("death_by_other");
         if (deaths == 0) {
-            player.sendMessage(headers("DEATH") + "§7You've never died to " + randomMessage("death", player) + " before!");
+            player.sendMessage(headers("DEATH") + "§7You've never died to " + randomMessage("death") + " before!");
         } else {
             PLAYER_CONFIG.reload();
             if (deaths == 1) {
-                player.sendMessage(headers("DEATH") + "§FYou have died " + "§C" + "only once!" + "§F due to " + randomMessage("death", player));
+                player.sendMessage(headers("DEATH") + "§FYou have died " + "§C" + "only once!" + "§F due to " + randomMessage("death"));
             } else {
-                player.sendMessage(headers("DEATH") + "§FYou have died " + "§C" + (int) deaths + " times §Fdue to " + randomMessage("death", player));
+                player.sendMessage(headers("DEATH") + "§FYou have died " + "§C" + (int) deaths + " times §Fdue to " + randomMessage("death"));
             }
         }
     }

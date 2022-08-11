@@ -30,7 +30,7 @@ public class Events implements Listener {
     public static void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (SMP_CONFIG.customJoinMessages) {
-            String message = randomMessage("join", player);
+            String message = randomMessage("join");
             event.setJoinMessage("§E" + player.getName() + " " + message + " :)");
             createPlayerConfig(player);
         }
@@ -42,7 +42,7 @@ public class Events implements Listener {
     public static void onPlayerLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         if (SMP_CONFIG.customQuitMessages) {
-            String message = randomMessage("quit", player);
+            String message = randomMessage("quit");
             event.setQuitMessage("§C" + player.getName() + " " + message);
         }
     }
@@ -53,7 +53,7 @@ public class Events implements Listener {
         if (SMP_CONFIG.customSleepMessages) {
             if (event.getBedEnterResult() == PlayerBedEnterEvent.BedEnterResult.OK) {
                 Player player = event.getPlayer();
-                String message = randomMessage("sleep", player);
+                String message = randomMessage("sleep");
                 Bukkit.broadcastMessage("§B" + player.getName() + " " + message);
             }
         }

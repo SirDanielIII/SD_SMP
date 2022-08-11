@@ -26,7 +26,7 @@ public class deathMurders extends SubCommand {
 
     @Override
     public boolean perform(Player player, String[] args) {
-        if (!(player.hasPermission("death.murders"))) {
+        if (!(player.hasPermission("sd_smp.death.murders"))) {
             player.sendMessage(errorMessage("PERMISSION"));
             return true;
         }

@@ -33,7 +33,7 @@ public class ivanDonkey extends SubCommand {
 
     @Override
     public boolean perform(Player player, String[] args) {
-        if (!(player.hasPermission("ivan.donkey"))) {
+        if (!(player.hasPermission("sd_smp.ivan.donkey"))) {
             player.sendMessage(errorMessage("PERMISSION"));
             return true;
         }
