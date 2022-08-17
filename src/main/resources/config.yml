@@ -1,16 +1,45 @@
+# --- DO NOT CHANGE THIS ---------------
+config-version: 2
 # --------------------------------------
-config-version: Subscribe to Sir Daniel III  # DO NOT CHANGE THIS
-# --------------------------------------
-# See "colour_codes.txt" for colour formatting options
+#  §0	Black
+#  §1	Dark Blue
+#  §2	Dark Green
+#  §3	Dark Aqua
+#  §4	Dark Red
+#  §5	Dark Purple
+#  §6	Gold
+#  §7	Gray
+#  §8	Dark Gray
+#  §9	Blue
+#  §A	Green
+#  §B	Aqua
+#  §C	Red
+#  §D	Light Purple
+#  §E	Yellow
+#  §F	White
+#  §K	Obfuscated (Magic / Enchantment Table)
+#  §L	Bold
+#  §M	Strikethrough
+#  §N	Underline
+#  §O	Italic
+#  §R	Reset
+#  \n   Next Line
 
-MoTD: # Message of the Day (in server listing) - Doesn't work on BungeeCord'ed servers
+# Name that appears in /smp command
+name: §A§LSMP
+
+# For logging purposes
+cmd_header: "§A[§FSD_SMP§A]"
+
+# Message of the Day (in server listing) - Doesn't work on BungeeCord'ed servers
+MoTD:
   line_1: A Minecraft SMP
   line_2: ''
 
-welcome: # Welcome message when you join
+# Welcome message when you join
+welcome:
   title: Hello There
   subtitle: §6Welcome to the SMP :)
-
 
 # --------------------------------------
 # Gameplay Toggleable Changes
@@ -18,21 +47,33 @@ welcome: # Welcome message when you join
 enable-custom-join-messages: true
 enable-custom-quit-messages: true
 enable-custom-sleep-messages: true
-lightning_on_player_kill: false  # Like PVP servers. The lightning won't destroy anything and/or create fire
-netherite:
-  disable_smithing_table: # Prevents you from interacting / right-clicking with a smithing table
-    enabled: false
-    send_message: false
-    message: '[SD_SMP] GOD DISAPPROVES OF THIS BEHAVIOUR'
-  prevent_crafting_tools: # Disables making Netherite tools & weapons in the smithing table
-    enabled: false
-    send_message: false
-    message: '[SD_SMP] GOD DISAPPROVES OF THIS BEHAVIOUR'
-  prevent_crafting_armour: # Disables making Netherite armour in the smithing table
-    enabled: false
-    send_message: false
-    message: '[SD_SMP] GOD DISAPPROVES OF THIS BEHAVIOUR'
 
+# Like PVP servers. The lightning won't destroy anything and/or create fire
+lightning_on_player_kill: false
+
+# Configuration options for Smithing Table interactions
+netherite:
+  disable_smithing_table:
+    enabled: false
+    send_notice_to_player: true
+  prevent_crafting_tools:
+    enabled: false
+    send_notice_to_player: true
+  prevent_crafting_armour:
+    enabled: false
+    send_notice_to_player: true
+
+# Option to disable players flying with an Elytra
+elytra_flight:
+  overworld:
+    enabled: false
+    send_notice_to_player: true
+  nether:
+    enabled: false
+    send_notice_to_player: true
+  the_end:
+    enabled: false
+    send_notice_to_player: true
 
 # --------------------------------------
 # Custom Event Messages | E.G. "Player <message>"
@@ -54,7 +95,6 @@ join-messages:
   - has nothing better to do right now
   - is a chad
   - is a roosta
-
 quit-messages:
   - folded
   - went to go get a girlfriend
@@ -81,7 +121,6 @@ quit-messages:
   - got tired of the people here
   - left to ponder their life decisions
   - left the stove on
-
 sleep-messages:
   - fell asleep
   - dozed off dreaming
@@ -101,11 +140,11 @@ sleep-messages:
   - has gone out like a lamp
   - wandered off to bed
 
-
 # --------------------------------------
 # Death Statistics Messages
 # --------------------------------------
-describe_kill: # [PVP, VERB] → E.G. "You have been <message> ...
+# [PVP, VERB] → E.G. "You have been <message> ...
+describe_kill:
   - brutally murdered
   - slaughtered
   - clapped
@@ -114,7 +153,9 @@ describe_kill: # [PVP, VERB] → E.G. "You have been <message> ...
   - dookie'ed on
   - 360 OOGA BOOGA BOOGA'ED
   - killed
-describe_death: # [Non-PVP, NOUN] | E.G. "You have died ... due to <message>"
+
+# [Non-PVP, NOUN] | E.G. "You have died ... due to <message>"
+describe_death:
   - your own stupidity
   - lack of skill
   - incompetence

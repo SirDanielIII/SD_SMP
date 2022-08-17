@@ -1,121 +1,166 @@
 package com.sirdanieliii.SD_SMP.configuration;
 
 
+import dev.dejvokep.boostedyaml.YamlDocument;
+import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
+import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
+import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
+import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
+import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
 
 import static com.sirdanieliii.SD_SMP.SD_SMP.getInstance;
-import static org.bukkit.Bukkit.getLogger;
 
 public class ConfigManager {
-    protected File file;
-    protected FileConfiguration config;
+    protected YamlDocument config;
+    protected YamlDocument configErrorMsg;
     // Set Variables
     public Double configVersion = Double.parseDouble(getInstance().getDescription().getVersion());
-    public List<String> MoTD = new ArrayList<>();
-    public List<String> welcome = new ArrayList<>();
-    public boolean customJoinMessages;
-    public boolean customQuitMessages;
-    public boolean customSleepMessages;
-    public boolean lightningOnPlayerKill;
-    public boolean disableSmithingTableEnabled;
-    public boolean disableSmithingTableSendMsg;
-    public String disableSmithingTableMessage;
-    public boolean preventCraftingToolsEnabled;
-    public boolean preventCraftingToolsSendMsg;
-    public String preventCraftingToolsMessage;
-    public boolean preventCraftingArmourEnabled;
-    public boolean preventCraftingArmourSendMsg;
-    public String preventCraftingArmourMessage;
+    public static String smpName;
+    public static String cmdHeader;
+    public static List<String> MoTD = new ArrayList<>();
+    public static List<String> welcome = new ArrayList<>();
+    public static boolean customJoinMessages;
+    public static boolean customQuitMessages;
+    public static boolean customSleepMessages;
+    public static boolean lightningOnPlayerKill;
+    public static boolean disableSmithingTableEnabled;
+    public static boolean disableSmithingTableSendMsg;
+    public static boolean preventCraftingToolsEnabled;
+    public static boolean preventCraftingToolsSendMsg;
+    public static boolean preventCraftingArmourEnabled;
+    public static boolean preventCraftingArmourSendMsg;
+    public static boolean elytraFlightOverworld;
+    public static boolean elytraFlightOverworldSendMsg;
+    public static boolean elytraFlightNether;
+    public static boolean elytraFlightNetherSendMsg;
+    public static boolean elytraFlightTheEnd;
+    public static boolean elytraFlightTheEndSendMsg;
 
-    public List<String> joinMessages = new ArrayList<>();
-    public List<String> quitMessages = new ArrayList<>();
-    public List<String> sleepMessages = new ArrayList<>();
-    public List<String> describeKill = new ArrayList<>();
-    public List<String> describeDeath = new ArrayList<>();
+    public static List<String> joinMessages = new ArrayList<>();
+    public static List<String> quitMessages = new ArrayList<>();
+    public static List<String> sleepMessages = new ArrayList<>();
+    public static List<String> describeKill = new ArrayList<>();
+    public static List<String> describeDeath = new ArrayList<>();
+    public static String errorHeader;
+    public static String errorClr;
+    public static HashMap<String, String> errorMessages;
 
     public void setup() {
-        file = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin(
-                getInstance().getName())).getDataFolder() + "/", "config.yml");
-
-        // Create file if it doesn't exist
-        if (!(file.exists())) {
-            getLogger().info("[SD_SMP] No config file found, creating a new one...");
-            generateConfig();
-            getLogger().info("[SD_SMP] Successfully generated new config file");
-        } else {  // Check Config Versions
-            if (!(Objects.equals(YamlConfiguration.loadConfiguration(file).getDouble("config-version"), configVersion)) ||
-                    YamlConfiguration.loadConfiguration(file).getDouble("config-version") != 0) {
-                Bukkit.getConsoleSender().sendMessage("[SD_SMP] Older configuration file detected.");
-                File old = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin(getInstance().getName())).getDataFolder() + "/", "config-old.yml");
-                if (old.exists()) {
-                    try {
-                        old.delete();
-                        Bukkit.getConsoleSender().sendMessage("[SD_SMP] Deleting already existing config-old configuration file.");
-                    } catch (Exception e) {
-                        Bukkit.getConsoleSender().sendMessage("[SD_SMP] Could not delete already existing config-old configuration file.");
-                    }
-                }
-                if (file.renameTo(old)) {
-                    Bukkit.getConsoleSender().sendMessage("[SD_SMP] Successfully renamed old configuration file to \"config-old.yml\"");
-                    generateConfig();
-                    Bukkit.getConsoleSender().sendMessage("[SD_SMP] Please import your settings into the new config file");
-                } else Bukkit.getConsoleSender().sendMessage("[SD_SMP] Error renaming old configuration file");
-            }
-        }
-        reload();
-    }
-
-    private void generateConfig() {
-        getInstance().saveDefaultConfig();
-        config = YamlConfiguration.loadConfiguration(file);  // Load config file into variable
-        config.set("config-version", configVersion);  // Set config version number based off plugin version
-        save();
-    }
-
-    public void save() {
         try {
-            config.save(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Bukkit.getConsoleSender().sendMessage("Could not save to config file");
+            // Main Config File
+            config = YamlDocument.create(new File(getInstance().getDataFolder(), "config.yml"),
+                    Objects.requireNonNull(getInstance().getResource("config.yml")),
+                    GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT,
+                    UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build());
+            config.update();
+
+            // Configurable Error Messages File
+            configErrorMsg = YamlDocument.create(new File(getInstance().getDataFolder(), "error_messages.yml"),
+                    Objects.requireNonNull(getInstance().getResource("error_messages.yml")),
+                    GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT,
+                    UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build());
+            configErrorMsg.update();
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
-    public void reload() {
-        config = YamlConfiguration.loadConfiguration(file);
+    public static void playerSetup(Player player) {
+        YamlDocument conf;
+        try {
+            conf = YamlDocument.create(new File(getInstance().getDataFolder(), "/playerdata/" + player.getUniqueId() + ".yml"),
+                    Objects.requireNonNull(getInstance().getResource("default_player_conf.yml")),
+                    GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT,
+                    UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build());
+            conf.update();
+            Bukkit.getLogger().log(Level.CONFIG, cmdHeader + " Successfully generated config for " + player.getDisplayName());
+
+            if (!conf.getString("name").equalsIgnoreCase(player.getDisplayName())) {
+                conf.set("name", player.getDisplayName());  // Update player name if changed
+                Bukkit.getLogger().log(Level.CONFIG, cmdHeader + " Updated config name for " + player.getDisplayName());
+                conf.save();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static YamlDocument getPlayerConfig(Player player) {
+        try {
+            YamlDocument conf = YamlDocument.create(new File(getInstance().getDataFolder(), "/playerdata/" + player.getUniqueId() + ".yml"));
+            conf.update();
+            return conf;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void savePlayerConfig(YamlDocument conf) {
+        try {
+            conf.save();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void reload(Player player) {
+        try {
+            config.reload();
+            config.update();
+            configErrorMsg.reload();
+            configErrorMsg.update();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         configVersion = config.getDouble("config-version");
 
-        for (String key : Objects.requireNonNull(config.getConfigurationSection("MoTD")).getKeys(false))
+        for (String key : config.getSection("MoTD").getRoutesAsStrings(false))
             MoTD.add(config.getString("MoTD." + key));
-        for (String key : Objects.requireNonNull(config.getConfigurationSection("welcome")).getKeys(false))
+        for (String key : config.getSection("welcome").getRoutesAsStrings(false))
             welcome.add(config.getString("welcome." + key));
 
+        smpName = config.getString("name");
+        cmdHeader = config.getString("cmd_header");
         customJoinMessages = config.getBoolean("enable-custom-join-messages");
         customQuitMessages = config.getBoolean("enable-custom-quit-messages");
         customSleepMessages = config.getBoolean("enable-custom-sleep-messages");
         lightningOnPlayerKill = config.getBoolean("lightning_on_player_kill");
         disableSmithingTableEnabled = config.getBoolean("netherite.disable_smithing_table.enabled");
-        disableSmithingTableSendMsg = config.getBoolean("netherite.disable_smithing_table.send_message");
-        disableSmithingTableMessage = config.getString("netherite.disable_smithing_table.message");
+        disableSmithingTableSendMsg = config.getBoolean("netherite.disable_smithing_table.send_notice_to_player");
         preventCraftingToolsEnabled = config.getBoolean("netherite.prevent_crafting_tools.enabled");
-        preventCraftingToolsSendMsg = config.getBoolean("netherite.prevent_crafting_tools.send_message");
-        preventCraftingToolsMessage = config.getString("netherite.prevent_crafting_tools.message");
+        preventCraftingToolsSendMsg = config.getBoolean("netherite.prevent_crafting_tools.send_notice_to_player");
         preventCraftingArmourEnabled = config.getBoolean("netherite.prevent_crafting_armour.enabled");
-        preventCraftingArmourSendMsg = config.getBoolean("netherite.prevent_crafting_armour.send_message");
-        preventCraftingArmourMessage = config.getString("netherite.prevent_crafting_armour.message");
+        preventCraftingArmourSendMsg = config.getBoolean("netherite.prevent_crafting_armour.send_notice_to_player");
+        elytraFlightOverworld = config.getBoolean("disable_elytra_flight.overworld.enabled");
+        elytraFlightOverworldSendMsg = config.getBoolean("disable_elytra_flight.overworld.send_notice_to_player");
+        elytraFlightNether = config.getBoolean("disable_elytra_flight.nether.enabled");
+        elytraFlightNetherSendMsg = config.getBoolean("disable_elytra_flight.nether.send_notice_to_player");
+        elytraFlightTheEnd = config.getBoolean("disable_elytra_flight.the_end.enabled");
+        elytraFlightTheEndSendMsg = config.getBoolean("disable_elytra_flight.the_end.send_notice_to_player");
 
         joinMessages = config.getStringList("join-messages");
         quitMessages = config.getStringList("quit-messages");
         sleepMessages = config.getStringList("sleep-messages");
         describeKill = config.getStringList("describe-kill");
         describeDeath = config.getStringList("describe-death");
+
+        for (String key : config.getRoutesAsStrings(false))
+            errorMessages.put(key, configErrorMsg.getString(key));
+
+        player.sendMessage(cmdHeader + " §ASuccessfully reloaded the plugin");
+    }
+
+    public static String errorMessage(String error) {
+        return errorHeader + errorClr + " " + errorMessages.get(error);
     }
 }

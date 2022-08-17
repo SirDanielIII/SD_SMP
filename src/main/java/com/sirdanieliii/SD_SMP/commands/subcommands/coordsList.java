@@ -1,18 +1,20 @@
 package com.sirdanieliii.SD_SMP.commands.subcommands;
 
 import com.sirdanieliii.SD_SMP.commands.SubCommand;
+import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Stream;
 
-import static com.sirdanieliii.SD_SMP.SD_SMP.PLAYER_CONFIG;
-import static com.sirdanieliii.SD_SMP.commands.CommandManager.headers;
-import static com.sirdanieliii.SD_SMP.configuration.ReturnCoordsData.*;
-import static com.sirdanieliii.SD_SMP.configuration.ReturnCoordsData.returnDimensionString;
-import static com.sirdanieliii.SD_SMP.events.ErrorMessages.*;
-import static com.sirdanieliii.SD_SMP.events.Utilities.*;
+import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeader;
+import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeaderClr;
+import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.*;
+import static com.sirdanieliii.SD_SMP.configuration.CoordsUtility.getCoordValue;
+import static com.sirdanieliii.SD_SMP.configuration.CoordsUtility.returnDimensionClr;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.replaceErrorVariable;
 
 public class coordsList extends SubCommand {
     @Override
@@ -27,86 +29,94 @@ public class coordsList extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "§6/coords list <name> [Dimension] §7or\n§6/coords list all [Dimension]";
+        return "§6" + errorMessages.get("coords_list");
     }
 
-    @Override
+    @Override // coords list all
     public boolean perform(Player player, String[] args) {
         if (!(player.hasPermission("sd_smp.coords.list"))) {
-            player.sendMessage(errorMessage("PERMISSION"));
-            return true;
+            player.sendMessage(errorMessage("permission"));
+            return false;
+        }
+        YamlDocument config = getPlayerConfig(player);
+        if (args.length == 1) {
+            player.sendMessage(errorMessage("coords_list"));
+            return false;
         }
         if (args[1].equalsIgnoreCase("all")) {
             if (args.length == 2) { // coords list all
-                if (retrieveAllCoords(player).size() != 0) {
-                    for (String output : retrieveAllCoords(player))
-                        player.sendMessage(headers("COORDS") + output);
-                } else player.sendMessage(incorrectArgs("LIST_ALL-NULL"));
+                player.sendMessage("------------ | " + "§B§LALL " + cmdHeaderClr("coords", true) + "COORDS §R§F | ------------>");
+                String[] dimensions = {"overworld", "nether", "the_end"};
+                ArrayList<ArrayList<String>> toSend = getAllCoords(config, dimensions);
+                if (toSend.isEmpty()) player.sendMessage(errorMessage("no_saved_coords_1"));
+                else for (ArrayList<String> i : toSend) for (String j : i) player.sendMessage(j);
+                player.sendMessage("<-------------------------------------------------->");
+                return true;
             } else {  // coords list all [dimension]
-                if (!returnDimensionString(args[2]).equals("null")) {
-                    if (retrieveAllCoordsDimension(player, returnDimensionString(args[2])).size() != 0) {
-                        for (String output : retrieveAllCoordsDimension(player, returnDimensionString(args[2])))
-                            player.sendMessage(headers("COORDS") + output);
-                    } else player.sendMessage(incorrectArgs("LIST_ALL_D-NULL", toTitleCase(args[2])));
-                } else player.sendMessage(errorMessage("DIMENSION"));
+                if (Stream.of("overworld", "nether", "the_end").noneMatch(args[2]::equalsIgnoreCase)) {
+                    player.sendMessage(errorMessage("invalid_dimension_1"));
+                    return false;
+                }
+                player.sendMessage("------------ | " + returnDimensionClr(args[2]).toUpperCase() + " " + cmdHeaderClr("coords", true) + "COORDS §R§F | ------------>");
+                String[] dimensions = {args[2].toLowerCase()};
+                ArrayList<ArrayList<String>> toSend = getAllCoords(config, dimensions);
+                if (toSend.isEmpty()) player.sendMessage(replaceErrorVariable(errorMessage("no_saved_coords_2"), returnDimensionClr(args[2].toLowerCase())));
+                else for (ArrayList<String> i : toSend) for (String j : i) player.sendMessage(j);
+                player.sendMessage("<-------------------------------------------------->");
+                return true;
             }
-            return true;
         }
-        // /coords list name [dimension]
-        String dimension;
-        try {
-            dimension = args[2];
-            if (returnDimension(dimension) == null) {
-                player.sendMessage(errorMessage("DIMENSION", toTitleCase(dimension)));
+        if (args.length == 2) {  // /coords list name
+            ArrayList<String> dimensions = new ArrayList<>();
+            for (String dimension : config.getSection("coordinates").getRoutesAsStrings(false)) { // Loop through Overworld, Nether & The End
+                for (String name : config.getSection("coordinates." + dimension).getRoutesAsStrings(false)) // Loop through saved coordinates in dimension
+                    if (args[1].equalsIgnoreCase(name)) dimensions.add(dimension); // Add dimension if name matches
+            }
+            if (dimensions.isEmpty()) { // [ERROR] If no coordinate was found
+                player.sendMessage(errorMessage("invalid_coords_1"));
                 return false;
             }
-        } catch (Exception e) {
-            dimension = returnDimensionString(player.getWorld().getEnvironment());
-        }
-        if (returnDimensionString(dimension).equalsIgnoreCase("null")) dimension = returnDimensionString(player.getWorld().getEnvironment());
-        if (getCoordValue("X", player, returnDimensionString(dimension), toTitleCase(args[1])) != 0) {
-            for (String output : retrieveCoord(player, toTitleCase(args[1]), returnDimensionString(dimension), true))
-                player.sendMessage(headers("COORDS") + output);
-        } else {
-            try {
-                player.sendMessage(incorrectArgs("COORDINATE", toTitleCase(args[1]), toTitleCase(args[2])));
-            } catch (Exception e) {
-                player.sendMessage(incorrectArgs("COORDINATE", toTitleCase(args[1]), returnDimensionTitleString(dimension)));
+            for (String i : dimensions) {
+                player.sendMessage(cmdHeader("coords") + isAtMSG(config, i, args[1]));
             }
+            return true;
+        } else {  // /coords list name [dimension]
+            if (Stream.of("overworld", "nether", "the_end").noneMatch(args[2]::equalsIgnoreCase)) {
+                player.sendMessage(errorMessage("invalid_dimension_1"));
+                return false;
+            }
+            if (getCoordValue(config, args[2].toLowerCase(), args[1], "x") == 0) {
+                player.sendMessage(replaceErrorVariable(errorMessage("invalid_coords_2"), args[1], returnDimensionClr(args[2])));
+                return false;
+            }
+            player.sendMessage(cmdHeader("coords") + isAtMSG(config, args[2].toLowerCase(), args[1]));
         }
         return true;
+    }
+
+    private ArrayList<ArrayList<String>> getAllCoords(YamlDocument config, String[] dimensions) {
+        ArrayList<ArrayList<String>> coordsAll = new ArrayList<>();
+        for (String i : dimensions) {
+            ArrayList<String> coords = new ArrayList<>();
+            for (String key : config.getSection("coordinates." + i).getRoutesAsStrings(false))
+                coords.add(isAtMSG(config, i, key));
+            Collections.sort(coords); // Sort all coordinates in dimension
+            coordsAll.add(coords);
+        }
+        return coordsAll;
+    }
+
+    private String isAtMSG(YamlDocument config, String dimension, String name) {
+        return "§B" + name + " is at §6[§F" +
+                getCoordValue(config, dimension, name, "x") + " " +
+                getCoordValue(config, dimension, name, "y") + " " +
+                getCoordValue(config, dimension, name, "z") + " " +
+                "§6]§F in " + returnDimensionClr(dimension);
     }
 
     @Override
     public List<String> getSubcommandArgs(Player player, String[] args) {
         // /coords list <name> [Dimension] or /coords list all [Dimension]
-        if (args.length == 2) {
-            List<String> types = new ArrayList<>();
-            PLAYER_CONFIG.setup("playerdata", player.getUniqueId().toString());
-            PLAYER_CONFIG.reload();
-            for (String i : dimensionStrings) {
-                try {
-                    types.addAll(Objects.requireNonNull(PLAYER_CONFIG.getConfig().getConfigurationSection("coordinates." + i)).getKeys(false));
-                } catch (Exception ignored) {
-                }
-            }
-            types.add("all");
-            return types;
-        } else if (args.length == 3) {
-            List<String> types = new ArrayList<>();
-            if (args[1].equalsIgnoreCase("all")) {
-                for (String i : dimensionStrings) types.add(toTitleCase(i));
-            } else {
-                PLAYER_CONFIG.setup("playerdata", player.getUniqueId().toString());
-                PLAYER_CONFIG.reload();
-                for (String i : dimensionStrings) {
-                    if (PLAYER_CONFIG.getConfig().getString("coordinates." + i + "." + toTitleCase(args[1])) != null) {
-                        types.add(toTitleCase(returnDimensionString(i)));
-                    }
-                }
-            }
-            return types;
-        }
         return null;
     }
 }

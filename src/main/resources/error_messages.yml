@@ -1,0 +1,76 @@
+# --- DO NOT CHANGE THIS ---------------
+config-version: 1
+# --------------------------------------
+#  §0	Black
+#  §1	Dark Blue
+#  §2	Dark Green
+#  §3	Dark Aqua
+#  §4	Dark Red
+#  §5	Dark Purple
+#  §6	Gold
+#  §7	Gray
+#  §8	Dark Gray
+#  §9	Blue
+#  §A	Green
+#  §B	Aqua
+#  §C	Red
+#  §D	Light Purple
+#  §E	Yellow
+#  §F	White
+#  §K	Obfuscated (Magic / Enchantment Table)
+#  §L	Bold
+#  §M	Strikethrough
+#  §N	Underline
+#  §O	Italic
+#  §R	Reset
+#  \n   Next Line
+
+#  %REPLACE_1%  required in...
+#     → no_saved_coords_2
+#     → player_not_online
+
+#  %REPLACE_1%  &  %REPLACE_2%  required in...
+#     → invalid_coords_2
+
+error_header: "§4[§C§L!§R§4]"
+error_clr: "§C"
+
+# Command Syntax
+coords_set: "/coords set <name> [X Y Z] <dimension>"
+coords_list: "/coords list <name | all> <dimension>"
+coords_clear: "/coords clear <name | all> <dimension>"
+coords_send: "/coords send <here [players] | <name> <dimension> [players]>"
+death_kdr: "/death kdr"
+death_murders: "/death murders"
+death_kills: "/death kills"
+death_nonplayer: "/death nonplayer"
+death_player: "/death player"
+death_total: "/death total"
+ivan_dog: "/ivan dog"
+ivan_donkey: "/ivan donkey"
+wand: "/wand"
+
+# Errors for /coords
+coord_str_not_int: "[X Y Z] coordinates must be integer, not string"
+invalid_xyz: "[X Y Z] coordinates are incomplete or invalid"
+no_args_to_set_coord: "Missing [X Y Z] & dimension"
+missing_dimension: "Missing dimension §7(overworld / nether / the_end)"
+no_args_to_send_coord: "Missing dimension and player(s)"
+missing_players: "Missing player(s)"
+player_not_online: "%REPLACE_1% isn't online or does not exist!"
+sent_to_yourself: "Why would you send the coordinates to yourself lol"
+no_saved_coords_1: "You have no saved coordinates"
+no_saved_coords_2: "You have no saved coordinates in %REPLACE_1%"
+invalid_coords_1: "Could not find coordinate(s) with that name!"
+invalid_coords_2: "%REPLACE_1% coordinate not found in %REPLACE_2%!"
+coords_duplicate: "Multiple instances of the coordinate %REPLACE_1% have been found!\nWhich one(s) would you like to delete?"
+invalid_dimension_1: "Invalid dimension §7(overworld / nether / the_end)"
+invalid_dimension_2: "Invalid dimension(s) §7(overworld / nether / the_end)"
+
+# General Errors
+player_only: "Sorry, but only players can use this command!"
+permission: "You do not have permission to do that!"
+disable_smithing_table: "Interacting with the Smithing Table has been disabled. Please contact your server administrator if you think this is a mistake."
+prevent_crafting_tools: "Crafting Netherite tools has been disabled. Please contact your server administrator if you think this is a mistake."
+prevent_crafting_armour: "Crafting Netherite armour has been disabled. Please contact your server administrator if you think this is a mistake."
+disabled_elytra_flight: "Elytra flight has been disabled in this world. Please contact your server administrator if you think this is a mistake."

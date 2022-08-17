@@ -1,48 +1,51 @@
 package com.sirdanieliii.SD_SMP.events;
 
 import com.sirdanieliii.SD_SMP.items.ItemManager;
+import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.*;
+import org.bukkit.entity.Fireball;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerBedEnterEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.util.Vector;
 
 import java.util.Objects;
 
-import static com.sirdanieliii.SD_SMP.SD_SMP.PLAYER_CONFIG;
-import static com.sirdanieliii.SD_SMP.SD_SMP.SMP_CONFIG;
-import static com.sirdanieliii.SD_SMP.configuration.CreatePlayerConfig.createPlayerConfig;
-import static com.sirdanieliii.SD_SMP.events.Utilities.randomMessage;
+import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.*;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.randomMessageStrLst;
 
 public class Events implements Listener {
     @EventHandler
     public void onServerListPing(ServerListPingEvent event) {
-        event.setMotd(SMP_CONFIG.MoTD.get(0) + "\n" + SMP_CONFIG.MoTD.get(1));
+        event.setMotd(MoTD.get(0) + "\n" + MoTD.get(1));
     }
 
     @EventHandler
     //Player Join Message
     public static void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if (SMP_CONFIG.customJoinMessages) {
-            String message = randomMessage("join");
+        if (customJoinMessages) {
+            String message = randomMessageStrLst(joinMessages);
             event.setJoinMessage("§E" + player.getName() + " " + message + " :)");
-            createPlayerConfig(player);
+            playerSetup(player);
         }
-        player.sendTitle(SMP_CONFIG.welcome.get(0), SMP_CONFIG.welcome.get(1), 20, 70, 20);
+        player.sendTitle(welcome.get(0), welcome.get(1), 20, 70, 20);
     }
 
     @EventHandler
     //Player Quit Message
     public static void onPlayerLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        if (SMP_CONFIG.customQuitMessages) {
-            String message = randomMessage("quit");
+        if (customQuitMessages) {
+            String message = randomMessageStrLst(quitMessages);
             event.setQuitMessage("§C" + player.getName() + " " + message);
         }
     }
@@ -50,10 +53,10 @@ public class Events implements Listener {
     @EventHandler
     //Player Sleep Message
     public static void onPlayerSleep(final PlayerBedEnterEvent event) {
-        if (SMP_CONFIG.customSleepMessages) {
+        if (customSleepMessages) {
             if (event.getBedEnterResult() == PlayerBedEnterEvent.BedEnterResult.OK) {
                 Player player = event.getPlayer();
-                String message = randomMessage("sleep");
+                String message = randomMessageStrLst(sleepMessages);
                 Bukkit.broadcastMessage("§B" + player.getName() + " " + message);
             }
         }
@@ -64,23 +67,24 @@ public class Events implements Listener {
         Player player = event.getEntity();
         Player killer = player.getKiller();
         double deaths;
-        PLAYER_CONFIG.setup("playerdata", player.getUniqueId().toString());
-        PLAYER_CONFIG.reload();
+        YamlDocument config = getPlayerConfig(player);
+
         if (killer != null) {
             // Add to death count (Player)
-            deaths = PLAYER_CONFIG.getConfig().getDouble("death_by_player") + 1.0D;
-            PLAYER_CONFIG.getConfig().set("death_by_player", deaths);
-            PLAYER_CONFIG.save();
+            deaths = config.getDouble("death_by_player") + 1.0D;
+            config.set("death_by_player", deaths);
+            savePlayerConfig(config);
+
             // Add to kill count (Killer)
-            PLAYER_CONFIG.setup("playerdata", killer.getUniqueId().toString());
-            PLAYER_CONFIG.reload();
-            double kills = PLAYER_CONFIG.getConfig().getDouble("murders") + 1.0D;
-            PLAYER_CONFIG.getConfig().set("murders", kills);
+            config = getPlayerConfig(killer);
+            double kills = config.getDouble("murders") + 1.0D;
+            config.set("murders", kills);
+            savePlayerConfig(config);
         } else {
-            deaths = PLAYER_CONFIG.getConfig().getDouble("death_by_other") + 1.0D;
-            PLAYER_CONFIG.getConfig().set("death_by_other", deaths);
+            deaths = config.getDouble("death_by_other") + 1.0D;
+            config.set("death_by_other", deaths);
+            savePlayerConfig(config);
         }
-        PLAYER_CONFIG.save();
     }
 
     @EventHandler

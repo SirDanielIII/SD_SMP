@@ -1,8 +1,9 @@
 package com.sirdanieliii.SD_SMP;
 
-import com.sirdanieliii.SD_SMP.commands.*;
+import com.sirdanieliii.SD_SMP.commands.CommandManager;
+import com.sirdanieliii.SD_SMP.commands.ShowAllCommands;
+import com.sirdanieliii.SD_SMP.commands.Wand;
 import com.sirdanieliii.SD_SMP.configuration.ConfigManager;
-import com.sirdanieliii.SD_SMP.configuration.PlayerManager;
 import com.sirdanieliii.SD_SMP.events.Events;
 import com.sirdanieliii.SD_SMP.items.ItemManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,8 +12,7 @@ import java.util.Objects;
 
 
 public class SD_SMP extends JavaPlugin {
-    public static ConfigManager SMP_CONFIG;
-    public static PlayerManager PLAYER_CONFIG;
+    public static ConfigManager CONFIG_MANAGER;
     private static SD_SMP instance;
 
     public SD_SMP() {
@@ -26,12 +26,11 @@ public class SD_SMP extends JavaPlugin {
     @Override
     public void onEnable() {
         // Config Files
-        SMP_CONFIG = new ConfigManager();
-        PLAYER_CONFIG = new PlayerManager();
-        SMP_CONFIG.setup();
+        CONFIG_MANAGER = new ConfigManager();
+        CONFIG_MANAGER.setup();
         // Initialize Events
         getServer().getPluginManager().registerEvents(new Events(), this);
-        // Custom Members
+        // Custom Items
         ItemManager.init();
         // Custom Commands
         Objects.requireNonNull(getCommand("ivan")).setExecutor(new CommandManager());

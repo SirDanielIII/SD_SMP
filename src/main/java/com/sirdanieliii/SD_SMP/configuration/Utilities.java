@@ -1,11 +1,11 @@
-package com.sirdanieliii.SD_SMP.events;
+package com.sirdanieliii.SD_SMP.configuration;
 
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import java.util.*;
-
-import static com.sirdanieliii.SD_SMP.SD_SMP.SMP_CONFIG;
+import java.util.List;
+import java.util.Objects;
+import java.util.Random;
 
 public class Utilities {
     public static String getCardinalDirection(Player event) {
@@ -52,25 +52,27 @@ public class Utilities {
         return loc;
     }
 
-    public static String randomMessage(String type) {
-        switch (type) {
-            case ("join") -> {
-                return SMP_CONFIG.joinMessages.get(new Random().nextInt(SMP_CONFIG.joinMessages.size()));
-            }
-            case ("quit") -> {
-                return SMP_CONFIG.quitMessages.get(new Random().nextInt(SMP_CONFIG.quitMessages.size()));
-            }
-            case ("sleep") -> {
-                return SMP_CONFIG.sleepMessages.get(new Random().nextInt(SMP_CONFIG.sleepMessages.size()));
-            }
-            case ("kill") -> { // Describing player kills
-                return SMP_CONFIG.describeKill.get(new Random().nextInt(SMP_CONFIG.describeKill.size()));
-            }
-            case ("death") -> { // Describing deaths (not including PVP)
-                return SMP_CONFIG.describeDeath.get(new Random().nextInt(SMP_CONFIG.describeDeath.size()));
+    public static String randomMessageStrLst(List<String> lst) {
+        return lst.get(new Random().nextInt(lst.size()));
+    }
+
+    public static String replaceErrorVariable(String msg, String replace) {
+        return msg.replace("%REPLACE_1%", replace);
+    }
+
+    public static String replaceErrorVariable(String msg, String replace_1, String replace_2) {
+        return msg.replace("%REPLACE_1%", replace_1).replace("%REPLACE_2%", replace_2);
+    }
+
+    public static boolean strIntParseCheck(String[] numbers) {
+        for (String i : numbers) {
+            try {
+                Integer.parseInt(i);
+            } catch (NumberFormatException ignored) {
+                return false;
             }
         }
-        return null;
+        return true;
     }
 
     public static String toTitleCase(String input) {

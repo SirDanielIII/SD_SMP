@@ -1,12 +1,14 @@
 package com.sirdanieliii.SD_SMP.commands.subcommands;
 
 import com.sirdanieliii.SD_SMP.commands.SubCommand;
+import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 
-import static com.sirdanieliii.SD_SMP.configuration.ReturnDeathData.pvpDeaths;
-import static com.sirdanieliii.SD_SMP.events.ErrorMessages.errorMessage;
+import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeader;
+import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.*;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.randomMessageStrLst;
 
 public class deathPlayer extends SubCommand {
     @Override
@@ -21,16 +23,22 @@ public class deathPlayer extends SubCommand {
 
     @Override
     public String getSyntax() {
-        return "§4/death player";
+        return "§4" + errorMessages.get("death_player");
     }
 
     @Override
     public boolean perform(Player player, String[] args) {
         if (!(player.hasPermission("sd_smp.death.player"))) {
-            player.sendMessage(errorMessage("PERMISSION"));
-            return true;
+            player.sendMessage(errorMessage("permission"));
+            return false;
         }
-        pvpDeaths(player);
+        YamlDocument config = getPlayerConfig(player);
+        double deaths = config.getDouble("death_by_player");
+        if (deaths == 0) player.sendMessage(cmdHeader("death") + "§7You've never been killed by a player before :O");
+        else {
+            if (deaths == 1) player.sendMessage(cmdHeader("death") + "§FYou have been " + randomMessageStrLst(describeDeath) + " §Conce!");
+            else player.sendMessage(cmdHeader("death") + "§FYou have been " + randomMessageStrLst(describeDeath) + " §C" + (int) deaths + " times!");
+        }
         return true;
     }
 

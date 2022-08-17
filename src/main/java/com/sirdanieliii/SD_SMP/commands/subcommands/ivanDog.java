@@ -10,9 +10,10 @@ import org.bukkit.util.Vector;
 
 import java.util.List;
 
-import static com.sirdanieliii.SD_SMP.commands.CommandManager.headers;
-import static com.sirdanieliii.SD_SMP.events.ErrorMessages.errorMessage;
-import static com.sirdanieliii.SD_SMP.events.Utilities.offsetFromDirection;
+import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeader;
+import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.errorMessage;
+import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.errorMessages;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.offsetFromDirection;
 
 public class ivanDog extends SubCommand {
     @Override
@@ -22,19 +23,19 @@ public class ivanDog extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§C[§FOP§C] §7Spawns a dog named \"Ivan\"";
+        return "§7Spawns a dog named \"Ivan\"";
     }
 
     @Override
     public String getSyntax() {
-        return "§B/ivan dog";
+        return "§B" + errorMessages.get("ivan_dog");
     }
 
     @Override
     public boolean perform(Player player, String[] args) {
         if (!(player.hasPermission("sd_smp.ivan.dog"))) {
-            player.sendMessage(errorMessage("PERMISSION"));
-            return true;
+            player.sendMessage(errorMessage("permission"));
+            return false;
         }
         Vector offset = offsetFromDirection(player, 2.0D); // Calculates 2 block forward offset
         Wolf wolf = (Wolf) player.getWorld().spawnEntity(player.getLocation().add(offset), EntityType.WOLF);
@@ -44,7 +45,7 @@ public class ivanDog extends SubCommand {
         wolf.setCollarColor(DyeColor.LIGHT_BLUE);
         wolf.setSitting(true);
         player.playSound(player.getLocation(), Sound.ENTITY_WOLF_PANT, 1, 1);
-        player.sendMessage(headers("IVAN") + "§FYou have spawned a little Ivan!");
+        player.sendMessage(cmdHeader("ivan") + "§FYou have spawned a little Ivan!");
         return true;
     }
 

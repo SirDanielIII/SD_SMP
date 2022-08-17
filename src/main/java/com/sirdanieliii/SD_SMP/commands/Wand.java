@@ -7,14 +7,15 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static com.sirdanieliii.SD_SMP.events.ErrorMessages.errorMessage;
+import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.errorMessage;
+import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.errorMessages;
 
 public class Wand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player player = (Player) sender;
         if (!(player.hasPermission("sd_smp.god.wand"))) {
-            player.sendMessage(errorMessage("PERMISSION"));
-            return true;
+            player.sendMessage(errorMessage("permission"));
+            return false;
         }
         Bukkit.broadcastMessage("Passed permissions check");
         if (cmd.getName().equalsIgnoreCase("wand")) {
@@ -25,10 +26,10 @@ public class Wand implements CommandExecutor {
     }
 
     public static String getDescription() {
-        return "§C[§FOP§C] §7Spawns powerful a wand of the gods";
+        return "§7Spawns powerful a wand of the gods";
     }
 
     public static String getSyntax() {
-        return "§D/wand";
+        return "§5" + errorMessages.get("wand");
     }
 }

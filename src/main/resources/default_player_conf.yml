@@ -1,0 +1,12 @@
+# --- DO NOT CHANGE THIS ---------------
+config-version: 1
+# --------------------------------------
+uuid: ''
+name: ''
+kills: 0.0
+death_by_player: 0.0
+death_by_other: 0.0
+coordinates:
+  overworld: [ ]
+  nether: [ ]
+  the_end: [ ]
