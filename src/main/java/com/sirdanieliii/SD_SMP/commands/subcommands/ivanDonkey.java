@@ -24,7 +24,7 @@ public class ivanDonkey extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Spawns a donkey named \"Ivan\"";
+        return "§7Summons a donkey named \"Ivan\"";
     }
 
     @Override

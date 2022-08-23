@@ -5,7 +5,7 @@ uuid: ''
 name: ''
 kills: 0.0
 death_by_player: 0.0
-death_by_other: 0.0
+death_by_nonplayer: 0.0
 coordinates:
   overworld: [ ]
   nether: [ ]

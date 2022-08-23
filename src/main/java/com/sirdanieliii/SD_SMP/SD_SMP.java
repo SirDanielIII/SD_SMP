@@ -1,10 +1,9 @@
 package com.sirdanieliii.SD_SMP;
 
 import com.sirdanieliii.SD_SMP.commands.CommandManager;
-import com.sirdanieliii.SD_SMP.commands.ShowAllCommands;
-import com.sirdanieliii.SD_SMP.commands.Wand;
+import com.sirdanieliii.SD_SMP.commands.admin.SMP;
+import com.sirdanieliii.SD_SMP.commands.admin.Wand;
 import com.sirdanieliii.SD_SMP.configuration.ConfigManager;
-import com.sirdanieliii.SD_SMP.events.Events;
 import com.sirdanieliii.SD_SMP.items.ItemManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -36,7 +35,7 @@ public class SD_SMP extends JavaPlugin {
         Objects.requireNonNull(getCommand("ivan")).setExecutor(new CommandManager());
         Objects.requireNonNull(getCommand("coords")).setExecutor(new CommandManager());
         Objects.requireNonNull(getCommand("death")).setExecutor(new CommandManager());
-        Objects.requireNonNull(getCommand("SMP")).setExecutor(new ShowAllCommands());
+        Objects.requireNonNull(getCommand("smp")).setExecutor(new SMP());
         Objects.requireNonNull(getCommand("wand")).setExecutor(new Wand());
     }
 

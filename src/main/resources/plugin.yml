@@ -16,10 +16,16 @@ commands:
   wand:
     description: Spawns a weapon of the Gods
     usage: /wand
-  SMP:
+  smp:
     description: Displays every SD_SMP command
-    usage: /SMP
+    usage: /smp
+  reload:
+    description: Reloads SD_SMP's configuration files
+    usage: /smp reload
 permissions:
+  sd_smp.smp.reload:
+    description: Lets you reload the config files
+    default: op
   sd_smp.god.wand:
     description: Lets you use the wand
     default: op
@@ -35,13 +41,13 @@ permissions:
     description: Spawns a donkey named Ivan
     default: op
   sd_smp.coords.*:
-    description: Gives access to most Coords commands
+    description: Gives access to all Coords commands
     children:
       sd_smp.coords.clear: true
       sd_smp.coords.list: true
       sd_smp.coords.send: true
       sd_smp.coords.set: true
-      sd_smp.coords.teleport: true
+#      sd_smp.coords.teleport: true
   sd_smp.coords.clear:
     description: Clears a saved coordinate
     default: true
@@ -54,9 +60,9 @@ permissions:
   sd_smp.coords.set:
     description: Sets a saved coordinate
     default: true
-  sd_smp.coords.teleport:
-    description: Allows you to teleport to a saved coordinate
-    default: op
+#  sd_smp.coords.teleport:
+#    description: Allows you to teleport to a saved coordinate
+#    default: op
   sd_smp.death.*:
     description: Gives access to all Death commands
     children:

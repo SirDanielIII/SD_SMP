@@ -11,10 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.smpName;
-
 public class CommandManager implements TabExecutor {
-    static Map<String, List<SubCommand>> subcommands = new HashMap<>();
+    public static Map<String, List<SubCommand>> cmdCategories = new HashMap<>();
     List<SubCommand> ivan = new ArrayList<>();
     List<SubCommand> coords = new ArrayList<>();
     List<SubCommand> death = new ArrayList<>();
@@ -31,27 +29,22 @@ public class CommandManager implements TabExecutor {
         death.add(new deathNonPlayer());
         death.add(new deathPlayer());
         death.add(new deathTotal());
-        subcommands.put("ivan", ivan);
-        subcommands.put("death", death);
-        subcommands.put("coords", coords);
+        cmdCategories.put("ivan", ivan);
+        cmdCategories.put("death", death);
+        cmdCategories.put("coords", coords);
     }
 
     public static ArrayList<SubCommand> getSubcommands(String key) {
-        return (ArrayList<SubCommand>) subcommands.get(key);
+        return (ArrayList<SubCommand>) cmdCategories.get(key);
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (!(sender instanceof Player player)) return false;
-        if (args.length > 0) {
-            try {
-                for (int i = 0; i < getSubcommands(cmd.getName()).size(); i++)  // Loop through ArrayList of subcommands
-                    if (args[0].equalsIgnoreCase(getSubcommands(cmd.getName()).get(i).getName()))  // Check for any command family matches
-                        getSubcommands(cmd.getName()).get(i).perform(player, args);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        } else displaySubCommands(player, label);  // Print all subcommands of command family (no arguments given in command; just the label)
+        if (args.length > 0) { // Provided arguments
+            for (SubCommand subcommand : getSubcommands(cmd.getName())) // Loop through all subcommands of category
+                if (args[0].equalsIgnoreCase(subcommand.getName())) subcommand.perform(player, args);  // Check for any command family matches and perform it
+        } else displaySubCommands(player, cmd.getName());  // Print all subcommands of command family if no arguments are given in command
         return true;
     }
 
@@ -99,25 +92,10 @@ public class CommandManager implements TabExecutor {
         }
     }
 
-    public static void displaySubCommands(Player player, String label) {
-        String name = cmdHeaderClr(label, true) + label.toUpperCase();
+    public static void displaySubCommands(Player player, String cmd) {
+        String name = cmdHeaderClr(cmd, true) + cmd.toUpperCase();
         player.sendMessage("------------ | " + name + "§R§F | ------------>");
-        for (SubCommand i : subcommands.get(label)) {
-            player.sendMessage(i.getSyntax() + " §7→ " + i.getDescription());
-        }
-        player.sendMessage("<-------------------------------------------------->");
-    }
-
-    public static void displayAllCommands(Player player) { // Maybe add pages to this one day
-        player.sendMessage("------------ | " + smpName + " Commands" + "§R§F | ------------>");
-        // From subcommands list
-        for (List<SubCommand> i : subcommands.values()) {
-            for (SubCommand subCommand : i) {
-                player.sendMessage(subCommand.getSyntax() + " §7→ " + subCommand.getDescription());
-            }
-        }
-        // Single Commands
-        player.sendMessage(Wand.getSyntax() + " §7→ " + Wand.getDescription());
+        for (SubCommand subcommand : cmdCategories.get(cmd)) player.sendMessage(subcommand.getSyntax() + " §7→ " + subcommand.getDescription());
         player.sendMessage("<-------------------------------------------------->");
     }
 }

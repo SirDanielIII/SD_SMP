@@ -2,18 +2,12 @@ package com.sirdanieliii.SD_SMP.commands.subcommands;
 
 import com.sirdanieliii.SD_SMP.commands.SubCommand;
 import dev.dejvokep.boostedyaml.YamlDocument;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeader;
@@ -53,45 +47,46 @@ public class coordsClear extends SubCommand {
                 config.set("coordinates.overworld", new Array[]{});
                 config.set("coordinates.nether", new Array[]{});
                 config.set("coordinates.the_end", new Array[]{});
-                player.sendMessage(cmdHeader("coords") + "§ASuccessfully §Fcleared §BALL §Fcoordinates");
+                savePlayerConfig(config);
+                player.sendMessage(cmdHeader("coords") + "§CCleared §BALL §Fcoordinates");
             } else { // /coords clear name
                 ArrayList<String> dimensions = new ArrayList<>();
-                for (String dimension : config.getSection("coordinates").getRoutesAsStrings(false)) { // Loop through Overworld, Nether & The End
-                    for (String name : config.getSection("coordinates." + dimension).getRoutesAsStrings(false)) // Loop through saved coordinates in dimension
-                        if (args[1].equalsIgnoreCase(name)) dimensions.add(dimension); // Add dimension if name matches
+                try {
+                    for (String dimension : config.getSection("coordinates").getRoutesAsStrings(false)) { // Loop through Overworld, Nether & The End
+                        for (String name : config.getSection("coordinates." + dimension).getRoutesAsStrings(false)) // Loop through saved coordinates in dimension
+                            if (Objects.equals(args[1], name)) dimensions.add(dimension); // Add dimension if name matches
+                    }
+                } catch (NullPointerException ignored) {
                 }
                 if (dimensions.isEmpty()) { // [ERROR] If no coordinate was found
                     player.sendMessage(errorMessage("invalid_coords_1"));
                     return false;
                 } else if (dimensions.size() == 1) { // Single coordinate
                     String coords = getFullCoords(config, args[1], dimensions.get(0));
-                    config.set("coordinates." + dimensions.get(0) + "." + args[1], new Array[]{});
-                    savePlayerConfig(config);
-                    player.sendMessage(cmdHeader("coords") + "§ASuccessfully §Fcleared §B" + args[1] + " §6[§F" + coords + "§6] §Fin " + returnDimensionClr(dimensions.get(0)));
+                    if (deleteConfigKey(config, "coordinates." + dimensions.get(0) + "." + args[1]))
+                        player.sendMessage(cmdHeader("coords") +
+                                "§CCleared §B" + args[1] + " §6[§F" + coords + "§6] §Ffrom " + returnDimensionClr(dimensions.get(0), false));
                     return true;
                 } else { // In the case of multiple coordinates / duplicate names
-                    player.sendMessage(cmdHeader("coords") + "§C" + errorMessages.get("coords_duplicate"));
+                    player.sendMessage("------------ | §6§LCOORDS CLEAR §R§F| ------------>");
+                    player.sendMessage(errorHeader + errorClr + " " + replaceErrorVariable(errorMessages.get("coords_duplicate"), args[1]));
                     ComponentBuilder choices = new ComponentBuilder();
-                    StringBuilder dimensionLst = new StringBuilder();
                     for (String i : dimensions) {
-                        TextComponent choice = new TextComponent("§C[" + returnDimensionClr(i) + "§C] ");
+                        String coords = getFullCoords(config, args[1], i.toLowerCase());
+                        TextComponent choice = new TextComponent(">>> " + returnClr(i) + "[§F" + coords + returnClr(i) + "]");
                         choice.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/coords clear " + args[1] + " " + i));
-                        choice.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§8Delete from " + returnDimensionClr(i).substring(2))));
+                        choice.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§7Delete from " + returnDimensionClr(i, false))));
                         choices.append(choice); // Add clickable messages per dimension
-                        dimensionLst.append(returnDimensionClr(i).substring(2));
                     }
-                    TextComponent lastChoice = new TextComponent("§C[ §BALL CHOICES §C]");
-                    lastChoice.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/coords clear all " + String.join(" ", dimensions)));
-                    lastChoice.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§8Delete from " + String.join(", ", dimensionLst))));
-                    choices.append(lastChoice);
-                    player.spigot().sendMessage(choices.getCurrentComponent()); // Chain multiple text components together in one message
+                    for (BaseComponent i : choices.getParts()) player.spigot().sendMessage(i); // Output all text components
+                    player.sendMessage("<-------------------------------------------------->");
                     return true;
                 }
             }
         } else if (args.length >= 3) { // If dimension is specified
             if (args[1].equalsIgnoreCase("all")) { // /coords clear all [dimensions]
                 ArrayList<String> dimensions = new ArrayList<>();
-                for (int i = 2; i < args.length - 1; i++) if (Stream.of("overworld", "nether", "the_end").anyMatch(args[i]::equalsIgnoreCase)) dimensions.add(args[i]);
+                for (int i = 2; i < args.length; i++) if (Stream.of("overworld", "nether", "the_end").anyMatch(args[i]::equalsIgnoreCase)) dimensions.add(args[i]);
                 Set<String> matches = new HashSet<>(dimensions); // Get rid of duplicates
                 if (matches.size() == 0) { // If no valid dimensions were found
                     player.sendMessage(errorMessage("invalid_dimension_2"));
@@ -101,8 +96,8 @@ public class coordsClear extends SubCommand {
                 for (String i : matches) config.set("coordinates." + i, new Array[]{});
                 savePlayerConfig(config);
                 ArrayList<String> dimensionsClr = new ArrayList<>();
-                for (String i : matches) dimensionsClr.add(returnDimensionClr(i)); // Get coloured dimension text
-                player.sendMessage(cmdHeader("coords") + "§ASuccessfully §Fcleared all coordinates in " + String.join(" & ", dimensionsClr));
+                for (String i : matches) dimensionsClr.add(returnDimensionClr(i, false)); // Get coloured dimension text
+                player.sendMessage(cmdHeader("coords") + "§CCleared §BALL §Fcoordinates from " + String.join(" & ", dimensionsClr));
                 return true;
             } else {  // /coords clear name overworld
                 if (Stream.of("overworld", "nether", "the_end").noneMatch(args[2]::equalsIgnoreCase)) {
@@ -110,12 +105,13 @@ public class coordsClear extends SubCommand {
                     return false;
                 }
                 if (getCoordValue(config, args[2].toLowerCase(), args[1], "x") == 0) {
-                    player.sendMessage(replaceErrorVariable(errorMessage("invalid_coords_2"), args[1], returnDimensionClr(args[2])));
+                    player.sendMessage(replaceErrorVariable(errorMessage("invalid_coords_2"), args[1], returnDimensionClr(args[2], false)));
                     return false;
                 }
-                config.set("coordinates." + args[2].toLowerCase() + "." + args[1], null);
-                savePlayerConfig(config);
-                player.sendMessage(cmdHeader("coords") + "§ASuccessfully §Fcleared " + args[1] + "from " + returnDimensionClr(args[2]));
+                String coords = getFullCoords(config, args[1], args[2].toLowerCase());
+                if (deleteConfigKey(config, "coordinates." + args[2].toLowerCase() + "." + args[1]))
+                    player.sendMessage(
+                            cmdHeader("coords") + "§CCleared §B" + args[1] + " §6[§F" + coords + "§6] §Ffrom " + returnDimensionClr(args[2], false));
             }
         }
         return true;
@@ -123,7 +119,24 @@ public class coordsClear extends SubCommand {
 
     @Override
     public List<String> getSubcommandArgs(Player player, String[] args) {
-        // /coords clear <name> [Dimension] §7or §6/coords clear all [Dimension]
-        return null;
+        // /coords clear <name | all> [dimension(s)]
+        YamlDocument config = getPlayerConfig(player);
+        ArrayList<String> secondArgs = new ArrayList<>(List.of("all"));
+        List<String> list = new ArrayList<>();
+        for (String i : allDimensionsStr) {
+            try {
+                secondArgs.addAll(config.getSection("coordinates." + i).getRoutesAsStrings(false));
+            } catch (NullPointerException ignored) {
+            }
+        }
+        switch (args.length) {
+            case (2) -> {
+                for (String str : secondArgs) if (str.toLowerCase().startsWith(args[1].toLowerCase())) list.add(str);
+            }
+            case (3) -> {
+                for (String str : allDimensionsStr) if (str.toLowerCase().startsWith(args[2].toLowerCase())) list.add(str);
+            }
+        }
+        return list;
     }
 }

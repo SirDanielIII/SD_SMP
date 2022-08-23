@@ -28,6 +28,7 @@ config-version: 1
 #  %REPLACE_1%  required in...
 #     → no_saved_coords_2
 #     → player_not_online
+#     → disable_netherite_items
 
 #  %REPLACE_1%  &  %REPLACE_2%  required in...
 #     → invalid_coords_2
@@ -38,10 +39,9 @@ error_clr: "§C"
 # Command Syntax
 coords_set: "/coords set <name> [X Y Z] <dimension>"
 coords_list: "/coords list <name | all> <dimension>"
-coords_clear: "/coords clear <name | all> <dimension>"
+coords_clear: "/coords clear <name | all> [dimension(s)]"
 coords_send: "/coords send <here [players] | <name> <dimension> [players]>"
 death_kdr: "/death kdr"
-death_murders: "/death murders"
 death_kills: "/death kills"
 death_nonplayer: "/death nonplayer"
 death_player: "/death player"
@@ -49,9 +49,10 @@ death_total: "/death total"
 ivan_dog: "/ivan dog"
 ivan_donkey: "/ivan donkey"
 wand: "/wand"
+smp: "/smp <reload>"
 
 # Errors for /coords
-coord_str_not_int: "[X Y Z] coordinates must be integer, not string"
+coord_str_not_int: "[X Y Z] coordinates must be integer, not string (except ~)"
 invalid_xyz: "[X Y Z] coordinates are incomplete or invalid"
 no_args_to_set_coord: "Missing [X Y Z] & dimension"
 missing_dimension: "Missing dimension §7(overworld / nether / the_end)"
@@ -63,14 +64,15 @@ no_saved_coords_1: "You have no saved coordinates"
 no_saved_coords_2: "You have no saved coordinates in %REPLACE_1%"
 invalid_coords_1: "Could not find coordinate(s) with that name!"
 invalid_coords_2: "%REPLACE_1% coordinate not found in %REPLACE_2%!"
-coords_duplicate: "Multiple instances of the coordinate %REPLACE_1% have been found!\nWhich one(s) would you like to delete?"
+coords_duplicate: "Multiple instances of \"%REPLACE_1%\" have been found! Which one(s) would you like to delete?"
 invalid_dimension_1: "Invalid dimension §7(overworld / nether / the_end)"
 invalid_dimension_2: "Invalid dimension(s) §7(overworld / nether / the_end)"
 
 # General Errors
 player_only: "Sorry, but only players can use this command!"
 permission: "You do not have permission to do that!"
-disable_smithing_table: "Interacting with the Smithing Table has been disabled. Please contact your server administrator if you think this is a mistake."
-prevent_crafting_tools: "Crafting Netherite tools has been disabled. Please contact your server administrator if you think this is a mistake."
-prevent_crafting_armour: "Crafting Netherite armour has been disabled. Please contact your server administrator if you think this is a mistake."
-disabled_elytra_flight: "Elytra flight has been disabled in this world. Please contact your server administrator if you think this is a mistake."
+disable_end_portal: "§4§LYOU SHALL NOT, PASS!!!"
+disable_smithing_table: "I didn't give you consent to touch me!"
+disable_netherite_items: "Netherite %REPLACE_1% crafting is currently disabled!"
+disabled_elytra_flight: "Elytra flight is not currently allowed in this world!"
+force_dropped_elytra: "§EYour Elytra has been dropped onto the ground!"

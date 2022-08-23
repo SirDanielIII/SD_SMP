@@ -8,6 +8,8 @@ import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -21,10 +23,10 @@ import java.util.logging.Level;
 import static com.sirdanieliii.SD_SMP.SD_SMP.getInstance;
 
 public class ConfigManager {
-    protected YamlDocument config;
-    protected YamlDocument configErrorMsg;
+    protected static YamlDocument config;
+    protected static YamlDocument configErrorMsg;
     // Set Variables
-    public Double configVersion = Double.parseDouble(getInstance().getDescription().getVersion());
+    public static Double configVersion = Double.parseDouble(getInstance().getDescription().getVersion());
     public static String smpName;
     public static String cmdHeader;
     public static List<String> MoTD = new ArrayList<>();
@@ -33,18 +35,16 @@ public class ConfigManager {
     public static boolean customQuitMessages;
     public static boolean customSleepMessages;
     public static boolean lightningOnPlayerKill;
-    public static boolean disableSmithingTableEnabled;
-    public static boolean disableSmithingTableSendMsg;
-    public static boolean preventCraftingToolsEnabled;
-    public static boolean preventCraftingToolsSendMsg;
-    public static boolean preventCraftingArmourEnabled;
-    public static boolean preventCraftingArmourSendMsg;
+    public static boolean disableEndPortal;
+    public static boolean disableSmithingTable;
+    public static boolean craftNetheriteTools;
+    public static boolean craftNetheriteArmour;
     public static boolean elytraFlightOverworld;
-    public static boolean elytraFlightOverworldSendMsg;
+    public static boolean elytraFlightOverworldMsg;
     public static boolean elytraFlightNether;
-    public static boolean elytraFlightNetherSendMsg;
+    public static boolean elytraFlightNetherMsg;
     public static boolean elytraFlightTheEnd;
-    public static boolean elytraFlightTheEndSendMsg;
+    public static boolean elytraFlightTheEndMsg;
 
     public static List<String> joinMessages = new ArrayList<>();
     public static List<String> quitMessages = new ArrayList<>();
@@ -53,7 +53,7 @@ public class ConfigManager {
     public static List<String> describeDeath = new ArrayList<>();
     public static String errorHeader;
     public static String errorClr;
-    public static HashMap<String, String> errorMessages;
+    public static HashMap<String, String> errorMessages = new HashMap<>();
 
     public void setup() {
         try {
@@ -63,13 +63,13 @@ public class ConfigManager {
                     GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT,
                     UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build());
             config.update();
-
             // Configurable Error Messages File
             configErrorMsg = YamlDocument.create(new File(getInstance().getDataFolder(), "error_messages.yml"),
                     Objects.requireNonNull(getInstance().getResource("error_messages.yml")),
                     GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT,
                     UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build());
             configErrorMsg.update();
+            reload();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -79,12 +79,15 @@ public class ConfigManager {
         YamlDocument conf;
         try {
             conf = YamlDocument.create(new File(getInstance().getDataFolder(), "/playerdata/" + player.getUniqueId() + ".yml"),
-                    Objects.requireNonNull(getInstance().getResource("default_player_conf.yml")),
+                    Objects.requireNonNull(getInstance().getResource("default_player_config.yml")),
                     GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT,
                     UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build());
             conf.update();
             Bukkit.getLogger().log(Level.CONFIG, cmdHeader + " Successfully generated config for " + player.getDisplayName());
-
+            if (!conf.getString("uuid").equalsIgnoreCase(String.valueOf(player.getUniqueId()))) {
+                conf.set("uuid", String.valueOf(player.getUniqueId()));  // Update player name if changed
+                conf.save();
+            }
             if (!conf.getString("name").equalsIgnoreCase(player.getDisplayName())) {
                 conf.set("name", player.getDisplayName());  // Update player name if changed
                 Bukkit.getLogger().log(Level.CONFIG, cmdHeader + " Updated config name for " + player.getDisplayName());
@@ -113,7 +116,18 @@ public class ConfigManager {
         }
     }
 
-    public void reload(Player player) {
+    public static boolean deleteConfigKey(YamlDocument config, String path) {
+        FileConfiguration conf = YamlConfiguration.loadConfiguration(Objects.requireNonNull(config.getFile()));
+        conf.set(path, null);
+        try {
+            conf.save(config.getFile());
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        return true;
+    }
+
+    public static void reload() {
         try {
             config.reload();
             config.update();
@@ -124,10 +138,8 @@ public class ConfigManager {
         }
         configVersion = config.getDouble("config-version");
 
-        for (String key : config.getSection("MoTD").getRoutesAsStrings(false))
-            MoTD.add(config.getString("MoTD." + key));
-        for (String key : config.getSection("welcome").getRoutesAsStrings(false))
-            welcome.add(config.getString("welcome." + key));
+        for (String key : config.getSection("motd").getRoutesAsStrings(false)) MoTD.add(config.getString("motd." + key));
+        for (String key : config.getSection("welcome").getRoutesAsStrings(false)) welcome.add(config.getString("welcome." + key));
 
         smpName = config.getString("name");
         cmdHeader = config.getString("cmd_header");
@@ -135,29 +147,23 @@ public class ConfigManager {
         customQuitMessages = config.getBoolean("enable-custom-quit-messages");
         customSleepMessages = config.getBoolean("enable-custom-sleep-messages");
         lightningOnPlayerKill = config.getBoolean("lightning_on_player_kill");
-        disableSmithingTableEnabled = config.getBoolean("netherite.disable_smithing_table.enabled");
-        disableSmithingTableSendMsg = config.getBoolean("netherite.disable_smithing_table.send_notice_to_player");
-        preventCraftingToolsEnabled = config.getBoolean("netherite.prevent_crafting_tools.enabled");
-        preventCraftingToolsSendMsg = config.getBoolean("netherite.prevent_crafting_tools.send_notice_to_player");
-        preventCraftingArmourEnabled = config.getBoolean("netherite.prevent_crafting_armour.enabled");
-        preventCraftingArmourSendMsg = config.getBoolean("netherite.prevent_crafting_armour.send_notice_to_player");
-        elytraFlightOverworld = config.getBoolean("disable_elytra_flight.overworld.enabled");
-        elytraFlightOverworldSendMsg = config.getBoolean("disable_elytra_flight.overworld.send_notice_to_player");
-        elytraFlightNether = config.getBoolean("disable_elytra_flight.nether.enabled");
-        elytraFlightNetherSendMsg = config.getBoolean("disable_elytra_flight.nether.send_notice_to_player");
-        elytraFlightTheEnd = config.getBoolean("disable_elytra_flight.the_end.enabled");
-        elytraFlightTheEndSendMsg = config.getBoolean("disable_elytra_flight.the_end.send_notice_to_player");
+        disableEndPortal = config.getBoolean("disable_end_portal");
+        disableSmithingTable = config.getBoolean("disable_smithing_table");
+        craftNetheriteTools = config.getBoolean("disable_crafting_netherite_tools");
+        craftNetheriteArmour = config.getBoolean("disable_crafting_netherite_armour");
+        elytraFlightOverworld = config.getBoolean("disable_elytra_flight.overworld");
+        elytraFlightNether = config.getBoolean("disable_elytra_flight.nether");
+        elytraFlightTheEnd = config.getBoolean("disable_elytra_flight.the_end");
 
-        joinMessages = config.getStringList("join-messages");
-        quitMessages = config.getStringList("quit-messages");
-        sleepMessages = config.getStringList("sleep-messages");
-        describeKill = config.getStringList("describe-kill");
-        describeDeath = config.getStringList("describe-death");
+        joinMessages = config.getStringList("join_messages");
+        quitMessages = config.getStringList("quit_messages");
+        sleepMessages = config.getStringList("sleep_messages");
+        describeKill = config.getStringList("describe_kill");
+        describeDeath = config.getStringList("describe_death");
 
-        for (String key : config.getRoutesAsStrings(false))
-            errorMessages.put(key, configErrorMsg.getString(key));
-
-        player.sendMessage(cmdHeader + " §ASuccessfully reloaded the plugin");
+        errorHeader = configErrorMsg.getString("error_header");
+        errorClr = configErrorMsg.getString("error_clr");
+        for (String key : configErrorMsg.getRoutesAsStrings(false)) errorMessages.put(key, configErrorMsg.getString(key));
     }
 
     public static String errorMessage(String error) {
