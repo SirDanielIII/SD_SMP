@@ -62,6 +62,64 @@ This Spigot plugin aims to provide basic quality of life additions to an SMP, ma
   → Summons a donkey named "Ivan"
 ```
 
+# PERMISSIONS (as of Version 2.0)
+  sd_smp.god.wand:
+    description: Lets you use the wand
+    default: op
+  sd_smp.ivan.*:
+    description: Gives access to all Ivan commands
+    children:
+      sd_smp.ivan.dog: true
+      sd_smp.ivan.donkey: true
+  sd_smp.ivan.dog:
+    description: Spawns a dog named Ivan
+    default: op
+  sd_smp.ivan.donkey:
+    description: Spawns a donkey named Ivan
+    default: op
+  sd_smp.coords.*:
+    description: Gives access to most Coords commands
+    children:
+      sd_smp.coords.clear: true
+      sd_smp.coords.list: true
+      sd_smp.coords.send: true
+      sd_smp.coords.set: true
+  sd_smp.coords.clear:
+    description: Clears a saved coordinate
+    default: true
+  sd_smp.coords.list:
+    description: Lists a saved coordinate
+    default: true
+  sd_smp.coords.send:
+    description: Sends a saved coordinate
+    default: true
+  sd_smp.coords.set:
+    description: Sets a saved coordinate
+    default: true
+  sd_smp.death.*:
+    description: Gives access to all Death commands
+    children:
+      sd_smp.death.kdr: true
+      sd_smp.death.murders: true
+      sd_smp.death.nonplayer: true
+      sd_smp.death.player: true
+      sd_smp.death.total: true
+  sd_smp.death.kdr:
+    description: Returns KDR value
+    default: true
+  sd_smp.death.murders:
+    description: Returns murder count
+    default: true
+  sd_smp.death.nonplayer:
+    description: Returns death count (No PVP)
+    default: true
+  sd_smp.death.player:
+    description: Returns death count (Only PVP)
+    default: true
+  sd_smp.death.total:
+    description: Returns lifetime death count
+    default: true
+
 ## Customizable Features
 * Server MoTD
 * Title & subtitle on join
