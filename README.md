@@ -81,8 +81,10 @@ All features listed below are editable in SD_SMP's main config file!
 ```
 
 
-# The Config File
-https://github.com/SirDanielIII/SD_SMP/blob/master/src/main/resources/config.yml
+# The Config Files
+Main Config: https://github.com/SirDanielIII/SD_SMP/blob/master/src/main/resources/config.yml
+Error Messages: https://github.com/SirDanielIII/SD_SMP/blob/master/src/main/resources/error_messages.yml
+Player Config: https://github.com/SirDanielIII/SD_SMP/blob/master/src/main/resources/default_player_conf.yml
 
 
 # PERMISSIONS (as of Version 2.0)
