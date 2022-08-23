@@ -7,20 +7,21 @@ This Spigot plugin aims to provide basic quality of life additions to an SMP, ma
 ## Basic Coordinate Saving System (Coords)
 ```
 /coords clear <name | all> [dimension(s)]
-* Clears saved coordinate(s)
+  → Clears saved coordinate(s)
 
 /coords set <name> [X Y Z] <dimension>
-* Saves specific coordinate under given name
+  → Saves specific coordinate under given name
 
 /coords list <name | all> <dimension>
-* Lists saved coordinate(s)
+  → Lists saved coordinate(s)
 
 /coords send <here [players] | <name> <dimension> [players]>
-* Sends a saved coordinate or your current location to other player(s)
+  → Sends a saved coordinate or your current location to other player(s)
 ```
 
 
 ## Death & Player Kills Statistics
+```
 /death kdr
   → Returns your kill-death (K/D) ratio
   → Calculated using player kills & PVP deaths
@@ -32,16 +33,20 @@ This Spigot plugin aims to provide basic quality of life additions to an SMP, ma
   → Returns your PVP death count
 /death total
   → Returns your lifetime death count
+```
 
 ## SMP Commands
+```
 /smp
   → Returns all available commands from this plugin
 /coords
   → Returns all available /coords commands
 /death
   → Returns all available /death commands
+```
 
 ## Other
+```
 /ivan dog
   → Summons a dog named "Ivan"
 /ivan donkey
@@ -49,6 +54,7 @@ This Spigot plugin aims to provide basic quality of life additions to an SMP, ma
 /wand
   → Summons a powerful wand of the Gods
   → Use this to one-tap or explode anything in the game, or cyberbully your server members
+```
 
 ## Customizable Features
 * Server MoTD
