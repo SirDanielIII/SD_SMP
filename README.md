@@ -4,7 +4,7 @@ This Spigot plugin aims to provide basic quality of life additions to an SMP, ma
 
 ###### Features
 
-####Basic Coordinate Saving System
+#### Basic Coordinate Saving System
 
 coords_clear: "/coords clear <name | all> [dimension(s)]"
 * Clears saved coordinate(s)
@@ -16,7 +16,7 @@ coords_send: "/coords send <here [players] | <name> <dimension> [players]>"
 * Sends a saved coordinate or your current location to other player(s)
 
 
-####Death & Player Kills Statistics
+#### Death & Player Kills Statistics
 
 death kdr
 * Returns your kill-death (K/D) ratio
@@ -30,7 +30,7 @@ death player
 death total
 * Returns your lifetime death count
 
-####SMP Commands
+#### SMP Commands
 
 smp
 * Returns all available commands from this plugin
@@ -39,7 +39,7 @@ coords
 death
 * Returns all available /death commands
 
-####Other
+#### Other
   
 ivan dog
 * Summons a dog named "Ivan"
@@ -49,7 +49,7 @@ wand
 * Summons a powerful wand of the Gods
 * Use this to one-tap or explode anything in the game, or cyberbully your server members
 
-######Customizable Features
+###### Customizable Features
 * Server MoTD
 * Title & subtitle on join
 * Messages for joining, leaving, sleeping and death statistics
