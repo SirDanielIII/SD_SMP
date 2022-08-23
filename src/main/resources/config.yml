@@ -28,10 +28,10 @@ config-version: 2
 # Name that appears in /smp command
 name: §A§LSMP
 
-# For logging purposes
+# Mostly for logging purposes
 cmd_header: "§A[§FSD_SMP§A]"
 
-# Message of the Day (in server listing) - Doesn't work on BungeeCord'ed servers
+# Message of the Day (in server listing) - Doesn't work on servers in a BungeeCord
 motd:
   line_1: A Minecraft SMP
   line_2: ''
@@ -50,12 +50,15 @@ enable-custom-sleep-messages: true
 
 # Like PVP servers. The lightning won't destroy anything and/or create fire
 lightning_on_player_kill: true
+
 # Prevents a player from entering an End Portal
 disable_end_portal: false
+
 # Netherite related toggles for Smithing Table
 disable_smithing_table: false
 disable_crafting_netherite_tools: false
 disable_crafting_netherite_armour: false
+
 # Option to disable players flying with an Elytra
 elytra_flight:
   overworld: true
@@ -100,6 +103,7 @@ join_messages:
   - joined the game
   - says 'Anotha day, anotha slay'
   - must fulfill their Minecraft addiction
+
 quit_messages:
   - folded
   - went to go get a girlfriend
@@ -142,6 +146,7 @@ quit_messages:
   - is coming back... right? :(
   - got Rick Rolled
   - wasn't gooder enough
+
 sleep_messages:
   - fell asleep
   - dozed off dreaming

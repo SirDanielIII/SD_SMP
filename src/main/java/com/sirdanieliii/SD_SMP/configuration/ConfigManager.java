@@ -40,11 +40,8 @@ public class ConfigManager {
     public static boolean craftNetheriteTools;
     public static boolean craftNetheriteArmour;
     public static boolean elytraFlightOverworld;
-    public static boolean elytraFlightOverworldMsg;
     public static boolean elytraFlightNether;
-    public static boolean elytraFlightNetherMsg;
     public static boolean elytraFlightTheEnd;
-    public static boolean elytraFlightTheEndMsg;
 
     public static List<String> joinMessages = new ArrayList<>();
     public static List<String> quitMessages = new ArrayList<>();

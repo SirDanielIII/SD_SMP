@@ -2,7 +2,6 @@ package com.sirdanieliii.SD_SMP;
 
 import com.sirdanieliii.SD_SMP.items.ItemManager;
 import dev.dejvokep.boostedyaml.YamlDocument;
-import org.apache.commons.lang.ObjectUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -22,7 +21,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -154,6 +152,7 @@ public class Events implements Listener {
                     for (int slot = 10; slot < 32; slot++) { // Loop through inventory contents, skipping the main hotbar, side & armour slots
                         if (player.getInventory().getItem(slot) == null) {
                             player.getInventory().setItem(slot, elytra);
+                            player.sendMessage(errorMessages.get("force_moved_elytra"));
                             player.getInventory().setChestplate(null);
                             equipped = false;
                             break;
@@ -162,7 +161,7 @@ public class Events implements Listener {
                     if (equipped) {
                         player.getWorld().dropItem(player.getLocation(), Objects.requireNonNull(elytra));
                         player.getInventory().setChestplate(null);
-                        player.sendMessage(errorMessage("force_dropped_elytra"));
+                        player.sendMessage(errorMessage(errorMessages.get("force_dropped_elytra")));
                     }
                 } catch (NullPointerException ignored) {
                 }
