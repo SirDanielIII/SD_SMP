@@ -18,7 +18,7 @@ public class deathKills extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Returns how many people you've murdered";
+        return "§7Return your player kill count";
     }
 
     @Override

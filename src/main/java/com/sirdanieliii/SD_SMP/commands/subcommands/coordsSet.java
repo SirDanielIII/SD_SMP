@@ -20,7 +20,7 @@ public class coordsSet extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Saves coordinate under given name";
+        return "§7Saves specific coordinate under given name";
     }
 
     @Override

@@ -23,7 +23,7 @@ public class ivanDog extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Spawns a dog named \"Ivan\"";
+        return "§7Summons a dog named \"Ivan\"";
     }
 
     @Override

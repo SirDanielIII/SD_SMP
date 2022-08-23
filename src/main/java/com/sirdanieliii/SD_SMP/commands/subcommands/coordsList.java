@@ -24,7 +24,7 @@ public class coordsList extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7List saved coordinate(s)";
+        return "§7Lists saved coordinate(s)";
     }
 
     @Override

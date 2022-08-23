@@ -25,7 +25,7 @@ public class Wand implements CommandExecutor {
     }
 
     public static String getDescription() {
-        return "§7Spawns powerful a wand of the gods";
+        return "§7Summons a powerful wand of the Gods";
     }
 
     public static String getSyntax() {

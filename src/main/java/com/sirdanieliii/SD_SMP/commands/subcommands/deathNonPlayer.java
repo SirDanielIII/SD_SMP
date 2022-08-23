@@ -19,7 +19,7 @@ public class deathNonPlayer extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Returns death count (No PVP)";
+        return "§7Returns your death count, excluding PVP";
     }
 
     @Override

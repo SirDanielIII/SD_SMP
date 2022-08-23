@@ -81,7 +81,7 @@ public class ConfigManager {
         YamlDocument conf;
         try {
             conf = YamlDocument.create(new File(getInstance().getDataFolder(), "/playerdata/" + player.getUniqueId() + ".yml"),
-                    Objects.requireNonNull(getInstance().getResource("default_player_conf.yml")),
+                    Objects.requireNonNull(getInstance().getResource("default_player_config.yml")),
                     GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT,
                     UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build());
             conf.update();

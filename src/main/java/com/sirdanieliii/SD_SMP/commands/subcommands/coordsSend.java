@@ -22,7 +22,7 @@ public class coordsSend extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Sends saved coordinate to other player(s)";
+        return "§7Sends a saved coordinate or your current location to other player(s)";
     }
 
     @Override

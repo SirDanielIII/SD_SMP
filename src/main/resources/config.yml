@@ -50,7 +50,8 @@ enable-custom-sleep-messages: true
 
 # Like PVP servers. The lightning won't destroy anything and/or create fire
 lightning_on_player_kill: false
-
+# Prevents a player from entering an End Portal
+disable_end_portal: false
 # Configuration options for Smithing Table interactions
 netherite:
   disable_smithing_table:
@@ -62,7 +63,6 @@ netherite:
   prevent_crafting_armour:
     enabled: false
     send_notice_to_player: true
-
 # Option to disable players flying with an Elytra
 elytra_flight:
   overworld:

@@ -17,7 +17,7 @@ public class deathKDR extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Shows your kill-death ratio";
+        return "§7Returns your kill-death (K/D) ratio";
     }
 
     @Override
