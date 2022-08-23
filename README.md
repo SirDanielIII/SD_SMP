@@ -6,7 +6,7 @@ This Spigot plugin aims to provide basic quality of life additions to an SMP, ma
 
 ## Basic Coordinate Saving System (Coords)
 ```
-coords clear <name | all> [dimension(s)]
+/coords clear <name | all> [dimension(s)]
 * Clears saved coordinate(s)
 
 /coords set <name> [X Y Z] <dimension>
@@ -21,34 +21,34 @@ coords clear <name | all> [dimension(s)]
 
 
 ## Death & Player Kills Statistics
-death kdr
-* Returns your kill-death (K/D) ratio
-* Calculated using player kills & PVP deaths
-death kills
-* Returns your player kill count
-death nonplayer
-* Returns your death count, excluding PVP
-death player
-* Returns your PVP death count
-death total
-* Returns your lifetime death count
+/death kdr
+  → Returns your kill-death (K/D) ratio
+  → Calculated using player kills & PVP deaths
+/death kills
+  → Returns your player kill count
+/death nonplayer
+  → Returns your death count, excluding PVP
+/death player
+  → Returns your PVP death count
+/death total
+  → Returns your lifetime death count
 
 ## SMP Commands
-smp
-* Returns all available commands from this plugin
-coords
-* Returns all available /coords commands
-death
-* Returns all available /death commands
+/smp
+  → Returns all available commands from this plugin
+/coords
+  → Returns all available /coords commands
+/death
+  → Returns all available /death commands
 
 ## Other
-ivan dog
-* Summons a dog named "Ivan"
-ivan donkey
-* Summons a donkey named "Ivan"
-wand
-* Summons a powerful wand of the Gods
-* Use this to one-tap or explode anything in the game, or cyberbully your server members
+/ivan dog
+  → Summons a dog named "Ivan"
+/ivan donkey
+  → Summons a donkey named "Ivan"
+/wand
+  → Summons a powerful wand of the Gods
+  → Use this to one-tap or explode anything in the game, or cyberbully your server members
 
 ## Customizable Features
 * Server MoTD
