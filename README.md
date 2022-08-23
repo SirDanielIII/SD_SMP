@@ -5,7 +5,8 @@ This Spigot plugin aims to provide basic quality of life additions to an SMP, ma
 ## Customizable Features
 All features listed below are editable in SD_SMP's main config file!
 
-### Server MoTD (Does not work on BungeeCord)
+∘ Server MoTD (Does not work on BungeeCord)
+
 ∘ Welcome Message on Join (Title & subtitle)
 
 ∘ Custom Player Messages For...
