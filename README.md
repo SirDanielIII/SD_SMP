@@ -5,13 +5,13 @@ This Spigot plugin aims to provide basic quality of life additions to an SMP, ma
 # Features
 
 ## Basic Coordinate Saving System
-coords_clear: "/coords clear <name | all> [dimension(s)]"
+coords clear <name | all> [dimension(s)]
 * Clears saved coordinate(s)
-coords_set: "/coords set <name> [X Y Z] <dimension>"
+/coords set <name> [X Y Z] <dimension>
 * Saves specific coordinate under given name
-coords_list: "/coords list <name | all> <dimension>"
+/coords list <name | all> <dimension>
 * Lists saved coordinate(s)
-coords_send: "/coords send <here [players] | <name> <dimension> [players]>"
+/coords send <here [players] | <name> <dimension> [players]>
 * Sends a saved coordinate or your current location to other player(s)
 
 
