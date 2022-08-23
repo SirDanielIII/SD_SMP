@@ -7,20 +7,17 @@ Verion Compatibility: 1.16, 1.17, 1.18, 1.19
 ## Customizable Features
 All features listed below are editable in SD_SMP's main config file!
 
-∘ Server MoTD (Does not work on BungeeCord)
+∘ Server MoTD (does not work on BungeeCord)
 
-∘ Welcome Message on Join (Title & subtitle)
+∘ Welcome message on join (title & subtitle)
 
-∘ Custom Player Messages For...
-  → Join
-  → Quit
-  → Sleep
+∘ Custom player messages for joining, quiting & sleeping (all configurable)
   
-∘ Lightning On Player Kill
+∘ Lightning on player kill
 
-∘ End Portal Entry Toggle
+∘ End portal entry toggle
 
-∘ Netherite & Elytra Balancing Toggles
+∘ Netherite & elytra balancing toggles
 
 ## Command List
 ### SMP Commands
