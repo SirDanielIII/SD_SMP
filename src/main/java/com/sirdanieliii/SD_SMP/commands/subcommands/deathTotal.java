@@ -32,10 +32,8 @@ public class deathTotal extends SubCommand {
             return false;
         }
         YamlDocument config = getPlayerConfig(player);
-        double death_by_player = config.getDouble("death_by_player");
-        double death_by_other = config.getDouble("death_by_other");
-        double total = death_by_player + death_by_other;
-        if (total == 0.0) player.sendMessage(cmdHeader("death") + "§7You've never died before!");
+        double total = config.getDouble("death_by_player") + config.getDouble("death_by_nonplayer");
+        if (total == 0.0) player.sendMessage(cmdHeader("death") + "§7You have never died before :O");
         else if (total == 1.0) player.sendMessage(cmdHeader("death") + "§FYou have died " + "§C" + "only once §Fin total!");
         else player.sendMessage(cmdHeader("death") + "§FYou have died " + "§C" + (int) total + " times §Fin total! Imagine.");
         return true;

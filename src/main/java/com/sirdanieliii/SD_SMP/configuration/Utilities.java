@@ -63,30 +63,4 @@ public class Utilities {
     public static String replaceErrorVariable(String msg, String replace_1, String replace_2) {
         return msg.replace("%REPLACE_1%", replace_1).replace("%REPLACE_2%", replace_2);
     }
-
-    public static boolean strIntParseCheck(String[] numbers) {
-        for (String i : numbers) {
-            try {
-                Integer.parseInt(i);
-            } catch (NumberFormatException ignored) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static String toTitleCase(String input) {
-        StringBuilder titleCase = new StringBuilder(input.length());
-        boolean nextTitleCase = true;
-        for (char c : input.toLowerCase().toCharArray()) {
-            if (!Character.isLetterOrDigit(c)) {
-                nextTitleCase = true;
-            } else if (nextTitleCase) {
-                c = Character.toTitleCase(c);
-                nextTitleCase = false;
-            }
-            titleCase.append(c);
-        }
-        return titleCase.toString();
-    }
 }

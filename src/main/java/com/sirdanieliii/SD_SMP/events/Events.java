@@ -35,8 +35,8 @@ public class Events implements Listener {
         if (customJoinMessages) {
             String message = randomMessageStrLst(joinMessages);
             event.setJoinMessage("§E" + player.getName() + " " + message + " :)");
-            playerSetup(player);
         }
+        playerSetup(player);
         player.sendTitle(welcome.get(0), welcome.get(1), 20, 70, 20);
     }
 

@@ -1,9 +1,6 @@
-com\sirdanieliii\SD_SMP\configuration\ConfigManagerBackup.class
-com\sirdanieliii\SD_SMP\configuration\ReturnCoordsData.class
-com\sirdanieliii\SD_SMP\configuration\PlayerManager.class
-com\sirdanieliii\SD_SMP\events\ErrorMessages.class
+com\sirdanieliii\SD_SMP\commands\subcommands\deathKills.class
 com\sirdanieliii\SD_SMP\commands\subcommands\coordsSet.class
-com\sirdanieliii\SD_SMP\configuration\ReturnDeathData.class
 com\sirdanieliii\SD_SMP\commands\subcommands\deathNonPlayer.class
-com\sirdanieliii\SD_SMP\configuration\CreatePlayerConfig.class
+com\sirdanieliii\SD_SMP\configuration\CoordsUtility.class
 com\sirdanieliii\SD_SMP\commands\subcommands\deathPlayer.class
+com\sirdanieliii\SD_SMP\configuration\Utilities.class

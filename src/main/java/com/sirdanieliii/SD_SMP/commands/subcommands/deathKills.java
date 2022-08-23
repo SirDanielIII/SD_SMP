@@ -13,7 +13,7 @@ import static com.sirdanieliii.SD_SMP.configuration.Utilities.randomMessageStrLs
 public class deathKills extends SubCommand {
     @Override
     public String getName() {
-        return "murders";
+        return "kills";
     }
 
     @Override
@@ -33,8 +33,8 @@ public class deathKills extends SubCommand {
             return false;
         }
         YamlDocument config = getPlayerConfig(player);
-        double kills = config.getDouble("murders");
-        if (kills == 0.0) player.sendMessage(cmdHeader("death") + "§7You've never been killed anybody before :O");
+        double kills = config.getDouble("kills");
+        if (kills == 0.0) player.sendMessage(cmdHeader("death") + "§7You have never been killed anybody before :O");
         else {
             if (kills == 1.0) player.sendMessage(cmdHeader("death") + "§FYou have " + randomMessageStrLst(describeKill) + " §A" + (int) kills + " person!");
             else player.sendMessage(cmdHeader("death") + "§FYou have " + randomMessageStrLst(describeKill) + " §A" + (int) kills + " people!");

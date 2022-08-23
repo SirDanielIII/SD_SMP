@@ -34,10 +34,10 @@ public class deathPlayer extends SubCommand {
         }
         YamlDocument config = getPlayerConfig(player);
         double deaths = config.getDouble("death_by_player");
-        if (deaths == 0) player.sendMessage(cmdHeader("death") + "§7You've never been killed by a player before :O");
+        if (deaths == 0) player.sendMessage(cmdHeader("death") + "§7You have never been killed by a player :O");
         else {
-            if (deaths == 1) player.sendMessage(cmdHeader("death") + "§FYou have been " + randomMessageStrLst(describeDeath) + " §Conce!");
-            else player.sendMessage(cmdHeader("death") + "§FYou have been " + randomMessageStrLst(describeDeath) + " §C" + (int) deaths + " times!");
+            if (deaths == 1) player.sendMessage(cmdHeader("death") + "§FYou have been " + randomMessageStrLst(describeKill) + " §Conce!");
+            else player.sendMessage(cmdHeader("death") + "§FYou have been " + randomMessageStrLst(describeKill) + " §C" + (int) deaths + " times!");
         }
         return true;
     }

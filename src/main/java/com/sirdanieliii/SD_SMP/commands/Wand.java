@@ -17,9 +17,8 @@ public class Wand implements CommandExecutor {
             player.sendMessage(errorMessage("permission"));
             return false;
         }
-        Bukkit.broadcastMessage("Passed permissions check");
         if (cmd.getName().equalsIgnoreCase("wand")) {
-            Bukkit.broadcastMessage("§6§OA Wand of the Gods Has Been Summoned...");
+            Bukkit.broadcastMessage("§3§OA Wand of the Gods has been summoned...");
             player.getInventory().addItem(ItemManager.wand);
         }
         return true;

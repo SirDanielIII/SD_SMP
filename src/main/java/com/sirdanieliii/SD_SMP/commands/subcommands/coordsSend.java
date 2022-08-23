@@ -53,6 +53,10 @@ public class coordsSend extends SubCommand {
             else player.sendMessage(errorMessage("invalid_dimension_1"));  // If the correct dimension is not valid
             return false;
         } else {  // /coords send home [dimension] [player]
+            if (args[1].equalsIgnoreCase("here")) {
+                sendCoords(config, player, args, 2);
+                return true;
+            }
             if (Stream.of("overworld", "nether", "the_end").noneMatch(args[2]::equalsIgnoreCase)) {
                 player.sendMessage(errorMessage("invalid_dimension_1"));
                 return false;
@@ -67,32 +71,59 @@ public class coordsSend extends SubCommand {
         String dimension;
         if (args[1].equalsIgnoreCase("here")) {
             coords = getCurrentCoords(player);
-            dimension = returnDimensionClr(translateDimensionToStr(player.getWorld().getEnvironment())).substring(2);
+            dimension = returnDimensionClr(translateDimensionToStr(player.getWorld().getEnvironment()), false).substring(2);
         } else { // Name & dimension are given
             if (getCoordValue(config, args[2].toLowerCase(), args[1], "x") == 0) { // Coordinate does not exist
-                player.sendMessage(replaceErrorVariable(errorMessage("invalid_coords_2"), args[1], returnDimensionClr(args[2])));
+                player.sendMessage(replaceErrorVariable(errorMessage("invalid_coords_2"), args[1], returnDimensionClr(args[2], false).substring(2)));
                 return;
             }
             coords.add(getCoordValue(config, args[2].toLowerCase(), args[1], "x"));
             coords.add(getCoordValue(config, args[2].toLowerCase(), args[1], "y"));
             coords.add(getCoordValue(config, args[2].toLowerCase(), args[1], "z"));
-            dimension = returnDimensionClr(args[2].toLowerCase()).substring(2);
+            dimension = returnDimensionClr(args[2].toLowerCase(), false).substring(2);
         }
-        for (int i = startArg; i < args.length - 1; i++) {
+        List<String> sent = new ArrayList<>();
+        for (int i = startArg; i < args.length; i++) {
             Player target = Bukkit.getPlayerExact(args[i]);
             if (target == null) player.sendMessage(replaceErrorVariable(errorMessage("player_not_online"), args[i]));  // [Error] If player is offline or doesn't exist
-//            else if (target == player) player.sendMessage(errorMessage("sent_to_yourself"));
+            else if (target == player) player.sendMessage(errorMessage("sent_to_yourself"));
             else {
-                target.sendMessage("§7§O" + player.getDisplayName() + " whispers to you: ");
-                target.sendMessage("§7§O→ " + args[1] + " is at [" + coords.get(0) + " " + coords.get(1) + " " + coords.get(2) + "] in " + dimension);
-                player.sendMessage(cmdHeader("coords") + "§FCoordinate §Asuccessfully §Fsent to §B" + target.getDisplayName());
+                if (!sent.contains(target.getDisplayName())) { // To prevent message spamming
+                    target.sendMessage("§7§O" + player.getDisplayName() + " whispers to you: ");
+                    if (args[1].equalsIgnoreCase("here"))
+                        target.sendMessage("§7§O→ I am currently at [" + coords.get(0) + " " + coords.get(1) + " " + coords.get(2) + "] in " + dimension);
+                    else target.sendMessage("§7§O→ " + args[1] + " is at [" + coords.get(0) + " " + coords.get(1) + " " + coords.get(2) + "] in " + dimension);
+                    player.sendMessage(cmdHeader("coords") + "§AYour coordinate has been sent to §B" + target.getDisplayName());
+                    sent.add(target.getDisplayName());
+                }
             }
         }
     }
 
     @Override
     public List<String> getSubcommandArgs(Player player, String[] args) {
-        // /coords send here <player> [Players] or /coords send <name> <dimension> <player> [Players]
-        return null;
+        // /coords send <here [players] | <name> <dimension> [players]>
+        YamlDocument config = getPlayerConfig(player);
+        ArrayList<String> secondArgs = new ArrayList<>(List.of("here"));
+        List<String> list = new ArrayList<>();
+        for (String i : allDimensionsStr) {
+            try {
+                secondArgs.addAll(config.getSection("coordinates." + i).getRoutesAsStrings(false));
+            } catch (NullPointerException ignored) {
+            }
+        }
+        if (args.length == 2) {
+            for (String str : secondArgs) if (str.toLowerCase().startsWith(args[1].toLowerCase())) list.add(str);
+            return list;
+        }
+        if (args.length == 3) {
+            if (!args[1].equalsIgnoreCase("here")) {
+                for (String str : allDimensionsStr) if (str.toLowerCase().startsWith(args[2].toLowerCase())) list.add(str);
+                return list;
+            }
+        }
+        for (Player p : Bukkit.getOnlinePlayers())
+            for (int i = 2; i < args.length; i++) if (p.getDisplayName().toLowerCase().startsWith(args[i].toLowerCase())) list.add(p.getDisplayName());
+        return list;
     }
 }

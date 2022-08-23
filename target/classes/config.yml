@@ -1,5 +1,5 @@
-# --------------------------------------
-config-version: 1.0  # DO NOT CHANGE THIS
+# --- DO NOT CHANGE THIS ---------------
+config-version: 2
 # --------------------------------------
 #  §0	Black
 #  §1	Dark Blue
@@ -23,12 +23,21 @@ config-version: 1.0  # DO NOT CHANGE THIS
 #  §N	Underline
 #  §O	Italic
 #  §R	Reset
+#  \n   Next Line
 
-MoTD: # Message of the Day (in server listing) - Doesn't work on BungeeCord'ed servers
+# Name that appears in /smp command
+name: §A§LSMP
+
+# For logging purposes
+cmd_header: "§A[§FSD_SMP§A]"
+
+# Message of the Day (in server listing) - Doesn't work on BungeeCord'ed servers
+motd:
   line_1: A Minecraft SMP
   line_2: ''
 
-welcome: # Welcome message when you join
+# Welcome message when you join
+welcome:
   title: Hello There
   subtitle: §6Welcome to the SMP :)
 
@@ -38,29 +47,38 @@ welcome: # Welcome message when you join
 enable-custom-join-messages: true
 enable-custom-quit-messages: true
 enable-custom-sleep-messages: true
-lightning_on_player_kill: false  # Like PVP servers. The lightning won't destroy anything and/or create fire
+
+# Like PVP servers. The lightning won't destroy anything and/or create fire
+lightning_on_player_kill: false
+
+# Configuration options for Smithing Table interactions
 netherite:
-  disable_smithing_table: # Prevents you from interacting / right-clicking with a smithing table
+  disable_smithing_table:
     enabled: false
-    send_message: false
-    message: '[SD_SMP] GOD DISAPPROVES OF THIS BEHAVIOUR'
-  prevent_crafting_tools: # Disables making Netherite tools & weapons in the smithing table
+    send_notice_to_player: true
+  prevent_crafting_tools:
     enabled: false
-    send_message: false
-    message: '[SD_SMP] GOD DISAPPROVES OF THIS BEHAVIOUR'
-  prevent_crafting_armour: # Disables making Netherite armour in the smithing table
+    send_notice_to_player: true
+  prevent_crafting_armour:
     enabled: false
-    send_message: false
-    message: '[SD_SMP] GOD DISAPPROVES OF THIS BEHAVIOUR'
-disable_elytra_flight:  # Prevents players from flying with an Elytra
-  overworld: false
-  nether: false
-  the_end: false
+    send_notice_to_player: true
+
+# Option to disable players flying with an Elytra
+elytra_flight:
+  overworld:
+    enabled: false
+    send_notice_to_player: true
+  nether:
+    enabled: false
+    send_notice_to_player: true
+  the_end:
+    enabled: false
+    send_notice_to_player: true
 
 # --------------------------------------
 # Custom Event Messages | E.G. "Player <message>"
 # --------------------------------------
-join-messages:
+join_messages:
   - didn't qualify for World Cup
   - needs to get gooder
   - always sings on-key
@@ -70,14 +88,31 @@ join-messages:
   - is not deserving of an insult
   - doesn't wear socks
   - is big brain
-  - doesn't even life
+  - doesn't even lift
   - is a jelly donut
   - can't breathe underwater
   - can't tie their own shoes
   - has nothing better to do right now
   - is a chad
   - is a roosta
-quit-messages:
+  - self identifies as a toaster
+  - is looking to cyberbully everyone
+  - couldn't find a girlfriend
+  - has a big forehead
+  - has no earnings in Fortnite
+  - says hello there
+  - is never gonna give you up
+  - is mega brain
+  - doesn't know what day it is today
+  - doesn't pay taxes
+  - is lonely :(
+  - is bing chilling
+  - wears socks to bed
+  - wants a hug
+  - must... play... more... MINECRAFTTT
+  - joined the game
+  - says 'Anotha day, anotha slay'
+quit_messages:
   - folded
   - went to go get a girlfriend
   - went to go get a snack
@@ -94,7 +129,7 @@ quit-messages:
   - left the game
   - got a life
   - was kidnapped by Monika
-  - §KLISD FH DFZIO UGHDRIO
+  - §Khttps://youtu.be/dQw4w9WgXcQ
   - dipped
   - has to do their homework
   - had to log off because their mom said so
@@ -103,7 +138,24 @@ quit-messages:
   - got tired of the people here
   - left to ponder their life decisions
   - left the stove on
-sleep-messages:
+  - went to go cook the rice
+  - has to go subscribe to Sir Daniel III
+  - went to go take care of their rabbits
+  - is trying to fix their Minecraft addiction
+  - combat logged
+  - went to browse TikTok
+  - left to go work out
+  - left
+  - doesn't like the people here
+  - got cyberbullied out of the server
+  - is getting the chopsticks
+  - getting the whoppin' by their mother
+  - crashed
+  - went to go get the milk
+  - is coming back... right? :(
+  - got Rick Rolled
+  - wasn't gooder enough
+sleep_messages:
   - fell asleep
   - dozed off dreaming
   - crashed like vine
@@ -121,11 +173,18 @@ sleep-messages:
   - is having a nightmare
   - has gone out like a lamp
   - wandered off to bed
+  - trying to sleep their fix schedule
+  - is making love with their bed
+  - sleeping after a hard day's work
+  - is snoozing
+  - is rethinking their life decisions as they drift off to bed
+  - slowly drifts into a peaceful sleep
 
 # --------------------------------------
 # Death Statistics Messages
 # --------------------------------------
-describe_kill: # [PVP, VERB] → E.G. "You have been <message> ...
+# [PVP, VERB] → E.G. "You have been <message> ...
+describe_kill:
   - brutally murdered
   - slaughtered
   - clapped
@@ -134,8 +193,13 @@ describe_kill: # [PVP, VERB] → E.G. "You have been <message> ...
   - dookie'ed on
   - 360 OOGA BOOGA BOOGA'ED
   - killed
-describe_death: # [Non-PVP, NOUN] | E.G. "You have died ... due to <message>"
+  - poked
+  - eliminated
+
+# [Non-PVP, NOUN] | E.G. "You have died ... due to <message>"
+describe_death:
   - your own stupidity
   - lack of skill
   - incompetence
-  - not having any earnings
+  - being dogwater
+  - not getting gooder

@@ -8,6 +8,8 @@ import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -53,7 +55,7 @@ public class ConfigManager {
     public static List<String> describeDeath = new ArrayList<>();
     public static String errorHeader;
     public static String errorClr;
-    public static HashMap<String, String> errorMessages;
+    public static HashMap<String, String> errorMessages = new HashMap<>();
 
     public void setup() {
         try {
@@ -63,13 +65,13 @@ public class ConfigManager {
                     GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT,
                     UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build());
             config.update();
-
             // Configurable Error Messages File
             configErrorMsg = YamlDocument.create(new File(getInstance().getDataFolder(), "error_messages.yml"),
                     Objects.requireNonNull(getInstance().getResource("error_messages.yml")),
                     GeneralSettings.DEFAULT, LoaderSettings.builder().setAutoUpdate(true).build(), DumperSettings.DEFAULT,
                     UpdaterSettings.builder().setVersioning(new BasicVersioning("config-version")).build());
             configErrorMsg.update();
+            reload();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -113,7 +115,18 @@ public class ConfigManager {
         }
     }
 
-    public void reload(Player player) {
+    public static boolean deleteConfigKey(YamlDocument config, String path) {
+        FileConfiguration conf = YamlConfiguration.loadConfiguration(Objects.requireNonNull(config.getFile()));
+        conf.set(path, null);
+        try {
+            conf.save(config.getFile());
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        return true;
+    }
+
+    public void reload() {
         try {
             config.reload();
             config.update();
@@ -124,10 +137,8 @@ public class ConfigManager {
         }
         configVersion = config.getDouble("config-version");
 
-        for (String key : config.getSection("MoTD").getRoutesAsStrings(false))
-            MoTD.add(config.getString("MoTD." + key));
-        for (String key : config.getSection("welcome").getRoutesAsStrings(false))
-            welcome.add(config.getString("welcome." + key));
+        for (String key : config.getSection("motd").getRoutesAsStrings(false)) MoTD.add(config.getString("motd." + key));
+        for (String key : config.getSection("welcome").getRoutesAsStrings(false)) welcome.add(config.getString("welcome." + key));
 
         smpName = config.getString("name");
         cmdHeader = config.getString("cmd_header");
@@ -148,16 +159,15 @@ public class ConfigManager {
         elytraFlightTheEnd = config.getBoolean("disable_elytra_flight.the_end.enabled");
         elytraFlightTheEndSendMsg = config.getBoolean("disable_elytra_flight.the_end.send_notice_to_player");
 
-        joinMessages = config.getStringList("join-messages");
-        quitMessages = config.getStringList("quit-messages");
-        sleepMessages = config.getStringList("sleep-messages");
-        describeKill = config.getStringList("describe-kill");
-        describeDeath = config.getStringList("describe-death");
+        joinMessages = config.getStringList("join_messages");
+        quitMessages = config.getStringList("quit_messages");
+        sleepMessages = config.getStringList("sleep_messages");
+        describeKill = config.getStringList("describe_kill");
+        describeDeath = config.getStringList("describe_death");
 
-        for (String key : config.getRoutesAsStrings(false))
-            errorMessages.put(key, configErrorMsg.getString(key));
-
-        player.sendMessage(cmdHeader + " §ASuccessfully reloaded the plugin");
+        errorHeader = configErrorMsg.getString("error_header");
+        errorClr = configErrorMsg.getString("error_clr");
+        for (String key : configErrorMsg.getRoutesAsStrings(false)) errorMessages.put(key, configErrorMsg.getString(key));
     }
 
     public static String errorMessage(String error) {

@@ -34,8 +34,8 @@ public class deathNonPlayer extends SubCommand {
             return false;
         }
         YamlDocument config = getPlayerConfig(player);
-        double deaths = config.getDouble("death_by_other");
-        if (deaths == 0) player.sendMessage(cmdHeader("death") + "§7You've never died to " + randomMessageStrLst(describeKill) + " before!");
+        double deaths = config.getDouble("death_by_nonplayer");
+        if (deaths == 0) player.sendMessage(cmdHeader("death") + "§7You have never died on your own before :O");
         else {
             if (deaths == 1) player.sendMessage(cmdHeader("death") + "§FYou have died " + "§C" + "only once!" + "§F due to " + randomMessageStrLst(describeDeath));
             else player.sendMessage(cmdHeader("death") + "§FYou have died " + "§C" + (int) deaths + " times §Fdue to " + randomMessageStrLst(describeDeath));

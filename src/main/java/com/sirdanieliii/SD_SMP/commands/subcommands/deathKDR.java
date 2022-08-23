@@ -32,12 +32,12 @@ public class deathKDR extends SubCommand {
             return false;
         }
         YamlDocument config = getPlayerConfig(player);
-        double kills = config.getDouble("murders");
+        double kills = config.getDouble("kills");
         double death_by_player = config.getDouble("death_by_player");
-        if (kills == 0) player.sendMessage(cmdHeader("death") + "§7You haven't killed anybody yet!");
+        if (kills == 0) player.sendMessage(cmdHeader("death") + "§7You have not killed anybody yet :O");
         else {
             // Calculate K/D
-            double kd = 0;
+            double kd;
             if (death_by_player == 0) kd = kills;  // Fix Math Error When Diving By Zero
             else kd = kills / death_by_player;
             // Display K/D
