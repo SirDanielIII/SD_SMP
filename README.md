@@ -13,7 +13,13 @@ This Spigot plugin aims to provide basic quality of life additions to an SMP, ma
   
 /death
   → Returns all available /death commands
+
+/ivan
+  → Returns all available /ivan commands
   
+/wand
+  → Summons a powerful wand of the Gods
+  → Use this to one-tap or explode anything in the game, or cyberbully your server members
 ```
 #### COORDS - Basic Coordinate Saving System
 ```
@@ -47,17 +53,13 @@ This Spigot plugin aims to provide basic quality of life additions to an SMP, ma
 /death total
   → Returns your lifetime death count
 ```
-#### Other
+#### Ivan
 ```
 /ivan dog
   → Summons a dog named "Ivan"
   
 /ivan donkey
   → Summons a donkey named "Ivan"
-  
-/wand
-  → Summons a powerful wand of the Gods
-  → Use this to one-tap or explode anything in the game, or cyberbully your server members
 ```
 
 ## Customizable Features
