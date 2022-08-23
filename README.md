@@ -1,6 +1,6 @@
 # Sir Daniel's General Purpose SMP Plugin
 
-This Spigot plugin aims to provide basic quality of life additions to an SMP, making it a must have for your SMP servers!
+This Spigot plugin aims to provide basic quality of life additions to an SMP, making it a must have for your SMP servers! 😎
 
 Verion Compatibility: 1.16, 1.17, 1.18, 1.19
 
@@ -18,6 +18,7 @@ All features listed below are editable in SD_SMP's main config file!
 ∘ End portal entry toggle
 
 ∘ Netherite & elytra balancing toggles
+
 
 ## Command List
 ### SMP Commands
@@ -78,6 +79,11 @@ All features listed below are editable in SD_SMP's main config file!
 /ivan donkey
   → Summons a donkey named "Ivan"
 ```
+
+
+# The Config File
+https://github.com/SirDanielIII/SD_SMP/blob/master/src/main/resources/config.yml
+
 
 # PERMISSIONS (as of Version 2.0)
 ```
