@@ -86,7 +86,7 @@ Main Config: https://github.com/SirDanielIII/SD_SMP/blob/master/src/main/resourc
 
 Error Messages: https://github.com/SirDanielIII/SD_SMP/blob/master/src/main/resources/error_messages.yml
 
-Player Config: https://github.com/SirDanielIII/SD_SMP/blob/master/src/main/resources/default_player_conf.yml
+Player Config: https://github.com/SirDanielIII/SD_SMP/blob/master/src/main/resources/default_player_config.yml
 
 
 # PERMISSIONS (as of Version 2.0)
