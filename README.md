@@ -2,10 +2,10 @@
 
 This Spigot plugin aims to provide basic quality of life additions to an SMP, making it a must have for your SMP servers!
 
-# Customizable Features
+## Customizable Features
 All features listed below are editable in SD_SMP's main config file!
 
-# Server MoTD (Does not work on BungeeCord)
+### Server MoTD (Does not work on BungeeCord)
 ∘ Welcome Message on Join (Title & subtitle)
 
 ∘ Custom Player Messages For...
@@ -19,7 +19,7 @@ All features listed below are editable in SD_SMP's main config file!
 
 ∘ Netherite & Elytra Balancing Toggles
 
-# Command List
+## Command List
 ### SMP Commands
 ```
 /smp
