@@ -2,15 +2,18 @@
 
 This Spigot plugin aims to provide basic quality of life additions to an SMP, making it a must have for your SMP servers!
 
-# Features
+# Command List
 #### SMP Commands
 ```
 /smp
   → Returns all available commands from this plugin
+  
 /coords
   → Returns all available /coords commands
+  
 /death
   → Returns all available /death commands
+  
 ```
 #### COORDS - Basic Coordinate Saving System
 ```
@@ -31,12 +34,16 @@ This Spigot plugin aims to provide basic quality of life additions to an SMP, ma
 /death kdr
   → Returns your kill-death (K/D) ratio
   → Calculated using player kills & PVP deaths
+  
 /death kills
   → Returns your player kill count
+  
 /death nonplayer
   → Returns your death count, excluding PVP
+  
 /death player
   → Returns your PVP death count
+  
 /death total
   → Returns your lifetime death count
 ```
@@ -44,8 +51,10 @@ This Spigot plugin aims to provide basic quality of life additions to an SMP, ma
 ```
 /ivan dog
   → Summons a dog named "Ivan"
+  
 /ivan donkey
   → Summons a donkey named "Ivan"
+  
 /wand
   → Summons a powerful wand of the Gods
   → Use this to one-tap or explode anything in the game, or cyberbully your server members
