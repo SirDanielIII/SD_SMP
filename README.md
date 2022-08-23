@@ -15,10 +15,9 @@ All features listed below are editable in SD_SMP's main config file!
   
 ∘ Lightning on player kill
 
-∘ End portal entry toggle
+∘ End Portal entry toggle
 
-∘ Netherite & elytra balancing toggles
-
+∘ Netherite & Elytra balancing toggles
 
 ## Command List
 ### SMP Commands
@@ -80,14 +79,12 @@ All features listed below are editable in SD_SMP's main config file!
   → Summons a donkey named "Ivan"
 ```
 
-
 # The Config Files
 Main Config: https://github.com/SirDanielIII/SD_SMP/blob/master/src/main/resources/config.yml
 
 Error Messages: https://github.com/SirDanielIII/SD_SMP/blob/master/src/main/resources/error_messages.yml
 
 Player Config: https://github.com/SirDanielIII/SD_SMP/blob/master/src/main/resources/default_player_config.yml
-
 
 # PERMISSIONS (as of Version 2.0)
 ```
@@ -163,5 +160,5 @@ sd_smp.death.total:
   default: true
 ```
 
-#### Libraries Used
+## Libraries Used
 * BoostedYAML
