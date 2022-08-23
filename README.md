@@ -1,6 +1,6 @@
-# Sir Daniel's General Purpose SMP Plugin
+# Sir Daniel's General Purpose Minecraft SMP Plugin
 
-This Spigot plugin aims to provide basic quality of life additions to an SMP, making it a must have for your SMP servers! 😎
+This Spigot plugin aims to provide basic quality of life additions to a Minecraft SMP, making it a must have for your SMP servers! 😎
 
 Verion Compatibility: 1.16, 1.17, 1.18, 1.19
 
