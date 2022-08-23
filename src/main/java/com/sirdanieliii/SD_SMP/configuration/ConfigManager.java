@@ -148,9 +148,9 @@ public class ConfigManager {
         disableSmithingTable = config.getBoolean("disable_smithing_table");
         craftNetheriteTools = config.getBoolean("disable_crafting_netherite_tools");
         craftNetheriteArmour = config.getBoolean("disable_crafting_netherite_armour");
-        elytraFlightOverworld = config.getBoolean("disable_elytra_flight.overworld");
-        elytraFlightNether = config.getBoolean("disable_elytra_flight.nether");
-        elytraFlightTheEnd = config.getBoolean("disable_elytra_flight.the_end");
+        elytraFlightOverworld = config.getBoolean("elytra_flight.overworld");
+        elytraFlightNether = config.getBoolean("elytra_flight.nether");
+        elytraFlightTheEnd = config.getBoolean("elytra_flight.the_end");
 
         joinMessages = config.getStringList("join_messages");
         quitMessages = config.getStringList("quit_messages");

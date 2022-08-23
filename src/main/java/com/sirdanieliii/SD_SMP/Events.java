@@ -109,7 +109,7 @@ public class Events implements Listener {
     @EventHandler
     public static void interactWithSmithingTable(PlayerInteractEvent event) {
         try {
-            if (Objects.requireNonNull(event.getClickedBlock()).getType() == Material.SMITHING_TABLE) {
+            if (event.getAction() == Action.RIGHT_CLICK_BLOCK && Objects.requireNonNull(event.getClickedBlock()).getType() == Material.SMITHING_TABLE) {
                 if (disableSmithingTable) {
                     event.setCancelled(true);
                     event.getPlayer().sendMessage(errorMessage("disable_smithing_table"));
@@ -138,30 +138,39 @@ public class Events implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public static void onElytraFly(EntityToggleGlideEvent event) {
         Player player = (Player) event.getEntity();
+        ItemStack elytra;
+        boolean dropElytra = true;
         List<World.Environment> dimensions = new ArrayList<>();
         if (!elytraFlightOverworld) dimensions.add(World.Environment.NORMAL);
         if (!elytraFlightNether) dimensions.add(World.Environment.NETHER);
         if (!elytraFlightTheEnd) dimensions.add(World.Environment.THE_END);
+        // Loop through dimensions where Elytra are disabled
         for (World.Environment i : dimensions) {
             if (player.getWorld().getEnvironment().equals(i)) {
-                event.setCancelled(true);
-                player.sendMessage(errorMessage("disabled_elytra_flight"));
-                ItemStack elytra = player.getInventory().getChestplate();
-                boolean equipped = true;
+                if (Objects.requireNonNull(player.getInventory().getChestplate()).getType().equals(Material.ELYTRA)) {
+                    elytra = player.getInventory().getChestplate();
+                    event.setCancelled(true);  // Disable elytra if player is in dimension, only if they're wearing an Elytra (fixes bug)
+                    player.sendMessage(errorMessage("disabled_elytra_flight"));
+                }
+                else elytra = null;
                 try {
-                    for (int slot = 10; slot < 32; slot++) { // Loop through inventory contents, skipping the main hotbar, side & armour slots
-                        if (player.getInventory().getItem(slot) == null) {
-                            player.getInventory().setItem(slot, elytra);
-                            player.sendMessage(errorMessages.get("force_moved_elytra"));
-                            player.getInventory().setChestplate(null);
-                            equipped = false;
+                    for (int slot = 9; slot < 36; slot++) { // Loop through inventory contents, skipping the main hotbar, side & armour slots
+                        if (player.getInventory().getItem(slot) == null) { // Check if inventory slot is empty
+                            if (elytra.getType().equals(Material.ELYTRA)) { // Only proceed is elytra item-stack is actually an elytra and not null, etc
+                                player.getInventory().setItem(slot, elytra); // Copy player's elytra into inventory
+                                player.sendMessage(errorMessages.get("force_moved_elytra"));
+                            }
+                            // Remove Elytra from player if wearing one
+                            if (player.getInventory().getChestplate().getType().equals(Material.ELYTRA)) player.getInventory().setChestplate(null);
+                            dropElytra = false;
                             break;
                         }
                     }
-                    if (equipped) {
-                        player.getWorld().dropItem(player.getLocation(), Objects.requireNonNull(elytra));
-                        player.getInventory().setChestplate(null);
-                        player.sendMessage(errorMessage(errorMessages.get("force_dropped_elytra")));
+                    if (dropElytra && elytra.getType().equals(Material.ELYTRA)) {  // Proceed if elytra needs to be dropped and elytra item-stack is not null, etc
+                        player.getWorld().dropItem(player.getLocation(), Objects.requireNonNull(elytra)); // Drop elytra if no inventory space
+                        // Remove Elytra from player if wearing one
+                        if (player.getInventory().getChestplate().getType().equals(Material.ELYTRA)) player.getInventory().setChestplate(null);
+                        player.sendMessage(errorMessages.get("force_dropped_elytra"));
                     }
                 } catch (NullPointerException ignored) {
                 }
@@ -183,8 +192,7 @@ public class Events implements Listener {
 
         if (event.getAction() == Action.RIGHT_CLICK_AIR && Objects.equals((Objects.requireNonNull(event.getItem())).getItemMeta(), ItemManager.wand.getItemMeta())) {
             player = event.getPlayer();
-            Fireball fire = player.getWorld().spawn(event.getPlayer().getLocation().add(new Vector(0.0D, 1.5D, 0.0D)).add(player.getVelocity()), Fireball.class);
-            fire.setVelocity(fire.getVelocity().multiply(21));
+            Fireball fire = player.getWorld().spawn(event.getPlayer().getLocation().add(new Vector(0.0D, 1.5D, 0.0D)), Fireball.class);
             fire.setCustomName("KABOOM");
             fire.setShooter(player);
         }

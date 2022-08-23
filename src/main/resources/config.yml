@@ -31,7 +31,7 @@ name: §A§LSMP
 # Mostly for logging purposes
 cmd_header: "§A[§FSD_SMP§A]"
 
-# Message of the Day (in server listing) - Doesn't work on servers in a BungeeCord
+# Message of the day (in server listing) - Doesn't work on servers in a BungeeCord
 motd:
   line_1: A Minecraft SMP
   line_2: ''
@@ -87,7 +87,7 @@ join_messages:
   - is a roosta
   - self identifies as a toaster
   - is looking to cyberbully everyone
-  - couldn't find a girlfriend
+  - can't find a girlfriend
   - has a big forehead
   - has no earnings in Fortnite
   - says hello there
@@ -103,6 +103,25 @@ join_messages:
   - joined the game
   - says 'Anotha day, anotha slay'
   - must fulfill their Minecraft addiction
+  - is hardstuck Iron 2
+  - didn't have Prime Vandal in their shop
+  - just had a 9 game losing streak
+  - was hypnotized by cockroaches
+  - thinks that Enderman are licorice creatures
+  - is joining in secret...
+  - literally has no life
+  - thinks Minecraft 90's are more impressive
+  - has a dent in their crondolium
+  - needs a forehead check
+  - drinks milk out of a bucket
+  - enjoys the scent of raw porkchop
+  - uses their teeth as chopsticks
+  - isn't wearing any clothes (kinda weird bro)
+  - just rewatched the Bee Movie
+  - is a red flag
+  - needs a small loan of a million dollars
+  - wants to build a (huge) wall
+  - doesn't cut their toenails
 
 quit_messages:
   - folded
@@ -133,7 +152,6 @@ quit_messages:
   - went to go cook the rice
   - has to go subscribe to Sir Daniel III
   - went to go take care of their rabbits
-  - combat logged
   - went to browse TikTok
   - left to go work out
   - left
@@ -146,6 +164,24 @@ quit_messages:
   - is coming back... right? :(
   - got Rick Rolled
   - wasn't gooder enough
+  - went afijwe;o
+  - left cuz Mom came home
+  - heard footsteps coming up the stairs
+  - realized they need sleep
+  - .........?
+  - needs to poop
+  - went to dong saya dae
+  - needs to go number 1
+  - needs to go number 2
+  - needs to go number 3.....???
+  - went to go check the new Valorant shop
+  - went to go check the new Fortnite shop
+  - wants food
+  - needs a refill for his sippy cup
+  - needs a diaper change
+  - went to go start a pyramid scheme
+  - went to airfry water
+  - broke their tooth on a sunflower seed
 
 sleep_messages:
   - fell asleep
@@ -171,6 +207,8 @@ sleep_messages:
   - is snoozing
   - is rethinking their life decisions as they drift off to bed
   - slowly drifts into a peaceful sleep
+  - cried themselves to sleep
+  - fell victim to the effects of sleep deprivation
 
 # --------------------------------------
 # Death Statistics Messages
