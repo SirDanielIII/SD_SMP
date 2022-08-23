@@ -6,14 +6,14 @@ This Spigot plugin aims to provide basic quality of life additions to an SMP, ma
 All features listed below are editable in SD_SMP's main config file!
 
 # Server MoTD (Does not work on BungeeCord)
-## Welcome Message on Join (Title & subtitle)
-## Custom Player Messages For...
-* Join
-* Quit
-* Sleep
-## Lightning On Player Kill
-## End Portal Entry Toggle
-## Netherite & Elytra Balancing Toggles
+∘ Welcome Message on Join (Title & subtitle)
+∘ Custom Player Messages For...
+  → Join
+  → Quit
+  → Sleep
+∘ Lightning On Player Kill
+∘ End Portal Entry Toggle
+∘ Netherite & Elytra Balancing Toggles
 
 # Command List
 ### SMP Commands
