@@ -4,15 +4,20 @@ This Spigot plugin aims to provide basic quality of life additions to an SMP, ma
 
 # Features
 
-## Basic Coordinate Saving System
+## Basic Coordinate Saving System (Coords)
+```
 coords clear <name | all> [dimension(s)]
 * Clears saved coordinate(s)
+
 /coords set <name> [X Y Z] <dimension>
 * Saves specific coordinate under given name
+
 /coords list <name | all> <dimension>
 * Lists saved coordinate(s)
+
 /coords send <here [players] | <name> <dimension> [players]>
 * Sends a saved coordinate or your current location to other player(s)
+```
 
 
 ## Death & Player Kills Statistics
