@@ -2,16 +2,14 @@ package com.sirdanieliii.SD_SMP;
 
 import com.sirdanieliii.SD_SMP.items.ItemManager;
 import dev.dejvokep.boostedyaml.YamlDocument;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Fireball;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityToggleGlideEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.PrepareSmithingEvent;
@@ -95,16 +93,32 @@ public class Events implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public static void disableEndPortal(PlayerPortalEvent event) {
+    public static void disablePortals(PlayerPortalEvent event) {
+        if (disableNetherPortal && event.getCause() == PlayerTeleportEvent.TeleportCause.NETHER_PORTAL) {
+            event.setCancelled(true);
+            Player player = event.getPlayer();
+            player.sendMessage(errorMessage("disable_nether_portal"));
+            player.getWorld().strikeLightning(player.getLocation());
+            for (Player p : Bukkit.getOnlinePlayers())
+                p.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 20, 25);
+        }
         if (disableEndPortal && event.getCause() == PlayerTeleportEvent.TeleportCause.END_PORTAL) {
             event.setCancelled(true);
             Player player = event.getPlayer();
             player.sendMessage(errorMessage("disable_end_portal"));
             player.getWorld().strikeLightning(player.getLocation());
-            for (Player p : Bukkit.getOnlinePlayers()) p.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 20, 25);
+            for (Player p : Bukkit.getOnlinePlayers())
+                p.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 20, 25);
         }
     }
 
+    @EventHandler
+    public static void disableNetheriteMining(BlockBreakEvent event) {
+        if (disableMiningNetherite && !event.getPlayer().getGameMode().equals(GameMode.CREATIVE) && event.getBlock().getType().equals(Material.ANCIENT_DEBRIS)) {
+            event.setCancelled(true);
+            event.getPlayer().sendMessage(errorMessage("disable_smithing_table"));
+        }
+    }
 
     @EventHandler
     public static void interactWithSmithingTable(PlayerInteractEvent event) {
@@ -117,7 +131,8 @@ public class Events implements Listener {
                     List<String> items = new ArrayList<>();
                     if (craftNetheriteTools) items.add("tools");
                     if (craftNetheriteArmour) items.add("armour");
-                    if (items.size() > 0) event.getPlayer().sendMessage(replaceErrorVariable(errorMessage("disable_netherite_items"), String.join(" & ", items)));
+                    if (items.size() > 0)
+                        event.getPlayer().sendMessage(replaceErrorVariable(errorMessage("disable_netherite_items"), String.join(" & ", items)));
                 }
             }
         } catch (NullPointerException ignored) {
@@ -129,8 +144,12 @@ public class Events implements Listener {
         Material[] tools = {Material.NETHERITE_AXE, Material.NETHERITE_HOE, Material.NETHERITE_PICKAXE, Material.NETHERITE_SHOVEL, Material.NETHERITE_SWORD};
         Material[] armour = {Material.NETHERITE_HELMET, Material.NETHERITE_CHESTPLATE, Material.NETHERITE_LEGGINGS, Material.NETHERITE_BOOTS};
         try {
-            for (Material i : tools) if (craftNetheriteTools) if (Objects.requireNonNull(event.getResult()).getType().equals(i)) event.setResult(null);
-            for (Material i : armour) if (craftNetheriteArmour) if (Objects.requireNonNull(event.getResult()).getType().equals(i)) event.setResult(null);
+            for (Material i : tools)
+                if (craftNetheriteTools)
+                    if (Objects.requireNonNull(event.getResult()).getType().equals(i)) event.setResult(null);
+            for (Material i : armour)
+                if (craftNetheriteArmour)
+                    if (Objects.requireNonNull(event.getResult()).getType().equals(i)) event.setResult(null);
         } catch (NullPointerException ignored) {
         }
     }
@@ -151,8 +170,7 @@ public class Events implements Listener {
                     elytra = player.getInventory().getChestplate();
                     event.setCancelled(true);  // Disable elytra if player is in dimension, only if they're wearing an Elytra (fixes bug)
                     player.sendMessage(errorMessage("disabled_elytra_flight"));
-                }
-                else elytra = null;
+                } else elytra = null;
                 try {
                     for (int slot = 9; slot < 36; slot++) { // Loop through inventory contents, skipping the main hotbar, side & armour slots
                         if (player.getInventory().getItem(slot) == null) { // Check if inventory slot is empty
@@ -161,7 +179,8 @@ public class Events implements Listener {
                                 player.sendMessage(errorMessages.get("force_moved_elytra"));
                             }
                             // Remove Elytra from player if wearing one
-                            if (player.getInventory().getChestplate().getType().equals(Material.ELYTRA)) player.getInventory().setChestplate(null);
+                            if (player.getInventory().getChestplate().getType().equals(Material.ELYTRA))
+                                player.getInventory().setChestplate(null);
                             dropElytra = false;
                             break;
                         }
@@ -169,7 +188,8 @@ public class Events implements Listener {
                     if (dropElytra && elytra.getType().equals(Material.ELYTRA)) {  // Proceed if elytra needs to be dropped and elytra item-stack is not null, etc
                         player.getWorld().dropItem(player.getLocation(), Objects.requireNonNull(elytra)); // Drop elytra if no inventory space
                         // Remove Elytra from player if wearing one
-                        if (player.getInventory().getChestplate().getType().equals(Material.ELYTRA)) player.getInventory().setChestplate(null);
+                        if (player.getInventory().getChestplate().getType().equals(Material.ELYTRA))
+                            player.getInventory().setChestplate(null);
                         player.sendMessage(errorMessages.get("force_dropped_elytra"));
                     }
                 } catch (NullPointerException ignored) {

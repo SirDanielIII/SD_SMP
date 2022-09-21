@@ -35,7 +35,9 @@ public class ConfigManager {
     public static boolean customQuitMessages;
     public static boolean customSleepMessages;
     public static boolean lightningOnPlayerKill;
+    public static boolean disableNetherPortal;
     public static boolean disableEndPortal;
+    public static boolean disableMiningNetherite;
     public static boolean disableSmithingTable;
     public static boolean craftNetheriteTools;
     public static boolean craftNetheriteArmour;
@@ -144,8 +146,10 @@ public class ConfigManager {
         customQuitMessages = config.getBoolean("enable-custom-quit-messages");
         customSleepMessages = config.getBoolean("enable-custom-sleep-messages");
         lightningOnPlayerKill = config.getBoolean("lightning_on_player_kill");
+        disableNetherPortal = config.getBoolean("disable_nether_portal");
         disableEndPortal = config.getBoolean("disable_end_portal");
-        disableSmithingTable = config.getBoolean("disable_smithing_table");
+        disableMiningNetherite = config.getBoolean("disable_end_portal");
+        disableSmithingTable = config.getBoolean("disable_mining_netherite");
         craftNetheriteTools = config.getBoolean("disable_crafting_netherite_tools");
         craftNetheriteArmour = config.getBoolean("disable_crafting_netherite_armour");
         elytraFlightOverworld = config.getBoolean("elytra_flight.overworld");
