@@ -51,10 +51,12 @@ enable-custom-sleep-messages: true
 # Like PVP servers. The lightning won't destroy anything and/or create fire
 lightning_on_player_kill: true
 
-# Prevents a player from entering an End Portal
+# Prevents a player from entering a portal
+disable_nether_portal: false
 disable_end_portal: false
 
-# Netherite related toggles for Smithing Table
+# Netherite related toggles
+disable_mining_netherite: false
 disable_smithing_table: false
 disable_crafting_netherite_tools: false
 disable_crafting_netherite_armour: false
@@ -171,14 +173,14 @@ quit_messages:
   - .........?
   - needs to poop
   - went to dong saya dae
-  - needs to go number 1
-  - needs to go number 2
-  - needs to go number 3.....???
+  - needed to go number 1
+  - needed to go number 2
+  - needed to go number 3.....???
   - went to go check the new Valorant shop
   - went to go check the new Fortnite shop
   - wants food
-  - needs a refill for his sippy cup
-  - needs a diaper change
+  - needed a refill for their sippy cup
+  - needed a diaper change
   - went to go start a pyramid scheme
   - went to airfry water
   - broke their tooth on a sunflower seed
@@ -201,7 +203,7 @@ sleep_messages:
   - is having a nightmare
   - has gone out like a lamp
   - wandered off to bed
-  - trying to sleep their fix schedule
+  - is trying to sleep their fix schedule
   - is making love with their bed
   - sleeping after a hard day's work
   - is snoozing
