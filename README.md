@@ -2,7 +2,7 @@
 
 This Spigot plugin aims to provide basic quality of life additions to a Minecraft SMP, making it a must have for your SMP servers! 😎
 
-Verion Compatibility: 1.16, 1.17, 1.18, 1.19
+Verion Compatibility: 1.16.5, 1.17.X, 1.18.X, 1.19.X
 
 ## Customizable Features
 All features listed below are editable in SD_SMP's main config file!
