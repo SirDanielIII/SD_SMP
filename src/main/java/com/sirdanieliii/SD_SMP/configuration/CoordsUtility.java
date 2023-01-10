@@ -30,14 +30,14 @@ public class CoordsUtility {
 
     public static String returnDimensionClr(String dimension, boolean bold) {
         if (dimension.equalsIgnoreCase("overworld")) {
-            if (bold) return "§A§LOverworld";
-            else return "§AOverworld";
+            if (bold) return "&A&LOverworld";
+            else return "&AOverworld";
         } else if (dimension.equalsIgnoreCase("nether")) {
-            if (bold) return "§C§LNether";
-            else return "§CNether";
+            if (bold) return "&C&LNether";
+            else return "&CNether";
         } else if (dimension.equalsIgnoreCase("the_end")) {
-            if (bold) return "§D§LThe End";
-            else return "§DThe End";
+            if (bold) return "&D&LThe End";
+            else return "&DThe End";
         }
         return dimension;
     }
@@ -45,13 +45,13 @@ public class CoordsUtility {
     public static String returnClr(String str) {
         switch (str) {
             case ("overworld") -> {
-                return "§A";
+                return "&A";
             }
             case ("nether") -> {
-                return "§C";
+                return "&C";
             }
             case ("the_end") -> {
-                return "§D";
+                return "&D";
             }
         }
         return str;

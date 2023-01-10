@@ -14,6 +14,7 @@ import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeader;
 import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.*;
 import static com.sirdanieliii.SD_SMP.configuration.CoordsUtility.*;
 import static com.sirdanieliii.SD_SMP.configuration.Utilities.replaceErrorVariable;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.translateColourCodes;
 
 public class coordsClear extends SubCommand {
     @Override
@@ -23,12 +24,12 @@ public class coordsClear extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Clears saved coordinate(s)";
+        return "&7Clears saved coordinate(s)";
     }
 
     @Override
     public String getSyntax() {
-        return "§6" + errorMessages.get("coords_clear");
+        return "&6" + errorMessages.get("coords_clear");
     }
 
     @Override
@@ -48,7 +49,7 @@ public class coordsClear extends SubCommand {
                 config.set("coordinates.nether", new Array[]{});
                 config.set("coordinates.the_end", new Array[]{});
                 savePlayerConfig(config);
-                player.sendMessage(cmdHeader("coords") + "§CCleared §BALL §Fcoordinates");
+                player.sendMessage(translateColourCodes(cmdHeader("coords") + "&CCleared &BALL &Fcoordinates"));
             } else { // /coords clear name
                 ArrayList<String> dimensions = new ArrayList<>();
                 try {
@@ -64,18 +65,18 @@ public class coordsClear extends SubCommand {
                 } else if (dimensions.size() == 1) { // Single coordinate
                     String coords = getFullCoords(config, args[1], dimensions.get(0));
                     if (deleteConfigKey(config, "coordinates." + dimensions.get(0) + "." + args[1]))
-                        player.sendMessage(cmdHeader("coords") +
-                                "§CCleared §B" + args[1] + " §6[§F" + coords + "§6] §Ffrom " + returnDimensionClr(dimensions.get(0), false));
+                        player.sendMessage(translateColourCodes(cmdHeader("coords") +
+                                "&CCleared &B" + args[1] + " &6[&F" + coords + "&6] &Ffrom " + returnDimensionClr(dimensions.get(0), false)));
                     return true;
                 } else { // In the case of multiple coordinates / duplicate names
-                    player.sendMessage("------------ | §6§LCOORDS CLEAR §R§F| ------------>");
-                    player.sendMessage(errorHeader + errorClr + " " + replaceErrorVariable(errorMessages.get("coords_duplicate"), args[1]));
+                    player.sendMessage(translateColourCodes("------------ | &6&LCOORDS CLEAR &R&F| ------------>"));
+                    player.sendMessage(translateColourCodes(errorHeader + errorClr + " " + replaceErrorVariable(errorMessages.get("coords_duplicate_1"), args[1])));
                     ComponentBuilder choices = new ComponentBuilder();
                     for (String i : dimensions) {
                         String coords = getFullCoords(config, args[1], i.toLowerCase());
-                        TextComponent choice = new TextComponent(">>> " + returnClr(i) + "[§F" + coords + returnClr(i) + "]");
+                        TextComponent choice = new TextComponent(translateColourCodes(">>> " + returnClr(i) + "[&F" + coords + returnClr(i) + "]"));
                         choice.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/coords clear " + args[1] + " " + i));
-                        choice.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("§7Delete from " + returnDimensionClr(i, false))));
+                        choice.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(translateColourCodes("&7Delete from " + returnDimensionClr(i, false)))));
                         choices.append(choice); // Add clickable messages per dimension
                     }
                     for (BaseComponent i : choices.getParts()) player.spigot().sendMessage(i); // Output all text components
@@ -97,7 +98,7 @@ public class coordsClear extends SubCommand {
                 savePlayerConfig(config);
                 ArrayList<String> dimensionsClr = new ArrayList<>();
                 for (String i : matches) dimensionsClr.add(returnDimensionClr(i, false)); // Get coloured dimension text
-                player.sendMessage(cmdHeader("coords") + "§CCleared §BALL §Fcoordinates from " + String.join(" & ", dimensionsClr));
+                player.sendMessage(translateColourCodes(cmdHeader("coords") + "&CCleared &BALL &Fcoordinates from " + String.join(" & ", dimensionsClr)));
                 return true;
             } else {  // /coords clear name overworld
                 if (Stream.of("overworld", "nether", "the_end").noneMatch(args[2]::equalsIgnoreCase)) {
@@ -110,8 +111,8 @@ public class coordsClear extends SubCommand {
                 }
                 String coords = getFullCoords(config, args[1], args[2].toLowerCase());
                 if (deleteConfigKey(config, "coordinates." + args[2].toLowerCase() + "." + args[1]))
-                    player.sendMessage(
-                            cmdHeader("coords") + "§CCleared §B" + args[1] + " §6[§F" + coords + "§6] §Ffrom " + returnDimensionClr(args[2], false));
+                    player.sendMessage(translateColourCodes(
+                            cmdHeader("coords") + "&CCleared &B" + args[1] + " &6[&F" + coords + "&6] &Ffrom " + returnDimensionClr(args[2], false)));
             }
         }
         return true;

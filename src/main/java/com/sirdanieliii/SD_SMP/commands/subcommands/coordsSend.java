@@ -13,6 +13,7 @@ import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeader;
 import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.*;
 import static com.sirdanieliii.SD_SMP.configuration.CoordsUtility.*;
 import static com.sirdanieliii.SD_SMP.configuration.Utilities.replaceErrorVariable;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.translateColourCodes;
 
 public class coordsSend extends SubCommand {
     @Override
@@ -22,12 +23,12 @@ public class coordsSend extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Sends a saved coordinate or your current location to other player(s)";
+        return "&7Sends a saved coordinate or your current location to other player(s)";
     }
 
     @Override
     public String getSyntax() {
-        return "§6" + errorMessages.get("coords_send");
+        return "&6" + errorMessages.get("coords_send");
     }
 
     @Override
@@ -89,11 +90,11 @@ public class coordsSend extends SubCommand {
             else if (target == player) player.sendMessage(errorMessage("sent_to_yourself"));
             else {
                 if (!sent.contains(target.getDisplayName())) { // To prevent message spamming
-                    target.sendMessage("§7§O" + player.getDisplayName() + " whispers to you: ");
+                    target.sendMessage(translateColourCodes("&7&O" + player.getDisplayName() + " whispers to you: "));
                     if (args[1].equalsIgnoreCase("here"))
-                        target.sendMessage("§7§O→ I am currently at [" + coords.get(0) + " " + coords.get(1) + " " + coords.get(2) + "] in " + dimension);
-                    else target.sendMessage("§7§O→ " + args[1] + " is at [" + coords.get(0) + " " + coords.get(1) + " " + coords.get(2) + "] in " + dimension);
-                    player.sendMessage(cmdHeader("coords") + "§AYour coordinate has been sent to §B" + target.getDisplayName());
+                        target.sendMessage(translateColourCodes("&7&O→ I am currently at [" + coords.get(0) + " " + coords.get(1) + " " + coords.get(2) + "] in " + dimension));
+                    else target.sendMessage(translateColourCodes("&7&O→ " + args[1] + " is at [" + coords.get(0) + " " + coords.get(1) + " " + coords.get(2) + "] in " + dimension));
+                    player.sendMessage(translateColourCodes(cmdHeader("coords") + "&AYour coordinate has been sent to &B" + target.getDisplayName()));
                     sent.add(target.getDisplayName());
                 }
             }

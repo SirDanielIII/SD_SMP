@@ -1,5 +1,6 @@
 package com.sirdanieliii.SD_SMP.configuration;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -57,10 +58,24 @@ public class Utilities {
     }
 
     public static String replaceErrorVariable(String msg, String replace) {
-        return msg.replace("%REPLACE_1%", replace);
+        return translateColourCodes(msg.replace("%REPLACE_1%", replace));
     }
 
     public static String replaceErrorVariable(String msg, String replace_1, String replace_2) {
-        return msg.replace("%REPLACE_1%", replace_1).replace("%REPLACE_2%", replace_2);
+        return translateColourCodes(msg.replace("%REPLACE_1%", replace_1).replace("%REPLACE_2%", replace_2));
+    }
+
+    public static String translateColourCodes(String msg) {
+        // Original code by Kody Simpson -> https://youtu.be/KUv6NyRo31s
+        String[] texts = msg.split(String.format("((?<=%1$s)|(?=%1$s))", "&"));
+        StringBuilder finalMsg = new StringBuilder();
+        for (int i = 0; i < texts.length; i++) {
+            if (texts[i].equalsIgnoreCase("&")) {
+                i++; // Get the next string
+                if (texts[i].charAt(0) == '#') finalMsg.append(net.md_5.bungee.api.ChatColor.of(texts[i].substring(0, 7))).append(texts[i].substring(7));
+                else finalMsg.append(ChatColor.translateAlternateColorCodes('&', "&" + texts[i]));
+            } else finalMsg.append(texts[i]);
+        }
+        return finalMsg.toString();
     }
 }

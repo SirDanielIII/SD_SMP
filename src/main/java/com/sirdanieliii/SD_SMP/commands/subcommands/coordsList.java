@@ -15,6 +15,7 @@ import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeaderClr;
 import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.*;
 import static com.sirdanieliii.SD_SMP.configuration.CoordsUtility.*;
 import static com.sirdanieliii.SD_SMP.configuration.Utilities.replaceErrorVariable;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.translateColourCodes;
 
 public class coordsList extends SubCommand {
     @Override
@@ -24,12 +25,12 @@ public class coordsList extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Lists saved coordinate(s)";
+        return "&7Lists saved coordinate(s)";
     }
 
     @Override
     public String getSyntax() {
-        return "§6" + errorMessages.get("coords_list");
+        return "&6" + errorMessages.get("coords_list");
     }
 
     @Override // coords list all
@@ -45,22 +46,22 @@ public class coordsList extends SubCommand {
         }
         if (args[1].equalsIgnoreCase("all")) {
             if (args.length == 2) { // coords list all
-                player.sendMessage("------------ | " + "§B§LALL " + cmdHeaderClr("coords", true) + "COORDS §R§F | ------------>");
+                player.sendMessage(translateColourCodes("------------ | " + "&B&LALL " + cmdHeaderClr("coords", true) + "COORDS &R&F| ------------>"));
                 ArrayList<ArrayList<String>> toSend = getAllCoords(config, allDimensionsStr);
                 if (toSend.get(0).isEmpty() && toSend.get(1).isEmpty() && toSend.get(2).isEmpty()) player.sendMessage(errorMessage("no_saved_coords_1"));
-                else for (ArrayList<String> i : toSend) for (String j : i) player.sendMessage(j);
+                else for (ArrayList<String> i : toSend) for (String j : i) player.sendMessage(translateColourCodes(j));
             } else {  // coords list all [dimension]
                 if (Stream.of("overworld", "nether", "the_end").noneMatch(args[2]::equalsIgnoreCase)) {
                     player.sendMessage(errorMessage("invalid_dimension_1"));
                     return false;
                 }
-                player.sendMessage("------------ | " +
-                        returnDimensionClr(args[2], true).toUpperCase() + " " + cmdHeaderClr("coords", true) + "COORDS §R§F | ------------>");
+                player.sendMessage(translateColourCodes("------------ | " +
+                        returnDimensionClr(args[2], true).toUpperCase() + " " + cmdHeaderClr("coords", true) + "COORDS &R&F| ------------>"));
                 String[] dimensions = {args[2].toLowerCase()};
                 ArrayList<ArrayList<String>> toSend = getAllCoords(config, dimensions);
                 if (toSend.get(0).isEmpty())
                     player.sendMessage(replaceErrorVariable(errorMessage("no_saved_coords_2"), returnDimensionClr(args[2].toLowerCase(), false).substring(2)));
-                else for (ArrayList<String> i : toSend) for (String j : i) player.sendMessage(j);
+                else for (ArrayList<String> i : toSend) for (String j : i) player.sendMessage(translateColourCodes(j));
             }
             player.sendMessage("<-------------------------------------------------->");
             return true;
@@ -79,7 +80,7 @@ public class coordsList extends SubCommand {
                 return false;
             }
             for (String i : dimensions) {
-                player.sendMessage(cmdHeader("coords") + isAtMSG(config, i, args[1]));
+                player.sendMessage(translateColourCodes(cmdHeader("coords") + isAtMSG(config, i, args[1])));
             }
             return true;
         } else {  // /coords list name [dimension]
@@ -91,7 +92,7 @@ public class coordsList extends SubCommand {
                 player.sendMessage(replaceErrorVariable(errorMessage("invalid_coords_2"), args[1], returnDimensionClr(args[2], false).substring(2)));
                 return false;
             }
-            player.sendMessage(cmdHeader("coords") + isAtMSG(config, args[2].toLowerCase(), args[1]));
+            player.sendMessage(translateColourCodes(cmdHeader("coords") + isAtMSG(config, args[2].toLowerCase(), args[1])));
         }
         return true;
     }
@@ -112,10 +113,10 @@ public class coordsList extends SubCommand {
     }
 
     private String isAtMSG(YamlDocument config, String dimension, String name) {
-        return "§B" + name + " §Fis at §6[§F" +
+        return "&B" + name + " &Fis at &6[&F" +
                 getCoordValue(config, dimension, name, "x") + " " +
                 getCoordValue(config, dimension, name, "y") + " " +
-                getCoordValue(config, dimension, name, "z") + "§6]§F in " + returnDimensionClr(dimension, false);
+                getCoordValue(config, dimension, name, "z") + "&6]&F in " + returnDimensionClr(dimension, false);
     }
 
     @Override

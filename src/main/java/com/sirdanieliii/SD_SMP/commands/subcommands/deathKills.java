@@ -9,6 +9,7 @@ import java.util.List;
 import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeader;
 import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.*;
 import static com.sirdanieliii.SD_SMP.configuration.Utilities.randomMessageStrLst;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.translateColourCodes;
 
 public class deathKills extends SubCommand {
     @Override
@@ -18,12 +19,12 @@ public class deathKills extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Return your player kill count";
+        return "&7Return your player kill count";
     }
 
     @Override
     public String getSyntax() {
-        return "§4" + errorMessages.get("death_kills");
+        return "&4" + errorMessages.get("death_kills");
     }
 
     @Override
@@ -34,10 +35,12 @@ public class deathKills extends SubCommand {
         }
         YamlDocument config = getPlayerConfig(player);
         double kills = config.getDouble("kills");
-        if (kills == 0.0) player.sendMessage(cmdHeader("death") + "§7You have never been killed anybody before :O");
+        if (kills == 0.0) player.sendMessage(translateColourCodes(cmdHeader("death") + "&7You have never been killed anybody before :O"));
         else {
-            if (kills == 1.0) player.sendMessage(cmdHeader("death") + "§FYou have " + randomMessageStrLst(describeKill) + " §A" + (int) kills + " person!");
-            else player.sendMessage(cmdHeader("death") + "§FYou have " + randomMessageStrLst(describeKill) + " §A" + (int) kills + " people!");
+            if (kills == 1.0)
+                player.sendMessage(translateColourCodes(cmdHeader("death") + "&FYou have " + randomMessageStrLst(describeKill) + " &A" + (int) kills + " person!"));
+            else
+                player.sendMessage(translateColourCodes(cmdHeader("death") + "&FYou have " + randomMessageStrLst(describeKill) + " &A" + (int) kills + " people!"));
         }
         return true;
     }

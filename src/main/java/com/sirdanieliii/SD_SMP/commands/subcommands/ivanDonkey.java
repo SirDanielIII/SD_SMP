@@ -15,6 +15,7 @@ import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeader;
 import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.errorMessage;
 import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.errorMessages;
 import static com.sirdanieliii.SD_SMP.configuration.Utilities.offsetFromDirection;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.translateColourCodes;
 
 public class ivanDonkey extends SubCommand {
     @Override
@@ -24,12 +25,12 @@ public class ivanDonkey extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Summons a donkey named \"Ivan\"";
+        return "&7Summons a donkey named \"Ivan\"";
     }
 
     @Override
     public String getSyntax() {
-        return "§B" + errorMessages.get("ivan_donkey");
+        return "&B" + errorMessages.get("ivan_donkey");
     }
 
     @Override
@@ -47,7 +48,7 @@ public class ivanDonkey extends SubCommand {
         donkey.setCarryingChest(true);
         donkey.setJumpStrength(0.75F);
         player.playSound(player.getLocation(), Sound.ENTITY_DONKEY_AMBIENT, 1, 1);
-        player.sendMessage(cmdHeader("ivan") + "§FYou have spawned a stoopid Ivan!");
+        player.sendMessage(translateColourCodes(cmdHeader("ivan") + "&FYou have spawned a stoopid Ivan!"));
         return true;
     }
 

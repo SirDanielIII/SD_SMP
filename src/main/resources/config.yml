@@ -1,52 +1,73 @@
 # --- DO NOT CHANGE THIS ---------------
 config-version: 2
 # --------------------------------------
-#  §0	Black
-#  §1	Dark Blue
-#  §2	Dark Green
-#  §3	Dark Aqua
-#  §4	Dark Red
-#  §5	Dark Purple
-#  §6	Gold
-#  §7	Gray
-#  §8	Dark Gray
-#  §9	Blue
-#  §A	Green
-#  §B	Aqua
-#  §C	Red
-#  §D	Light Purple
-#  §E	Yellow
-#  §F	White
-#  §K	Obfuscated (Magic / Enchantment Table)
-#  §L	Bold
-#  §M	Strikethrough
-#  §N	Underline
-#  §O	Italic
-#  §R	Reset
+# COLOUR FORMATTING GUIDE (Colours require string to be surrounded by quotes)
+#  &0	Black
+#  &1	Dark Blue
+#  &2	Dark Green
+#  &3	Dark Aqua
+#  &4	Dark Red
+#  &5	Dark Purple
+#  &6	Gold
+#  &7	Gray
+#  &8	Dark Gray
+#  &9	Blue
+#  &A	Green
+#  &B	Aqua
+#  &C	Red
+#  &D	Light Purple
+#  &E	Yellow
+#  &F	White
+#  &K	Obfuscated (Magic / Enchantment Table)
+#  &L	Bold
+#  &M	Strikethrough
+#  &N	Underline
+#  &O	Italic
+#  &R	Reset
 #  \n   Next Line
 
+# CUSTOM COLOURS
+# Add '&' before hex code (not case-sensitive)
+# Example for Pink: &#FFC0CB or &#ffc0cb
+# --------------------------------------
+
 # Name that appears in /smp command
-name: §A§LSMP
+name: '&A&LSMP'
 
 # Mostly for logging purposes
-cmd_header: "§A[§FSD_SMP§A]"
+cmd_header: '&A[&FSD_SMP&A]'
 
-# Message of the day (in server listing) - Doesn't work on servers in a BungeeCord
+# Message Of The Day - Individual Servers ONLY
+# If your server is running in a proxy server (BungeeCord, Waterfall, etc),
+# the following WILL NOT SHOW IN THE SERVER LISTING!!!
 motd:
+  enabled: true
   line_1: A Minecraft SMP
   line_2: ''
 
 # Welcome message when you join
+# The numbers below is time in ticks
 welcome:
-  title: Hello There
-  subtitle: §6Welcome to the SMP :)
+  enabled: true
+  title: '&FHello There'
+  subtitle: '&6Welcome to the SMP :)'
+  fade_in: 20
+  stay: 70
+  fade_out: 20
 
 # --------------------------------------
 # Gameplay Toggleable Changes
 # --------------------------------------
-enable-custom-join-messages: true
-enable-custom-quit-messages: true
-enable-custom-sleep-messages: true
+custom-join-messages-enable: true
+custom-join-messages-clr: '&E'
+# Toggle to put a ':)' at the end of each join message
+custom-join-messages-smiley-face: true
+
+custom-quit-messages-enable: true
+custom-quit-messages-clr: '&C'
+
+custom-sleep-messages-enable: true
+custom-sleep-messages-clr: '&B'
 
 # Like PVP servers. The lightning won't destroy anything and/or create fire
 lightning_on_player_kill: true
@@ -68,7 +89,7 @@ elytra_flight:
   the_end: true
 
 # --------------------------------------
-# Custom Event Messages | E.G. "Player <message>"
+# Custom Event Messages | E.G. Player <message>
 # --------------------------------------
 join_messages:
   - didn't qualify for World Cup
@@ -142,7 +163,7 @@ quit_messages:
   - left the game
   - got a life
   - was kidnapped by Monika
-  - §Khttps://youtu.be/dQw4w9WgXcQ
+  - '&Khttps://youtu.be/dQw4w9WgXcQ'
   - dipped
   - has to do their homework
   - had to log off because their mom said so
@@ -163,7 +184,7 @@ quit_messages:
   - getting the whoppin' by their mother
   - crashed
   - went to go get the milk
-  - is coming back... right? :(
+  - is coming back... right?
   - got Rick Rolled
   - wasn't gooder enough
   - went afijwe;o
@@ -215,7 +236,7 @@ sleep_messages:
 # --------------------------------------
 # Death Statistics Messages
 # --------------------------------------
-# [PVP, VERB] → E.G. "You have been <message> ...
+# [PVP, VERB] → E.G. You have been <message> ...
 describe_kill:
   - brutally murdered
   - slaughtered
@@ -228,7 +249,7 @@ describe_kill:
   - poked
   - eliminated
 
-# [Non-PVP, NOUN] | E.G. "You have died ... due to <message>"
+# [Non-PVP, NOUN] | E.G. You have died ... due to <message>
 describe_death:
   - your own stupidity
   - lack of skill

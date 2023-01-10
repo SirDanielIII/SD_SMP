@@ -1,40 +1,49 @@
 # --- DO NOT CHANGE THIS ---------------
 config-version: 1
 # --------------------------------------
-#  §0	Black
-#  §1	Dark Blue
-#  §2	Dark Green
-#  §3	Dark Aqua
-#  §4	Dark Red
-#  §5	Dark Purple
-#  §6	Gold
-#  §7	Gray
-#  §8	Dark Gray
-#  §9	Blue
-#  §A	Green
-#  §B	Aqua
-#  §C	Red
-#  §D	Light Purple
-#  §E	Yellow
-#  §F	White
-#  §K	Obfuscated (Magic / Enchantment Table)
-#  §L	Bold
-#  §M	Strikethrough
-#  §N	Underline
-#  §O	Italic
-#  §R	Reset
+# COLOUR FORMATTING GUIDE (Colours require string to be surrounded by quotes)
+#  &0	Black
+#  &1	Dark Blue
+#  &2	Dark Green
+#  &3	Dark Aqua
+#  &4	Dark Red
+#  &5	Dark Purple
+#  &6	Gold
+#  &7	Gray
+#  &8	Dark Gray
+#  &9	Blue
+#  &A	Green
+#  &B	Aqua
+#  &C	Red
+#  &D	Light Purple
+#  &E	Yellow
+#  &F	White
+#  &K	Obfuscated (Magic / Enchantment Table)
+#  &L	Bold
+#  &M	Strikethrough
+#  &N	Underline
+#  &O	Italic
+#  &R	Reset
 #  \n   Next Line
 
-#  %REPLACE_1%  required in...
-#     → no_saved_coords_2
-#     → player_not_online
-#     → disable_netherite_items
+# CUSTOM COLOURS
+# Add '&' before hex code (not case-sensitive)
+# Example for Pink: &#FFC0CB or &#ffc0cb
 
-#  %REPLACE_1%  &  %REPLACE_2%  required in...
-#     → invalid_coords_2
+# ! ! ! ATTENTION ! ! !
+# %REPLACE_1% required in...
+#    → no_saved_coords_2
+#    → player_not_online
+#    → disable_netherite_items
+#    → too_many_arguments
+#    → coords_duplicate_1
 
-error_header: "§4[§C§L!§R§4]"
-error_clr: "§C"
+# %REPLACE_1% & %REPLACE_2% required in...
+#    → invalid_coords_2
+#    → coords_duplicate_2
+
+error_header: "&4[&C&L!&R&4]"
+error_clr: "&C"
 
 # Command Syntax
 coords_set: "/coords set <name> [X Y Z] <dimension>"
@@ -55,7 +64,7 @@ smp: "/smp <reload>"
 coord_str_not_int: "[X Y Z] coordinates must be integer, not string (except ~)"
 invalid_xyz: "[X Y Z] coordinates are incomplete or invalid"
 no_args_to_set_coord: "Missing [X Y Z] & dimension"
-missing_dimension: "Missing dimension §7(overworld / nether / the_end)"
+missing_dimension: "Missing dimension &7(overworld / nether / the_end)"
 no_args_to_send_coord: "Missing dimension and player(s)"
 missing_players: "Missing player(s)"
 player_not_online: "%REPLACE_1% isn't online or does not exist!"
@@ -64,18 +73,20 @@ no_saved_coords_1: "You have no saved coordinates"
 no_saved_coords_2: "You have no saved coordinates in %REPLACE_1%"
 invalid_coords_1: "Could not find coordinate(s) with that name!"
 invalid_coords_2: "%REPLACE_1% coordinate not found in %REPLACE_2%!"
-coords_duplicate: "Multiple instances of \"%REPLACE_1%\" have been found! Which one(s) would you like to delete?"
-invalid_dimension_1: "Invalid dimension §7(overworld / nether / the_end)"
-invalid_dimension_2: "Invalid dimension(s) §7(overworld / nether / the_end)"
+coords_duplicate_1: "Multiple instances of \"%REPLACE_1%\" have been found! Which one(s) would you like to delete?"
+coords_duplicate_2: "You are about to overwrite %REPLACE_1% from %REPLACE_2%"
+invalid_dimension_1: "Invalid dimension &7(overworld / nether / the_end)"
+invalid_dimension_2: "Invalid dimension(s) &7(overworld / nether / the_end)"
 
 # General Errors
 player_only: "Sorry, but only players can use this command!"
 permission: "You do not have permission to do that!"
-disable_nether_portal: "§4§LYOU SHALL NOT PASS!!!"
-disable_end_portal: "§4§LYOU SHALL NOT PASS!!!"
+disable_nether_portal: "&4&LYOU SHALL NOT PASS!!!"
+disable_end_portal: "&4&LYOU SHALL NOT PASS!!!"
 disable_mining_netherite: "I didn't give you consent to touch me!"
 disable_smithing_table: "I didn't give you consent to touch me!"
 disable_netherite_items: "Netherite %REPLACE_1% crafting is currently disabled!"
 disabled_elytra_flight: "Elytra flight is not currently allowed in this world!"
-force_moved_elytra: "§EYour Elytra has been moved into your inventory!"
-force_dropped_elytra: "§EYour Elytra has been dropped onto the ground!"
+force_moved_elytra: "&EYour Elytra has been moved into your inventory!"
+force_dropped_elytra: "&EYour Elytra has been dropped onto the ground!"
+too_many_arguments: "Too many arguments! \nSyntax: %REPLACE_1%"

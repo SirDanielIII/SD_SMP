@@ -9,6 +9,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.translateColourCodes;
+
 public class ItemManager {
     public static ItemStack wand;
 
@@ -25,10 +27,10 @@ public class ItemManager {
 
         assert meta != null;
 
-        meta.setDisplayName("§6§LWand");
+        meta.setDisplayName(translateColourCodes("&6&LWand"));
         List<String> lore = new ArrayList<>();
-        lore.add("§EThey who hold this wand ");
-        lore.add("§Ecannot comprehend its full power...");
+        lore.add(translateColourCodes("&EThey who hold this wand "));
+        lore.add(translateColourCodes("&Ecannot comprehend its full power..."));
         meta.setLore(lore);
         meta.addEnchant(Enchantment.DAMAGE_ALL, 10000, true);
         meta.addEnchant(Enchantment.KNOCKBACK, 25, true);

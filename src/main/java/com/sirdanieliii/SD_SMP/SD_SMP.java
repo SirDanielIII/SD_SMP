@@ -45,3 +45,19 @@ public class SD_SMP extends JavaPlugin {
         this.getServer().getScheduler().cancelTasks(this);
     }
 }
+
+/* Notes
+Test out /coords clear
+Add tracking command
+Add custom player scoreboard list
+Add multi-world support to /coords
+Maybe add GUI one day
+Parse ~10, ~-10
+/coords clear name should detect which dimensions they exist in
+/coords send here SirDaniel_da3rd saodjsad adl dasoi dsaji dio sajd jij dsaj ijds ij dj i jd
+-> Add limit to how many people are listed, or put it into one message
+
+When setting here to nether, convert the values into coordinates in the nether,
+and disallow the activity
+
+ */

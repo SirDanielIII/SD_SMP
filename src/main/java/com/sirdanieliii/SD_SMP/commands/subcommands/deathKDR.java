@@ -8,6 +8,7 @@ import java.util.List;
 
 import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeader;
 import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.*;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.translateColourCodes;
 
 public class deathKDR extends SubCommand {
     @Override
@@ -17,12 +18,12 @@ public class deathKDR extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Returns your kill-death (K/D) ratio";
+        return "&7Returns your kill-death (K/D) ratio";
     }
 
     @Override
     public String getSyntax() {
-        return "§4" + errorMessages.get("death_kdr");
+        return "&4" + errorMessages.get("death_kdr");
     }
 
     @Override
@@ -34,16 +35,16 @@ public class deathKDR extends SubCommand {
         YamlDocument config = getPlayerConfig(player);
         double kills = config.getDouble("kills");
         double death_by_player = config.getDouble("death_by_player");
-        if (kills == 0) player.sendMessage(cmdHeader("death") + "§7You have not killed anybody yet :O");
+        if (kills == 0) player.sendMessage(translateColourCodes(cmdHeader("death") + "&7You have not killed anybody yet :O"));
         else {
             // Calculate K/D
             double kd;
             if (death_by_player == 0) kd = kills;  // Fix Math Error When Diving By Zero
             else kd = kills / death_by_player;
             // Display K/D
-            if (kd < 0.5) player.sendMessage(cmdHeader("death") + "§FYour K/D ratio is §C" + String.format("%.2f", kd));
-            else if (kd > 0.5 && kd < 1.0) player.sendMessage(cmdHeader("death") + "§FYour K/D ratio is §E" + String.format("%.2f", kd));
-            else if (kd >= 1.0) player.sendMessage(cmdHeader("death") + "§FYour K/D ratio is §A" + String.format("%.2f", kd));
+            if (kd < 0.5) player.sendMessage(translateColourCodes(cmdHeader("death") + "&FYour K/D ratio is &C" + String.format("%.2f", kd)));
+            else if (kd > 0.5 && kd < 1.0) player.sendMessage(translateColourCodes(cmdHeader("death") + "&FYour K/D ratio is &E" + String.format("%.2f", kd)));
+            else if (kd >= 1.0) player.sendMessage(translateColourCodes(cmdHeader("death") + "&FYour K/D ratio is &A" + String.format("%.2f", kd)));
         }
         return true;
     }

@@ -2,7 +2,8 @@ package com.sirdanieliii.SD_SMP.commands.subcommands;
 
 import com.sirdanieliii.SD_SMP.commands.SubCommand;
 import dev.dejvokep.boostedyaml.YamlDocument;
-import org.bukkit.Bukkit;
+import net.md_5.bungee.api.chat.*;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -13,6 +14,9 @@ import java.util.stream.Stream;
 import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeader;
 import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.*;
 import static com.sirdanieliii.SD_SMP.configuration.CoordsUtility.*;
+import static com.sirdanieliii.SD_SMP.configuration.CoordsUtility.returnDimensionClr;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.replaceErrorVariable;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.translateColourCodes;
 
 public class coordsSet extends SubCommand {
     @Override
@@ -22,12 +26,12 @@ public class coordsSet extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Saves specific coordinate under given name";
+        return "&7Saves specific coordinate under given name";
     }
 
     @Override
     public String getSyntax() {
-        return "§6" + errorMessages.get("coords_set");
+        return "&6" + errorMessages.get("coords_set");
     }
 
     @Override
@@ -37,6 +41,7 @@ public class coordsSet extends SubCommand {
             return false;
         }
         YamlDocument config = getPlayerConfig(player);
+
         switch (args.length) {
             case (1) -> {
                 player.sendMessage(errorMessage("coords_set"));
@@ -48,15 +53,25 @@ public class coordsSet extends SubCommand {
             }
             case (3) -> { // /coords set name here
                 if (args[2].equalsIgnoreCase("here")) {
-                    ArrayList<Integer> coords = getCurrentCoords(player);
                     String dimension = translateDimensionToStr(player.getWorld().getEnvironment());
-                    savePlayerCoords(config, player, dimension, args[1], coords);
+                    if (!duplicateCheck(config, dimension, args[1])) { // No duplicates
+                        savePlayerCoords(config, player, dimension, args[1], getCurrentCoords(player));
+                    } else duplicateFound(config, player, dimension, args);
                     return true;
                 }
                 player.sendMessage(errorMessage("invalid_xyz"));
                 return false;
             }
-            case (4) -> { // /coords set name x y
+            case (4) -> {
+                if (!args[3].equalsIgnoreCase("--force")) { // /coords set name x y
+                    player.sendMessage(errorMessage("invalid_xyz"));
+                    return false;
+                }
+                // /coords set name here --force
+                if (args[2].equalsIgnoreCase("here")) {
+                    savePlayerCoords(config, player, translateDimensionToStr(player.getWorld().getEnvironment()), args[1], getCurrentCoords(player));
+                    return true;
+                }
                 player.sendMessage(errorMessage("invalid_xyz"));
                 return false;
             }
@@ -83,7 +98,7 @@ public class coordsSet extends SubCommand {
                 savePlayerCoords(config, player, translateDimensionToStr(player.getWorld().getEnvironment()), args[1], coords);
                 return true;
             }
-            case (6) -> { // /coords set name x y z <dimension>
+            default -> { // /coords set name x y z <dimension> [--force], ignores any arguments afterwards
                 ArrayList<Integer> coords = new ArrayList<>();
                 try {
                     for (int i = 0; i < 3; i++) {
@@ -107,11 +122,49 @@ public class coordsSet extends SubCommand {
                     player.sendMessage(errorMessage("invalid_dimension_1"));
                     return false;
                 }
-                Bukkit.broadcastMessage(String.valueOf(coords));
-                savePlayerCoords(config, player, args[5].toLowerCase(), args[1], coords);
+                if ((args.length == 6 && !duplicateCheck(config, args[5].toLowerCase(), args[1])) || (args.length == 7 && args[6].equalsIgnoreCase("--force"))) {
+                    savePlayerCoords(config, player, args[5].toLowerCase(), args[1], coords);
+                    return true;
+                } else if (args.length == 6 && duplicateCheck(config, args[5].toLowerCase(), args[1])) {
+                    duplicateFound(config, player, args[5].toLowerCase(), args);
+                    return true;
+                }
+                player.sendMessage(replaceErrorVariable(errorMessage("too_many_arguments"), errorMessages.get("coords_set")));
             }
         }
         return true;
+    }
+
+    private boolean duplicateCheck(YamlDocument config, String dimension, String name) {
+        // Check for existing coordinate with the same name
+        boolean match = false;
+        try {
+            for (String key : config.getSection("coordinates." + dimension).getRoutesAsStrings(false)) {
+                if (name.equalsIgnoreCase(key)) {
+                    match = true;
+                    break;
+                }
+            }
+        } catch (NullPointerException ignored) {
+        }
+        return match;
+    }
+
+    private void duplicateFound(YamlDocument config, Player player, String dimension, String[] args) {
+        player.sendMessage(translateColourCodes("------------ | &6&LCOORDS Set &R&F| ------------>"));
+        player.sendMessage(translateColourCodes(errorHeader + errorClr + " " + replaceErrorVariable(errorMessages.get("coords_duplicate_2"),
+                returnClr(dimension) + "[&F" + getFullCoords(config, args[1], dimension) + returnClr(dimension) + "]" + errorClr,
+                returnDimensionClr(dimension, false) + errorClr)));
+        ComponentBuilder choices = new ComponentBuilder();
+        TextComponent choice1 = new TextComponent(translateColourCodes(">>> &EConfirm Overwrite"));
+        if (args[2].equalsIgnoreCase("here")) choice1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
+                "/coords set " + args[1] + " here --force"));
+        else choice1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
+                "/coords set " + args[1] + " " + args[2] + " " + args[3] + " " + args[4] + " " + dimension + " --force"));
+        choice1.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(translateColourCodes("&CThis action is not reversible!"))));
+        choices.append(choice1); // Add clickable messages per dimension
+        for (BaseComponent i : choices.getParts()) player.spigot().sendMessage(i); // Output all text components
+        player.sendMessage("<-------------------------------------------------->");
     }
 
     private void savePlayerCoords(YamlDocument config, Player player, String dimension, String name, ArrayList<Integer> coords) {
@@ -119,8 +172,8 @@ public class coordsSet extends SubCommand {
         config.set("coordinates." + dimension + "." + name + ".y", coords.get(1));
         config.set("coordinates." + dimension + "." + name + ".z", coords.get(2));
         savePlayerConfig(config);
-        player.sendMessage(cmdHeader("coords") + "§FSaved §B" + name + " §6[§F" +
-                coords.get(0) + " " + coords.get(1) + " " + coords.get(2) + "§6]§F in " + returnDimensionClr(dimension, false));
+        player.sendMessage(translateColourCodes(cmdHeader("coords") + "&FSaved &B" + name + " &6[&F" +
+                coords.get(0) + " " + coords.get(1) + " " + coords.get(2) + "&6]&F in " + returnDimensionClr(dimension, false)));
     }
 
     @Override

@@ -24,13 +24,12 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.*;
-import static com.sirdanieliii.SD_SMP.configuration.Utilities.randomMessageStrLst;
-import static com.sirdanieliii.SD_SMP.configuration.Utilities.replaceErrorVariable;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.*;
 
 public class Events implements Listener {
     @EventHandler
     public void onServerListPing(ServerListPingEvent event) {
-        event.setMotd(MoTD.get(0) + "\n" + MoTD.get(1));
+        if (motd_enable) event.setMotd(translateColourCodes(motd.get(0) + "\n" + motd.get(1)));
     }
 
     @EventHandler
@@ -39,10 +38,11 @@ public class Events implements Listener {
         Player player = event.getPlayer();
         if (customJoinMessages) {
             String message = randomMessageStrLst(joinMessages);
-            event.setJoinMessage("§E" + player.getName() + " " + message + " :)");
+            if (customJoinMessagesSmileyFace) event.setJoinMessage(translateColourCodes(customJoinMessagesClr + player.getName() + " " + message + " :)"));
+            else event.setJoinMessage(translateColourCodes(customJoinMessagesClr + player.getName() + " " + message));
         }
         playerSetup(player);
-        player.sendTitle(welcome.get(0), welcome.get(1), 20, 70, 20);
+        if (welcome_enable) player.sendTitle(translateColourCodes(welcome.get(0)), translateColourCodes(welcome.get(1)), welcome_fade_in, welcome_stay, welcome_fade_out);
     }
 
     @EventHandler
@@ -51,7 +51,7 @@ public class Events implements Listener {
         Player player = event.getPlayer();
         if (customQuitMessages) {
             String message = randomMessageStrLst(quitMessages);
-            event.setQuitMessage("§C" + player.getName() + " " + message);
+            event.setQuitMessage(translateColourCodes(customQuitMessagesClr + player.getName() + " " + message));
         }
     }
 
@@ -62,7 +62,7 @@ public class Events implements Listener {
             if (event.getBedEnterResult() == PlayerBedEnterEvent.BedEnterResult.OK) {
                 Player player = event.getPlayer();
                 String message = randomMessageStrLst(sleepMessages);
-                Bukkit.broadcastMessage("§B" + player.getName() + " " + message);
+                Bukkit.broadcastMessage(translateColourCodes(customSleepMessagesClr + player.getName() + " " + message));
             }
         }
     }

@@ -21,6 +21,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 
 import static com.sirdanieliii.SD_SMP.SD_SMP.getInstance;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.translateColourCodes;
 
 public class ConfigManager {
     protected static YamlDocument config;
@@ -29,11 +30,20 @@ public class ConfigManager {
     public static Double configVersion = Double.parseDouble(getInstance().getDescription().getVersion());
     public static String smpName;
     public static String cmdHeader;
-    public static List<String> MoTD = new ArrayList<>();
+    public static List<String> motd = new ArrayList<>();
+    public static Boolean motd_enable;
     public static List<String> welcome = new ArrayList<>();
+    public static Boolean welcome_enable;
+    public static Integer welcome_fade_in;
+    public static Integer welcome_stay;
+    public static Integer welcome_fade_out;
     public static boolean customJoinMessages;
+    public static boolean customJoinMessagesSmileyFace;
+    public static String customJoinMessagesClr;
     public static boolean customQuitMessages;
+    public static String customQuitMessagesClr;
     public static boolean customSleepMessages;
+    public static String customSleepMessagesClr;
     public static boolean lightningOnPlayerKill;
     public static boolean disableNetherPortal;
     public static boolean disableEndPortal;
@@ -137,21 +147,37 @@ public class ConfigManager {
         }
         configVersion = config.getDouble("config-version");
 
-        for (String key : config.getSection("motd").getRoutesAsStrings(false)) MoTD.add(config.getString("motd." + key));
-        for (String key : config.getSection("welcome").getRoutesAsStrings(false)) welcome.add(config.getString("welcome." + key));
+        for (String key : config.getSection("motd").getRoutesAsStrings(false)) if (!key.equals("enabled")) motd.add(config.getString("motd." + key));
+        motd_enable = config.getBoolean("motd.enabled");
+
+        welcome.add(config.getString("welcome.title"));
+        welcome.add(config.getString("welcome.subtitle"));
+        welcome_enable = config.getBoolean("welcome.enabled");
+        welcome_fade_in = config.getInt("welcome.fade_in");
+        welcome_stay = config.getInt("welcome.stay");
+        welcome_fade_out = config.getInt("welcome.fade_out");
 
         smpName = config.getString("name");
         cmdHeader = config.getString("cmd_header");
-        customJoinMessages = config.getBoolean("enable-custom-join-messages");
-        customQuitMessages = config.getBoolean("enable-custom-quit-messages");
-        customSleepMessages = config.getBoolean("enable-custom-sleep-messages");
+
+        customJoinMessages = config.getBoolean("custom-join-messages-enable");
+        customJoinMessagesClr = config.getString("custom-join-messages-clr");
+        customJoinMessagesSmileyFace = config.getBoolean("custom-join-messages-smiley-face");
+        customQuitMessages = config.getBoolean("custom-quit-messages-enable");
+        customQuitMessagesClr = config.getString("custom-quit-messages-clr");
+        customSleepMessages = config.getBoolean("custom-sleep-messages-enable");
+        customSleepMessagesClr = config.getString("custom-sleep-messages-clr");
+
         lightningOnPlayerKill = config.getBoolean("lightning_on_player_kill");
+
         disableNetherPortal = config.getBoolean("disable_nether_portal");
         disableEndPortal = config.getBoolean("disable_end_portal");
         disableMiningNetherite = config.getBoolean("disable_end_portal");
         disableSmithingTable = config.getBoolean("disable_mining_netherite");
+
         craftNetheriteTools = config.getBoolean("disable_crafting_netherite_tools");
         craftNetheriteArmour = config.getBoolean("disable_crafting_netherite_armour");
+
         elytraFlightOverworld = config.getBoolean("elytra_flight.overworld");
         elytraFlightNether = config.getBoolean("elytra_flight.nether");
         elytraFlightTheEnd = config.getBoolean("elytra_flight.the_end");
@@ -168,6 +194,6 @@ public class ConfigManager {
     }
 
     public static String errorMessage(String error) {
-        return errorHeader + errorClr + " " + errorMessages.get(error);
+        return translateColourCodes(errorHeader + errorClr + " " + errorMessages.get(error));
     }
 }

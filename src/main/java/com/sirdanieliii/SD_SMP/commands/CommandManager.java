@@ -5,11 +5,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.translateColourCodes;
 
 public class CommandManager implements TabExecutor {
     public static Map<String, List<SubCommand>> cmdCategories = new HashMap<>();
@@ -39,7 +42,7 @@ public class CommandManager implements TabExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player player)) return false;
         if (args.length > 0) { // Provided arguments
             for (SubCommand subcommand : getSubcommands(cmd.getName())) // Loop through all subcommands of category
@@ -49,7 +52,7 @@ public class CommandManager implements TabExecutor {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String alias, String[] args) {
         if (args.length == 1) { // E.G. /command [TAB-COMPLETE]
             ArrayList<String> subcommandArgs = new ArrayList<>();
             for (int i = 0; i < getSubcommands(cmd.getName()).size(); i++)
@@ -67,9 +70,9 @@ public class CommandManager implements TabExecutor {
 
     public static String cmdHeader(String type) {
         return switch (type.toLowerCase()) {
-            case ("coords") -> "§6[§FCoords§6] ";
-            case ("death") -> "§4[§FDeath§4] ";
-            case ("ivan") -> "§B[§FIvan§B] ";
+            case ("coords") -> "&6[&FCoords&6] ";
+            case ("death") -> "&4[&FDeath&4] ";
+            case ("ivan") -> "&B[&FIvan&B] ";
             default -> null;
         };
     }
@@ -77,16 +80,16 @@ public class CommandManager implements TabExecutor {
     public static String cmdHeaderClr(String type, boolean bold) {
         if (bold) {
             return switch (type.toLowerCase()) {
-                case ("coords") -> "§6§L";
-                case ("death") -> "§4§L";
-                case ("ivan") -> "§B§L";
+                case ("coords") -> "&6&L";
+                case ("death") -> "&4&L";
+                case ("ivan") -> "&B&L";
                 default -> null;
             };
         } else {
             return switch (type.toLowerCase()) {
-                case ("coords") -> "§6";
-                case ("death") -> "§4";
-                case ("ivan") -> "§B";
+                case ("coords") -> "&6";
+                case ("death") -> "&4";
+                case ("ivan") -> "&B";
                 default -> null;
             };
         }
@@ -94,8 +97,8 @@ public class CommandManager implements TabExecutor {
 
     public static void displaySubCommands(Player player, String cmd) {
         String name = cmdHeaderClr(cmd, true) + cmd.toUpperCase();
-        player.sendMessage("------------ | " + name + "§R§F | ------------>");
-        for (SubCommand subcommand : cmdCategories.get(cmd)) player.sendMessage(subcommand.getSyntax() + " §7→ " + subcommand.getDescription());
+        player.sendMessage(translateColourCodes("------------ | " + name + "&R&F | ------------>"));
+        for (SubCommand subcommand : cmdCategories.get(cmd)) player.sendMessage(translateColourCodes(subcommand.getSyntax() + " &7→ " + subcommand.getDescription()));
         player.sendMessage("<-------------------------------------------------->");
     }
 }

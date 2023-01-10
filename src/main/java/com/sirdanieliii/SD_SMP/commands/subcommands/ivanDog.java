@@ -14,6 +14,7 @@ import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeader;
 import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.errorMessage;
 import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.errorMessages;
 import static com.sirdanieliii.SD_SMP.configuration.Utilities.offsetFromDirection;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.translateColourCodes;
 
 public class ivanDog extends SubCommand {
     @Override
@@ -23,12 +24,12 @@ public class ivanDog extends SubCommand {
 
     @Override
     public String getDescription() {
-        return "§7Summons a dog named \"Ivan\"";
+        return "&7Summons a dog named \"Ivan\"";
     }
 
     @Override
     public String getSyntax() {
-        return "§B" + errorMessages.get("ivan_dog");
+        return "&B" + errorMessages.get("ivan_dog");
     }
 
     @Override
@@ -45,7 +46,7 @@ public class ivanDog extends SubCommand {
         wolf.setCollarColor(DyeColor.LIGHT_BLUE);
         wolf.setSitting(true);
         player.playSound(player.getLocation(), Sound.ENTITY_WOLF_PANT, 1, 1);
-        player.sendMessage(cmdHeader("ivan") + "§FYou have spawned a little Ivan!");
+        player.sendMessage(translateColourCodes(cmdHeader("ivan") + "&FYou have spawned a little Ivan!"));
         return true;
     }
 
