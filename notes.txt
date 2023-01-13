@@ -1,0 +1,3 @@
+When updating a version, if an option is missing the entire thing gets dumped onto preexisting values
+
+When reloading the document, check if things are missing or not and add back the default values

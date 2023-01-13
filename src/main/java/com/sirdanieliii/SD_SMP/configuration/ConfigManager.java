@@ -92,8 +92,8 @@ public class ConfigManager {
                             .setVersioning(new BasicVersioning("config-version"))
                             .build());
             msgErrors.update();
-            msgDeath = YamlDocument.create(new File(getInstance().getDataFolder(), "death_statistics_messages.yml"), Objects.requireNonNull(getInstance()
-                            .getResource("/custom_messages/death_statistics_messages.yml")),
+            msgDeath = YamlDocument.create(new File(getInstance().getDataFolder(), "/custom_messages/death_statistics_messages.yml"), Objects.requireNonNull(getInstance()
+                            .getResource("death_statistics_messages.yml")),
                     GeneralSettings.DEFAULT, LoaderSettings.builder()
                             .setDetailedErrors(true)
                             .setAutoUpdate(true).build(),
@@ -102,8 +102,8 @@ public class ConfigManager {
                             .setVersioning(new BasicVersioning("config-version"))
                             .build());
             msgDeath.update();
-            msgJoin = YamlDocument.create(new File(getInstance().getDataFolder(), "join_messages.yml"), Objects.requireNonNull(getInstance()
-                            .getResource("/custom_messages/join_messages.yml")),
+            msgJoin = YamlDocument.create(new File(getInstance().getDataFolder(), "/custom_messages/join_messages.yml"), Objects.requireNonNull(getInstance()
+                            .getResource("join_messages.yml")),
                     GeneralSettings.DEFAULT, LoaderSettings.builder()
                             .setDetailedErrors(true)
                             .setAutoUpdate(true).build(),
@@ -112,8 +112,8 @@ public class ConfigManager {
                             .setVersioning(new BasicVersioning("config-version"))
                             .build());
             msgJoin.update();
-            msgQuit = YamlDocument.create(new File(getInstance().getDataFolder(), "quit_messages.yml"), Objects.requireNonNull(getInstance()
-                            .getResource("/custom_messages/quit_messages.yml")),
+            msgQuit = YamlDocument.create(new File(getInstance().getDataFolder(), "/custom_messages/quit_messages.yml"), Objects.requireNonNull(getInstance()
+                            .getResource("quit_messages.yml")),
                     GeneralSettings.DEFAULT, LoaderSettings.builder()
                             .setDetailedErrors(true)
                             .setAutoUpdate(true).build(),
@@ -122,8 +122,8 @@ public class ConfigManager {
                             .setVersioning(new BasicVersioning("config-version"))
                             .build());
             msgQuit.update();
-            msgSleep = YamlDocument.create(new File(getInstance().getDataFolder(), "sleep_messages.yml"), Objects.requireNonNull(getInstance()
-                            .getResource("/custom_messages/sleep_messages.yml")),
+            msgSleep = YamlDocument.create(new File(getInstance().getDataFolder(), "/custom_messages/sleep_messages.yml"), Objects.requireNonNull(getInstance()
+                            .getResource("sleep_messages.yml")),
                     GeneralSettings.DEFAULT, LoaderSettings.builder()
                             .setDetailedErrors(true)
                             .setAutoUpdate(true).build(),
