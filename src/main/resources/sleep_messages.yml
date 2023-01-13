@@ -1,0 +1,60 @@
+# --- DO NOT CHANGE THIS ---------------
+config-version: 1
+# --------------------------------------
+# COLOUR FORMATTING GUIDE (Colours require string to be surrounded by quotes)
+#  &0	Black
+#  &1	Dark Blue
+#  &2	Dark Green
+#  &3	Dark Aqua
+#  &4	Dark Red
+#  &5	Dark Purple
+#  &6	Gold
+#  &7	Gray
+#  &8	Dark Gray
+#  &9	Blue
+#  &A	Green
+#  &B	Aqua
+#  &C	Red
+#  &D	Light Purple
+#  &E	Yellow
+#  &F	White
+#  &K	Obfuscated (Magic / Enchantment Table)
+#  &L	Bold
+#  &M	Strikethrough
+#  &N	Underline
+#  &O	Italic
+#  &R	Reset
+#  \n   Next Line
+
+# CUSTOM COLOURS
+# Add '&' before hex code (not case-sensitive)
+# Example for Pink: &#FFC0CB or &#ffc0cb
+# --------------------------------------
+
+# On Player Sleep (If enabled) | E.G. Player <message>
+sleep_messages:
+  - fell asleep
+  - dozed off dreaming
+  - crashed like vine
+  - went AWOL
+  - committed sleep
+  - initiated hibernation
+  - went to dream world
+  - started snoozing like a chad
+  - snores loudly
+  - started to sleep
+  - died of exhaustion
+  - collapsed
+  - started napping
+  - started dreaming
+  - is having a nightmare
+  - has gone out like a lamp
+  - wandered off to bed
+  - is trying to sleep their fix schedule
+  - is making love with their bed
+  - sleeping after a hard day's work
+  - is snoozing
+  - is rethinking their life decisions as they drift off to bed
+  - slowly drifts into a peaceful sleep
+  - cried themselves to sleep
+  - fell victim to the effects of sleep deprivation

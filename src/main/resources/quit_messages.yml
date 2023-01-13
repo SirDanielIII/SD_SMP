@@ -1,0 +1,93 @@
+# --- DO NOT CHANGE THIS ---------------
+config-version: 1
+# --------------------------------------
+# COLOUR FORMATTING GUIDE (Colours require string to be surrounded by quotes)
+#  &0	Black
+#  &1	Dark Blue
+#  &2	Dark Green
+#  &3	Dark Aqua
+#  &4	Dark Red
+#  &5	Dark Purple
+#  &6	Gold
+#  &7	Gray
+#  &8	Dark Gray
+#  &9	Blue
+#  &A	Green
+#  &B	Aqua
+#  &C	Red
+#  &D	Light Purple
+#  &E	Yellow
+#  &F	White
+#  &K	Obfuscated (Magic / Enchantment Table)
+#  &L	Bold
+#  &M	Strikethrough
+#  &N	Underline
+#  &O	Italic
+#  &R	Reset
+#  \n   Next Line
+
+# CUSTOM COLOURS
+# Add '&' before hex code (not case-sensitive)
+# Example for Pink: &#FFC0CB or &#ffc0cb
+# --------------------------------------
+
+# On Player Quit (If enabled) | E.G. Player <message>
+quit_messages:
+  - folded
+  - went to go get a girlfriend
+  - went to go get a snack
+  - wanted to touch grass
+  - went to find their dad at the grocery store
+  - rage quit
+  - has a date with Shrek
+  - got cancelled
+  - went to go play Fortnite
+  - opened Premiere Pro
+  - opened After Effects
+  - was cringe and left
+  - didn't want to play anymore
+  - left the game
+  - got a life
+  - was kidnapped by Monika
+  - '&Khttps://youtu.be/dQw4w9WgXcQ'
+  - dipped
+  - has to do their homework
+  - had to log off because their mom said so
+  - yeeted themself
+  - says bye
+  - got tired of the people here
+  - left to ponder their life decisions
+  - left the stove on
+  - went to go cook the rice
+  - has to go subscribe to Sir Daniel III
+  - went to go take care of their rabbits
+  - went to browse TikTok
+  - left to go work out
+  - left
+  - doesn't like the people here
+  - got cyberbullied out of the server
+  - is getting the chopsticks
+  - getting the whoppin' by their mother
+  - crashed
+  - went to go get the milk
+  - is coming back... right?
+  - got Rick Rolled
+  - wasn't gooder enough
+  - went afijwe;o
+  - left cuz Mom came home
+  - heard footsteps coming up the stairs
+  - realized they need sleep
+  - .........?
+  - needs to poop
+  - went to dong saya dae
+  - needed to go number 1
+  - needed to go number 2
+  - needed to go number 3.....???
+  - went to go check the new Valorant shop
+  - went to go check the new Fortnite shop
+  - wants food
+  - needed a refill for their sippy cup
+  - needed a diaper change
+  - went to go start a pyramid scheme
+  - went to airfry water
+  - broke their tooth on a sunflower seed

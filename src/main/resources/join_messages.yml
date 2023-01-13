@@ -1,0 +1,88 @@
+# --- DO NOT CHANGE THIS ---------------
+config-version: 1
+# --------------------------------------
+# COLOUR FORMATTING GUIDE (Colours require string to be surrounded by quotes)
+#  &0	Black
+#  &1	Dark Blue
+#  &2	Dark Green
+#  &3	Dark Aqua
+#  &4	Dark Red
+#  &5	Dark Purple
+#  &6	Gold
+#  &7	Gray
+#  &8	Dark Gray
+#  &9	Blue
+#  &A	Green
+#  &B	Aqua
+#  &C	Red
+#  &D	Light Purple
+#  &E	Yellow
+#  &F	White
+#  &K	Obfuscated (Magic / Enchantment Table)
+#  &L	Bold
+#  &M	Strikethrough
+#  &N	Underline
+#  &O	Italic
+#  &R	Reset
+#  \n   Next Line
+
+# CUSTOM COLOURS
+# Add '&' before hex code (not case-sensitive)
+# Example for Pink: &#FFC0CB or &#ffc0cb
+# --------------------------------------
+
+# On Player Join (If enabled) | E.G. Player <message>
+join_messages:
+  - didn't qualify for World Cup
+  - needs to get gooder
+  - always sings on-key
+  - is awesome
+  - is awesomesauce
+  - is a silly little goose
+  - is not deserving of an insult
+  - doesn't wear socks
+  - is big brain
+  - doesn't even lift
+  - is a jelly donut
+  - can't breathe underwater
+  - can't tie their own shoes
+  - has nothing better to do right now
+  - is a chad
+  - is a roosta
+  - self identifies as a toaster
+  - is looking to cyberbully everyone
+  - can't find a girlfriend
+  - has a big forehead
+  - has no earnings in Fortnite
+  - says hello there
+  - is never gonna give you up
+  - is mega brain
+  - doesn't know what day it is today
+  - doesn't pay taxes
+  - is lonely :(
+  - is bing chilling
+  - wears socks to bed
+  - wants a hug
+  - must... play... more... MINECRAFTTT
+  - joined the game
+  - says 'Anotha day, anotha slay'
+  - must fulfill their Minecraft addiction
+  - is hardstuck Iron 2
+  - didn't have Prime Vandal in their shop
+  - just had a 9 game losing streak
+  - was hypnotized by cockroaches
+  - thinks that Enderman are licorice creatures
+  - is joining in secret...
+  - literally has no life
+  - thinks Minecraft 90's are more impressive
+  - has a dent in their crondolium
+  - needs a forehead check
+  - drinks milk out of a bucket
+  - enjoys the scent of raw porkchop
+  - uses their teeth as chopsticks
+  - isn't wearing any clothes (kinda weird bro)
+  - just rewatched the Bee Movie
+  - is a red flag
+  - needs a small loan of a million dollars
+  - wants to build a (huge) wall
+  - doesn't cut their toenails
