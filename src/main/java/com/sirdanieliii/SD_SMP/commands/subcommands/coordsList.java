@@ -136,7 +136,11 @@ public class coordsList extends SubCommand {
                 for (String str : secondArgs) if (str.toLowerCase().startsWith(args[1].toLowerCase())) list.add(str);
             }
             case (3) -> {
-                for (String str : allDimensionsStr) if (str.toLowerCase().startsWith(args[2].toLowerCase())) list.add(str);
+                if (args[1].equalsIgnoreCase("all")) {
+                    for (String str : returnNonEmptyDimension(config)) if (str.toLowerCase().startsWith(args[2].toLowerCase())) list.add(str);
+                } else { // Add dimensions only if the name is found in them
+                    for (String str : nameMatchReturnDimension(config, args[1])) if (str.toLowerCase().startsWith(args[2].toLowerCase())) list.add(str);
+                }
             }
         }
         return list;

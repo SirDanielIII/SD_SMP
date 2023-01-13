@@ -51,14 +51,7 @@ public class coordsClear extends SubCommand {
                 savePlayerConfig(config);
                 player.sendMessage(translateColourCodes(cmdHeader("coords") + "&CCleared &BALL &Fcoordinates"));
             } else { // /coords clear name
-                ArrayList<String> dimensions = new ArrayList<>();
-                try {
-                    for (String dimension : config.getSection("coordinates").getRoutesAsStrings(false)) { // Loop through Overworld, Nether & The End
-                        for (String name : config.getSection("coordinates." + dimension).getRoutesAsStrings(false)) // Loop through saved coordinates in dimension
-                            if (Objects.equals(args[1], name)) dimensions.add(dimension); // Add dimension if name matches
-                    }
-                } catch (NullPointerException ignored) {
-                }
+                ArrayList<String> dimensions = nameMatchReturnDimension(config, args[1]); // Return dimensions that have coords with the same name as args[1]
                 if (dimensions.isEmpty()) { // [ERROR] If no coordinate was found
                     player.sendMessage(errorMessage("invalid_coords_1"));
                     return false;
@@ -122,9 +115,9 @@ public class coordsClear extends SubCommand {
     public List<String> getSubcommandArgs(Player player, String[] args) {
         // /coords clear <name | all> [dimension(s)]
         YamlDocument config = getPlayerConfig(player);
-        ArrayList<String> secondArgs = new ArrayList<>(List.of("all"));
         List<String> list = new ArrayList<>();
-        for (String i : allDimensionsStr) {
+        ArrayList<String> secondArgs = new ArrayList<>(List.of("all"));
+        for (String i : allDimensionsStr) { // Add all coord names to second argument as tab competition
             try {
                 secondArgs.addAll(config.getSection("coordinates." + i).getRoutesAsStrings(false));
             } catch (NullPointerException ignored) {
@@ -135,7 +128,11 @@ public class coordsClear extends SubCommand {
                 for (String str : secondArgs) if (str.toLowerCase().startsWith(args[1].toLowerCase())) list.add(str);
             }
             case (3) -> {
-                for (String str : allDimensionsStr) if (str.toLowerCase().startsWith(args[2].toLowerCase())) list.add(str);
+                if (args[1].equalsIgnoreCase("all")) {
+                    for (String str : returnNonEmptyDimension(config)) if (str.toLowerCase().startsWith(args[2].toLowerCase())) list.add(str);
+                } else { // Add dimensions only if the name is found in them
+                    for (String str : nameMatchReturnDimension(config, args[1])) if (str.toLowerCase().startsWith(args[2].toLowerCase())) list.add(str);
+                }
             }
         }
         return list;

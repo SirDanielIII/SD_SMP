@@ -2,11 +2,11 @@ package com.sirdanieliii.SD_SMP.commands.subcommands;
 
 import com.sirdanieliii.SD_SMP.commands.SubCommand;
 import dev.dejvokep.boostedyaml.YamlDocument;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeader;
@@ -78,27 +78,37 @@ public class coordsSend extends SubCommand {
                 player.sendMessage(replaceErrorVariable(errorMessage("invalid_coords_2"), args[1], returnDimensionClr(args[2], false).substring(2)));
                 return;
             }
-            coords.add(getCoordValue(config, args[2].toLowerCase(), args[1], "x"));
-            coords.add(getCoordValue(config, args[2].toLowerCase(), args[1], "y"));
-            coords.add(getCoordValue(config, args[2].toLowerCase(), args[1], "z"));
+            for (String i : Arrays.asList("x", "y", "z")) coords.add(getCoordValue(config, args[2].toLowerCase(), args[1], i));
             dimension = returnDimensionClr(args[2].toLowerCase(), false).substring(2);
         }
-        List<String> sent = new ArrayList<>();
+        ArrayList<Player> sentValid = new ArrayList<>();
+        ArrayList<String> sentInvalid = new ArrayList<>();
         for (int i = startArg; i < args.length; i++) {
             Player target = Bukkit.getPlayerExact(args[i]);
-            if (target == null) player.sendMessage(replaceErrorVariable(errorMessage("player_not_online"), args[i]));  // [Error] If player is offline or doesn't exist
-            else if (target == player) player.sendMessage(errorMessage("sent_to_yourself"));
-            else {
-                if (!sent.contains(target.getDisplayName())) { // To prevent message spamming
-                    target.sendMessage(translateColourCodes("&7&O" + player.getDisplayName() + " whispers to you: "));
-                    if (args[1].equalsIgnoreCase("here"))
-                        target.sendMessage(translateColourCodes("&7&O→ I am currently at [" + coords.get(0) + " " + coords.get(1) + " " + coords.get(2) + "] in " + dimension));
-                    else target.sendMessage(translateColourCodes("&7&O→ " + args[1] + " is at [" + coords.get(0) + " " + coords.get(1) + " " + coords.get(2) + "] in " + dimension));
-                    player.sendMessage(translateColourCodes(cmdHeader("coords") + "&AYour coordinate has been sent to &B" + target.getDisplayName()));
-                    sent.add(target.getDisplayName());
+            if (target != null) { // If player is valid
+                if (!sentValid.contains(target)) {
+                    if (target == player) {
+                        player.sendMessage(errorMessage("sent_to_yourself"));
+                        sentValid.add(target);
+                    } else {
+                        target.sendMessage(translateColourCodes("&7&O" + player.getDisplayName() + " whispers to you: "));
+                        if (args[1].equalsIgnoreCase("here")) target.sendMessage(translateColourCodes(
+                                "&7&O→ I am currently at [" + coords.get(0) + " " + coords.get(1) + " " + coords.get(2) + "] in " + dimension));
+                        else target.sendMessage(translateColourCodes(
+                                "&7&O→ " + args[1] + " is at [" + coords.get(0) + " " + coords.get(1) + " " + coords.get(2) + "] in " + dimension));
+                        sentValid.add(target); // Add to list of valid players to avoid duplicate messaging
+                    }
                 }
-            }
+            } else if (!sentInvalid.contains(args[i])) sentInvalid.add((args[i])); // Add player to a set of invalid players
         }
+        player.sendMessage(translateColourCodes("------------ | &6&LCOORDS Send &R&F| ------------>"));
+        player.sendMessage(translateColourCodes(cmdHeader("coords") +
+                "&ACoordinate successfully sent to &B" + StringUtils.join(sentValid, ", ")));
+        if (sentInvalid.size() == 1) player.sendMessage(translateColourCodes(errorClr + errorHeader +
+                replaceErrorVariable(errorMessage("player_not_online_1"), StringUtils.join(sentInvalid, ", "))));
+        else if (sentInvalid.size() > 1) player.sendMessage(translateColourCodes(errorClr + errorHeader +
+                replaceErrorVariable(errorMessage("player_not_online_2"), StringUtils.join(sentInvalid, ", "))));
+        player.sendMessage("<-------------------------------------------------->");
     }
 
     @Override

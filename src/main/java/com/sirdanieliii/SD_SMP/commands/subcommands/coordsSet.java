@@ -54,7 +54,7 @@ public class coordsSet extends SubCommand {
             case (3) -> { // /coords set name here
                 if (args[2].equalsIgnoreCase("here")) {
                     String dimension = translateDimensionToStr(player.getWorld().getEnvironment());
-                    if (!duplicateCheck(config, dimension, args[1])) { // No duplicates
+                    if (!nameMatchReturnBool(config, dimension, args[1])) { // No duplicates
                         savePlayerCoords(config, player, dimension, args[1], getCurrentCoords(player));
                     } else duplicateFound(config, player, dimension, args);
                     return true;
@@ -122,10 +122,10 @@ public class coordsSet extends SubCommand {
                     player.sendMessage(errorMessage("invalid_dimension_1"));
                     return false;
                 }
-                if ((args.length == 6 && !duplicateCheck(config, args[5].toLowerCase(), args[1])) || (args.length == 7 && args[6].equalsIgnoreCase("--force"))) {
+                if ((args.length == 6 && !nameMatchReturnBool(config, args[5].toLowerCase(), args[1])) || (args.length == 7 && args[6].equalsIgnoreCase("--force"))) {
                     savePlayerCoords(config, player, args[5].toLowerCase(), args[1], coords);
                     return true;
-                } else if (args.length == 6 && duplicateCheck(config, args[5].toLowerCase(), args[1])) {
+                } else if (args.length == 6 && nameMatchReturnBool(config, args[5].toLowerCase(), args[1])) {
                     duplicateFound(config, player, args[5].toLowerCase(), args);
                     return true;
                 }
@@ -135,7 +135,7 @@ public class coordsSet extends SubCommand {
         return true;
     }
 
-    private boolean duplicateCheck(YamlDocument config, String dimension, String name) {
+    public static boolean nameMatchReturnBool(YamlDocument config, String dimension, String name) {
         // Check for existing coordinate with the same name
         boolean match = false;
         try {
@@ -156,7 +156,7 @@ public class coordsSet extends SubCommand {
                 returnClr(dimension) + "[&F" + getFullCoords(config, args[1], dimension) + returnClr(dimension) + "]" + errorClr,
                 returnDimensionClr(dimension, false) + errorClr)));
         ComponentBuilder choices = new ComponentBuilder();
-        TextComponent choice1 = new TextComponent(translateColourCodes(">>> &EConfirm Overwrite"));
+        TextComponent choice1 = new TextComponent(translateColourCodes(">>> &EConfirm overwrite of \"" + args[1] + "\""));
         if (args[2].equalsIgnoreCase("here")) choice1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
                 "/coords set " + args[1] + " here --force"));
         else choice1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
