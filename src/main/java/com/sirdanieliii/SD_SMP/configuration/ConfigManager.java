@@ -25,22 +25,18 @@ import static com.sirdanieliii.SD_SMP.configuration.Utilities.translateColourCod
 
 public class ConfigManager {
     protected static YamlDocument config;
-    protected static YamlDocument msgErrors;
-    protected static YamlDocument msgDeath;
-    protected static YamlDocument msgJoin;
-    protected static YamlDocument msgQuit;
-    protected static YamlDocument msgSleep;
-    // Set Variables
-    public static Double configVersion = Double.parseDouble(getInstance().getDescription().getVersion());
+    protected static YamlDocument errorMsgs;
+    protected static YamlDocument messages;
+    // Create Variables
     public static String smpName;
     public static String cmdHeader;
     public static List<String> motd = new ArrayList<>();
-    public static Boolean motd_enable;
+    public static boolean motd_enable;
     public static List<String> welcome = new ArrayList<>();
-    public static Boolean welcome_enable;
-    public static Integer welcome_fade_in;
-    public static Integer welcome_stay;
-    public static Integer welcome_fade_out;
+    public static boolean welcome_enable;
+    public static int welcome_fade_in;
+    public static int welcome_stay;
+    public static int welcome_fade_out;
     public static boolean customJoinMessages;
     public static boolean customJoinMessagesSmileyFace;
     public static String customJoinMessagesClr;
@@ -58,6 +54,9 @@ public class ConfigManager {
     public static boolean elytraFlightOverworld;
     public static boolean elytraFlightNether;
     public static boolean elytraFlightTheEnd;
+    public static boolean healthUnderName;
+    public static String healthUnderNameText;
+    public static int healthUnderNameUpdate;
 
     public static List<String> joinMessages = new ArrayList<>();
     public static List<String> quitMessages = new ArrayList<>();
@@ -82,7 +81,7 @@ public class ConfigManager {
                             .build());
             config.update();
             // Configurable Messages Files
-            msgErrors = YamlDocument.create(new File(getInstance().getDataFolder(), "error_messages.yml"), Objects.requireNonNull(getInstance()
+            errorMsgs = YamlDocument.create(new File(getInstance().getDataFolder(), "error_messages.yml"), Objects.requireNonNull(getInstance()
                             .getResource("error_messages.yml")),
                     GeneralSettings.DEFAULT, LoaderSettings.builder()
                             .setDetailedErrors(true)
@@ -91,9 +90,9 @@ public class ConfigManager {
                     UpdaterSettings.builder()
                             .setVersioning(new BasicVersioning("config-version"))
                             .build());
-            msgErrors.update();
-            msgDeath = YamlDocument.create(new File(getInstance().getDataFolder(), "/custom_messages/death_statistics_messages.yml"), Objects.requireNonNull(getInstance()
-                            .getResource("death_statistics_messages.yml")),
+            errorMsgs.update();
+            messages = YamlDocument.create(new File(getInstance().getDataFolder(), "/messages.yml"), Objects.requireNonNull(getInstance()
+                            .getResource("messages.yml")),
                     GeneralSettings.DEFAULT, LoaderSettings.builder()
                             .setDetailedErrors(true)
                             .setAutoUpdate(true).build(),
@@ -101,37 +100,7 @@ public class ConfigManager {
                     UpdaterSettings.builder()
                             .setVersioning(new BasicVersioning("config-version"))
                             .build());
-            msgDeath.update();
-            msgJoin = YamlDocument.create(new File(getInstance().getDataFolder(), "/custom_messages/join_messages.yml"), Objects.requireNonNull(getInstance()
-                            .getResource("join_messages.yml")),
-                    GeneralSettings.DEFAULT, LoaderSettings.builder()
-                            .setDetailedErrors(true)
-                            .setAutoUpdate(true).build(),
-                    DumperSettings.DEFAULT,
-                    UpdaterSettings.builder()
-                            .setVersioning(new BasicVersioning("config-version"))
-                            .build());
-            msgJoin.update();
-            msgQuit = YamlDocument.create(new File(getInstance().getDataFolder(), "/custom_messages/quit_messages.yml"), Objects.requireNonNull(getInstance()
-                            .getResource("quit_messages.yml")),
-                    GeneralSettings.DEFAULT, LoaderSettings.builder()
-                            .setDetailedErrors(true)
-                            .setAutoUpdate(true).build(),
-                    DumperSettings.DEFAULT,
-                    UpdaterSettings.builder()
-                            .setVersioning(new BasicVersioning("config-version"))
-                            .build());
-            msgQuit.update();
-            msgSleep = YamlDocument.create(new File(getInstance().getDataFolder(), "/custom_messages/sleep_messages.yml"), Objects.requireNonNull(getInstance()
-                            .getResource("sleep_messages.yml")),
-                    GeneralSettings.DEFAULT, LoaderSettings.builder()
-                            .setDetailedErrors(true)
-                            .setAutoUpdate(true).build(),
-                    DumperSettings.DEFAULT,
-                    UpdaterSettings.builder()
-                            .setVersioning(new BasicVersioning("config-version"))
-                            .build());
-            msgErrors.update();
+            messages.update();
             reload();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -194,13 +163,11 @@ public class ConfigManager {
         try {
             config.reload();
             config.update();
-            msgErrors.reload();
-            msgErrors.update();
+            errorMsgs.reload();
+            errorMsgs.update();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        configVersion = config.getDouble("config-version");
-
         for (String key : config.getSection("motd").getRoutesAsStrings(false)) if (!key.equals("enabled")) motd.add(config.getString("motd." + key));
         motd_enable = config.getBoolean("motd.enabled");
 
@@ -236,15 +203,19 @@ public class ConfigManager {
         elytraFlightNether = config.getBoolean("elytra_flight.nether");
         elytraFlightTheEnd = config.getBoolean("elytra_flight.the_end");
 
-        joinMessages = msgJoin.getStringList("join_messages");
-        quitMessages = msgQuit.getStringList("quit_messages");
-        sleepMessages = msgSleep.getStringList("sleep_messages");
-        describeKill = msgDeath.getStringList("describe_kill");
-        describeDeath = msgDeath.getStringList("describe_death");
+        healthUnderName = config.getBoolean("health_under_name.enabled");
+        healthUnderNameText = config.getString("health_under_name.text_after_health");
+        healthUnderNameUpdate = config.getInt("health_under_name.text.update_interval");
 
-        errorHeader = msgErrors.getString("error_header");
-        errorClr = msgErrors.getString("error_clr");
-        for (String key : msgErrors.getRoutesAsStrings(false)) errorMessages.put(key, msgErrors.getString(key));
+        joinMessages = messages.getStringList("join_messages");
+        quitMessages = messages.getStringList("quit_messages");
+        sleepMessages = messages.getStringList("sleep_messages");
+        describeKill = messages.getStringList("describe_kill");
+        describeDeath = messages.getStringList("describe_death");
+
+        errorHeader = errorMsgs.getString("error_header");
+        errorClr = errorMsgs.getString("error_clr");
+        for (String key : errorMsgs.getRoutesAsStrings(false)) errorMessages.put(key, errorMsgs.getString(key));
     }
 
     public static String errorMessage(String error) {

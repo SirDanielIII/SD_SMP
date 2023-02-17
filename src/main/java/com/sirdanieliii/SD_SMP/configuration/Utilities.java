@@ -57,13 +57,15 @@ public class Utilities {
         return lst.get(new Random().nextInt(lst.size()));
     }
 
-    public static String replaceErrorVariable(String msg, String replace) {
-        return translateColourCodes(msg.replace("%REPLACE_1%", replace));
+    public static String replaceVariableInStr(String msg, String toReplace, String replace) {
+        // Change method so that it specifies what thing to replace
+        return translateColourCodes(msg.replace(toReplace, replace));
     }
 
-    public static String replaceErrorVariable(String msg, String replace_1, String replace_2) {
-        return translateColourCodes(msg.replace("%REPLACE_1%", replace_1).replace("%REPLACE_2%", replace_2));
+    public static String replaceVariableInStr(String msg, String toReplace1, String toReplace2, String replace1, String replace2) {
+        return translateColourCodes(msg.replace(toReplace1, replace1).replace(toReplace2, replace2));
     }
+
 
     public static String translateColourCodes(String msg) {
         // Original code by Kody Simpson -> https://youtu.be/KUv6NyRo31s

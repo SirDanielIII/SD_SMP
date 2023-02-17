@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import static com.sirdanieliii.SD_SMP.Scoreboards.disableHealthScoreboard;
+import static com.sirdanieliii.SD_SMP.Scoreboards.reloadHealthScoreboard;
 import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdCategories;
 import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.*;
 import static com.sirdanieliii.SD_SMP.configuration.Utilities.translateColourCodes;
@@ -27,19 +29,22 @@ public class SMP implements TabExecutor {
                         return false;
                     }
                 }
-                reload();
+                reload(); // Reload Configs
+                // Reload scoreboard if enabled, disable it otherwise
+                if (healthUnderName) reloadHealthScoreboard();
+                else disableHealthScoreboard();
+                // Return Messages
                 sender.sendMessage(translateColourCodes(cmdHeader + " &FConfiguration files & settings reloaded"));
-                Bukkit.getLogger().log(Level.CONFIG, sender.getName() + "has reloaded the " + smpName + " plugin!");
+                if (sender instanceof Player) Bukkit.getLogger().log(Level.CONFIG, sender.getName() + "has reloaded the " + smpName + " plugin!");
                 return true;
-            } else {
-                sender.sendMessage(errorMessage("smp"));
-                return false;
             }
+            sender.sendMessage(errorMessage("smp"));
+            return false;
         }
         sender.sendMessage(translateColourCodes("------------ | " + smpName + " Commands" + "&R&F | ------------>"));
         // From subcommands list
-        for (List<SubCommand> i : cmdCategories.values()) for (SubCommand subCommand : i)
-            sender.sendMessage(translateColourCodes(subCommand.getSyntax() + " &7→ " + subCommand.getDescription()));
+        for (List<SubCommand> i : cmdCategories.values())
+            for (SubCommand subCommand : i) sender.sendMessage(translateColourCodes(subCommand.getSyntax() + " &7→ " + subCommand.getDescription()));
         // Single Commands
         sender.sendMessage(translateColourCodes(Wand.getSyntax() + " &7→ " + Wand.getDescription()));
         sender.sendMessage("<-------------------------------------------------->");
@@ -47,7 +52,7 @@ public class SMP implements TabExecutor {
     }
 
     public static String getDescription() {
-        return translateColourCodes("&7SMP tools & commands list");
+        return translateColourCodes("&7SD_SMP tools & commands list");
     }
 
     public static String getSyntax() {

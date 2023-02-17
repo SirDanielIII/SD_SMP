@@ -1,4 +1,4 @@
-package com.sirdanieliii.SD_SMP.commands.subcommands;
+package com.sirdanieliii.SD_SMP.commands.subcommands.death;
 
 import com.sirdanieliii.SD_SMP.commands.SubCommand;
 import dev.dejvokep.boostedyaml.YamlDocument;

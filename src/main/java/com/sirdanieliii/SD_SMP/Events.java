@@ -23,19 +23,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.sirdanieliii.SD_SMP.Scoreboards.addPlayerToScoreboard;
+import static com.sirdanieliii.SD_SMP.Scoreboards.scoreboardTasks;
 import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.*;
 import static com.sirdanieliii.SD_SMP.configuration.Utilities.*;
 
 public class Events implements Listener {
     @EventHandler
-    public void onServerListPing(ServerListPingEvent event) {
-        if (motd_enable) event.setMotd(translateColourCodes(motd.get(0) + "\n" + motd.get(1)));
-    }
-
-    @EventHandler
     //Player Join Message
     public static void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        // Custom Messages & Configuration Setup
         if (customJoinMessages) {
             String message = randomMessageStrLst(joinMessages);
             if (customJoinMessagesSmileyFace) event.setJoinMessage(translateColourCodes(customJoinMessagesClr + player.getName() + " " + message + " :)"));
@@ -43,16 +41,24 @@ public class Events implements Listener {
         }
         playerSetup(player);
         if (welcome_enable) player.sendTitle(translateColourCodes(welcome.get(0)), translateColourCodes(welcome.get(1)), welcome_fade_in, welcome_stay, welcome_fade_out);
+        if (healthUnderName) addPlayerToScoreboard(player);
+    }
+
+    @EventHandler
+    public void onServerListPing(ServerListPingEvent event) {
+        if (motd_enable) event.setMotd(translateColourCodes(motd.get(0) + "\n" + motd.get(1)));
     }
 
     @EventHandler
     //Player Quit Message
-    public static void onPlayerLeave(PlayerQuitEvent event) {
+    public static void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         if (customQuitMessages) {
             String message = randomMessageStrLst(quitMessages);
             event.setQuitMessage(translateColourCodes(customQuitMessagesClr + player.getName() + " " + message));
         }
+        // Cancel player scoreboard to avoid errors when quitting the server
+        if (scoreboardTasks.containsKey(player.getUniqueId())) scoreboardTasks.get(player.getUniqueId()).stopThisScoreboardTask(scoreboardTasks);
     }
 
     @EventHandler
@@ -132,7 +138,7 @@ public class Events implements Listener {
                     if (craftNetheriteTools) items.add("tools");
                     if (craftNetheriteArmour) items.add("armour");
                     if (items.size() > 0)
-                        event.getPlayer().sendMessage(replaceErrorVariable(errorMessage("disable_netherite_items"), String.join(" & ", items)));
+                        event.getPlayer().sendMessage(replaceVariableInStr(errorMessage("disable_netherite_items"), "{item}", String.join(" & ", items)));
                 }
             }
         } catch (NullPointerException ignored) {
@@ -197,7 +203,6 @@ public class Events implements Listener {
             }
         }
     }
-
 
     @EventHandler
     public static void powers(PlayerInteractEvent event) { // Wand Powers

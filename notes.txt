@@ -1,3 +1,8 @@
 When updating a version, if an option is missing the entire thing gets dumped onto preexisting values
 
 When reloading the document, check if things are missing or not and add back the default values
+
+Convert /death commands to grab from Minecraft statistics (more accurate)
+
+Missing error when no subcommand is detected
+--> /ivan sfd9iofus

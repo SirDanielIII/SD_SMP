@@ -1,6 +1,7 @@
-package com.sirdanieliii.SD_SMP.commands.subcommands;
+package com.sirdanieliii.SD_SMP.commands.subcommands.coords;
 
 import com.sirdanieliii.SD_SMP.commands.SubCommand;
+import com.sirdanieliii.SD_SMP.configuration.Utilities;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.hover.content.Text;
@@ -14,8 +15,7 @@ import java.util.stream.Stream;
 import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeader;
 import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.*;
 import static com.sirdanieliii.SD_SMP.configuration.CoordsUtility.*;
-import static com.sirdanieliii.SD_SMP.configuration.CoordsUtility.returnDimensionClr;
-import static com.sirdanieliii.SD_SMP.configuration.Utilities.replaceErrorVariable;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.replaceVariableInStr;
 import static com.sirdanieliii.SD_SMP.configuration.Utilities.translateColourCodes;
 
 public class coordsSet extends SubCommand {
@@ -129,7 +129,7 @@ public class coordsSet extends SubCommand {
                     duplicateFound(config, player, args[5].toLowerCase(), args);
                     return true;
                 }
-                player.sendMessage(replaceErrorVariable(errorMessage("too_many_arguments"), errorMessages.get("coords_set")));
+                player.sendMessage(Utilities.replaceVariableInStr(errorMessage("too_many_arguments"), "{cmd_syntax}", errorMessages.get("coords_set")));
             }
         }
         return true;
@@ -152,9 +152,9 @@ public class coordsSet extends SubCommand {
 
     private void duplicateFound(YamlDocument config, Player player, String dimension, String[] args) {
         player.sendMessage(translateColourCodes("------------ | &6&LCOORDS Set &R&F| ------------>"));
-        player.sendMessage(translateColourCodes(errorHeader + errorClr + " " + replaceErrorVariable(errorMessages.get("coords_duplicate_2"),
-                returnClr(dimension) + "[&F" + getFullCoords(config, args[1], dimension) + returnClr(dimension) + "]" + errorClr,
-                returnDimensionClr(dimension, false) + errorClr)));
+        player.sendMessage(translateColourCodes(errorHeader + errorClr + " " + replaceVariableInStr(errorMessages.get("coords_duplicate_2"),
+                "{coord_name}", returnClr(dimension) + "[&F" + getFullCoords(config, args[1], dimension) + returnClr(dimension) + "]" + errorClr,
+                "{dimension}", returnDimensionClr(dimension, false) + errorClr)));
         ComponentBuilder choices = new ComponentBuilder();
         TextComponent choice1 = new TextComponent(translateColourCodes(">>> &EConfirm overwrite of \"" + args[1] + "\""));
         if (args[2].equalsIgnoreCase("here")) choice1.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,

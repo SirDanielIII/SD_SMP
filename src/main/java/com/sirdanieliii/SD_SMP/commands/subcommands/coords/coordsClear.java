@@ -1,19 +1,23 @@
-package com.sirdanieliii.SD_SMP.commands.subcommands;
+package com.sirdanieliii.SD_SMP.commands.subcommands.coords;
 
 import com.sirdanieliii.SD_SMP.commands.SubCommand;
+import com.sirdanieliii.SD_SMP.configuration.Utilities;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeader;
 import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.*;
 import static com.sirdanieliii.SD_SMP.configuration.CoordsUtility.*;
-import static com.sirdanieliii.SD_SMP.configuration.Utilities.replaceErrorVariable;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.replaceVariableInStr;
 import static com.sirdanieliii.SD_SMP.configuration.Utilities.translateColourCodes;
 
 public class coordsClear extends SubCommand {
@@ -63,7 +67,8 @@ public class coordsClear extends SubCommand {
                     return true;
                 } else { // In the case of multiple coordinates / duplicate names
                     player.sendMessage(translateColourCodes("------------ | &6&LCOORDS CLEAR &R&F| ------------>"));
-                    player.sendMessage(translateColourCodes(errorHeader + errorClr + " " + replaceErrorVariable(errorMessages.get("coords_duplicate_1"), args[1])));
+                    player.sendMessage(translateColourCodes(errorHeader + errorClr + " " + Utilities.replaceVariableInStr(errorMessages.get("coords_duplicate_1"),
+                            "{coord_name}", args[1])));
                     ComponentBuilder choices = new ComponentBuilder();
                     for (String i : dimensions) {
                         String coords = getFullCoords(config, args[1], i.toLowerCase());
@@ -99,7 +104,9 @@ public class coordsClear extends SubCommand {
                     return false;
                 }
                 if (getCoordValue(config, args[2].toLowerCase(), args[1], "x") == 0) {
-                    player.sendMessage(replaceErrorVariable(errorMessage("invalid_coords_2"), args[1], returnDimensionClr(args[2], false)));
+                    player.sendMessage(replaceVariableInStr(errorMessage("invalid_coords_2"),
+                            "{coord_name}", args[1],
+                            "{dimension}", returnDimensionClr(args[2], false)));
                     return false;
                 }
                 String coords = getFullCoords(config, args[1], args[2].toLowerCase());

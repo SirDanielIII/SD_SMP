@@ -1,0 +1,199 @@
+# --- DO NOT CHANGE THIS ---------------
+config-version: 1
+# --------------------------------------
+# COLOUR FORMATTING GUIDE (Colours require string to be surrounded by quotes)
+#  &0	Black
+#  &1	Dark Blue
+#  &2	Dark Green
+#  &3	Dark Aqua
+#  &4	Dark Red
+#  &5	Dark Purple
+#  &6	Gold
+#  &7	Gray
+#  &8	Dark Gray
+#  &9	Blue
+#  &A	Green
+#  &B	Aqua
+#  &C	Red
+#  &D	Light Purple
+#  &E	Yellow
+#  &F	White
+#  &K	Obfuscated (Magic / Enchantment Table)
+#  &L	Bold
+#  &M	Strikethrough
+#  &N	Underline
+#  &O	Italic
+#  &R	Reset
+#  \n   Next Line
+
+# CUSTOM COLOURS
+# Add '&' before hex code (not case-sensitive)
+# Example for Pink: &#FFC0CB or &#ffc0cb
+# --------------------------------------
+# On Player Join (If enabled) | E.G. Player <message>
+join_messages:
+  - didn't qualify for World Cup
+  - needs to get gooder
+  - always sings on-key
+  - is awesome
+  - is awesomesauce
+  - is a silly little goose
+  - is not deserving of an insult
+  - doesn't wear socks
+  - is big brain
+  - doesn't even lift
+  - is a jelly donut
+  - can't breathe underwater
+  - can't tie their own shoes
+  - has nothing better to do right now
+  - is a chad
+  - is a roosta
+  - self identifies as a toaster
+  - is looking to cyberbully everyone
+  - can't find a girlfriend
+  - has a big forehead
+  - has no earnings in Fortnite
+  - says hello there
+  - is never gonna give you up
+  - is mega brain
+  - doesn't know what day it is today
+  - doesn't pay taxes
+  - is lonely :(
+  - is bing chilling
+  - wears socks to bed
+  - wants a hug
+  - must... play... more... MINECRAFTTT
+  - joined the game
+  - says 'Anotha day, anotha slay'
+  - must fulfill their Minecraft addiction
+  - is hardstuck Iron 2
+  - didn't have Prime Vandal in their shop
+  - just had a 9 game losing streak
+  - was hypnotized by cockroaches
+  - thinks that Enderman are licorice creatures
+  - is joining in secret...
+  - literally has no life
+  - thinks Minecraft 90's are more impressive
+  - has a dent in their crondolium
+  - needs a forehead check
+  - drinks milk out of a bucket
+  - enjoys the scent of raw porkchop
+  - uses their teeth as chopsticks
+  - isn't wearing any clothes (kinda weird bro)
+  - just rewatched the Bee Movie
+  - is a red flag
+  - needs a small loan of a million dollars
+  - wants to build a (huge) wall
+  - doesn't cut their toenails
+
+# On Player Quit (If enabled) | E.G. Player <message>
+quit_messages:
+  - folded
+  - went to go get a girlfriend
+  - went to go get a snack
+  - wanted to touch grass
+  - went to find their dad at the grocery store
+  - rage quit
+  - has a date with Shrek
+  - got cancelled
+  - went to go play Fortnite
+  - opened Premiere Pro
+  - opened After Effects
+  - was cringe and left
+  - didn't want to play anymore
+  - left the game
+  - got a life
+  - was kidnapped by Monika
+  - '&Khttps://youtu.be/dQw4w9WgXcQ'
+  - dipped
+  - has to do their homework
+  - had to log off because their mom said so
+  - yeeted themself
+  - says bye
+  - got tired of the people here
+  - left to ponder their life decisions
+  - left the stove on
+  - went to go cook the rice
+  - has to go subscribe to Sir Daniel III
+  - went to go take care of their rabbits
+  - went to browse TikTok
+  - left to go work out
+  - left
+  - doesn't like the people here
+  - got cyberbullied out of the server
+  - is getting the chopsticks
+  - getting the whoppin' by their mother
+  - crashed
+  - went to go get the milk
+  - is coming back... right?
+  - got Rick Rolled
+  - wasn't gooder enough
+  - went afijwe;o
+  - left cuz Mom came home
+  - heard footsteps coming up the stairs
+  - realized they need sleep
+  - .........?
+  - needs to poop
+  - went to dong saya dae
+  - needed to go number 1
+  - needed to go number 2
+  - needed to go number 3.....???
+  - went to go check the new Valorant shop
+  - went to go check the new Fortnite shop
+  - wants food
+  - needed a refill for their sippy cup
+  - needed a diaper change
+  - went to go start a pyramid scheme
+  - went to airfry water
+  - broke their tooth on a sunflower seed
+
+# On Player Sleep (If enabled) | E.G. Player <message>
+sleep_messages:
+  - fell asleep
+  - dozed off dreaming
+  - crashed like vine
+  - went AWOL
+  - committed sleep
+  - initiated hibernation
+  - went to dream world
+  - started snoozing like a chad
+  - snores loudly
+  - started to sleep
+  - died of exhaustion
+  - collapsed
+  - started napping
+  - started dreaming
+  - is having a nightmare
+  - has gone out like a lamp
+  - wandered off to bed
+  - is trying to sleep their fix schedule
+  - is making love with their bed
+  - sleeping after a hard day's work
+  - is snoozing
+  - is rethinking their life decisions as they drift off to bed
+  - slowly drifts into a peaceful sleep
+  - cried themselves to sleep
+  - fell victim to the effects of sleep deprivation
+
+
+# Death Statistics Messages
+# [Non-PVP, NOUN] | E.G. You have died ... due to <message>
+describe_death:
+  - your own stupidity
+  - lack of skill
+  - incompetence
+  - being dogwater
+  - not getting gooder
+
+# [PVP, VERB] → E.G. You have been <message> ...
+describe_kill:
+  - brutally murdered
+  - slaughtered
+  - clapped
+  - massacred
+  - slayed
+  - dookie'ed on
+  - 360 OOGA BOOGA BOOGA'ED
+  - killed
+  - poked
+  - eliminated

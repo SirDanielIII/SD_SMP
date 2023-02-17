@@ -1,6 +1,7 @@
-package com.sirdanieliii.SD_SMP.commands.subcommands;
+package com.sirdanieliii.SD_SMP.commands.subcommands.coords;
 
 import com.sirdanieliii.SD_SMP.commands.SubCommand;
+import com.sirdanieliii.SD_SMP.configuration.Utilities;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import org.bukkit.entity.Player;
 
@@ -14,7 +15,7 @@ import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeader;
 import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeaderClr;
 import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.*;
 import static com.sirdanieliii.SD_SMP.configuration.CoordsUtility.*;
-import static com.sirdanieliii.SD_SMP.configuration.Utilities.replaceErrorVariable;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.replaceVariableInStr;
 import static com.sirdanieliii.SD_SMP.configuration.Utilities.translateColourCodes;
 
 public class coordsList extends SubCommand {
@@ -60,7 +61,8 @@ public class coordsList extends SubCommand {
                 String[] dimensions = {args[2].toLowerCase()};
                 ArrayList<ArrayList<String>> toSend = getAllCoords(config, dimensions);
                 if (toSend.get(0).isEmpty())
-                    player.sendMessage(replaceErrorVariable(errorMessage("no_saved_coords_2"), returnDimensionClr(args[2].toLowerCase(), false).substring(2)));
+                    player.sendMessage(Utilities.replaceVariableInStr(errorMessage("no_saved_coords_2"),
+                            "{dimension}", returnDimensionClr(args[2].toLowerCase(), false).substring(2)));
                 else for (ArrayList<String> i : toSend) for (String j : i) player.sendMessage(translateColourCodes(j));
             }
             player.sendMessage("<-------------------------------------------------->");
@@ -89,7 +91,9 @@ public class coordsList extends SubCommand {
                 return false;
             }
             if (getCoordValue(config, args[2].toLowerCase(), args[1], "x") == 0) {
-                player.sendMessage(replaceErrorVariable(errorMessage("invalid_coords_2"), args[1], returnDimensionClr(args[2], false).substring(2)));
+                player.sendMessage(replaceVariableInStr(errorMessage("invalid_coords_2"),
+                        "{coord_name}", args[1],
+                        "{dimension}", returnDimensionClr(args[2], false).substring(2)));
                 return false;
             }
             player.sendMessage(translateColourCodes(cmdHeader("coords") + isAtMSG(config, args[2].toLowerCase(), args[1])));

@@ -1,4 +1,4 @@
-package com.sirdanieliii.SD_SMP.commands.subcommands;
+package com.sirdanieliii.SD_SMP.commands.subcommands.coords;
 
 import com.sirdanieliii.SD_SMP.commands.SubCommand;
 import dev.dejvokep.boostedyaml.YamlDocument;
@@ -6,13 +6,15 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static com.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeader;
 import static com.sirdanieliii.SD_SMP.configuration.ConfigManager.*;
 import static com.sirdanieliii.SD_SMP.configuration.CoordsUtility.*;
-import static com.sirdanieliii.SD_SMP.configuration.Utilities.replaceErrorVariable;
+import static com.sirdanieliii.SD_SMP.configuration.Utilities.replaceVariableInStr;
 import static com.sirdanieliii.SD_SMP.configuration.Utilities.translateColourCodes;
 
 public class coordsSend extends SubCommand {
@@ -75,7 +77,9 @@ public class coordsSend extends SubCommand {
             dimension = returnDimensionClr(translateDimensionToStr(player.getWorld().getEnvironment()), false).substring(2);
         } else { // Name & dimension are given
             if (getCoordValue(config, args[2].toLowerCase(), args[1], "x") == 0) { // Coordinate does not exist
-                player.sendMessage(replaceErrorVariable(errorMessage("invalid_coords_2"), args[1], returnDimensionClr(args[2], false).substring(2)));
+                player.sendMessage(replaceVariableInStr(errorMessage("invalid_coords_2"),
+                        "{coord_name}", args[1],
+                        "{dimension}", returnDimensionClr(args[2], false).substring(2)));
                 return;
             }
             for (String i : Arrays.asList("x", "y", "z")) coords.add(getCoordValue(config, args[2].toLowerCase(), args[1], i));
@@ -104,10 +108,10 @@ public class coordsSend extends SubCommand {
         player.sendMessage(translateColourCodes("------------ | &6&LCOORDS Send &R&F| ------------>"));
         player.sendMessage(translateColourCodes(cmdHeader("coords") +
                 "&ACoordinate successfully sent to &B" + StringUtils.join(sentValid, ", ")));
-        if (sentInvalid.size() == 1) player.sendMessage(translateColourCodes(errorClr + errorHeader +
-                replaceErrorVariable(errorMessage("player_not_online_1"), StringUtils.join(sentInvalid, ", "))));
-        else if (sentInvalid.size() > 1) player.sendMessage(translateColourCodes(errorClr + errorHeader +
-                replaceErrorVariable(errorMessage("player_not_online_2"), StringUtils.join(sentInvalid, ", "))));
+        if (sentInvalid.size() == 1) player.sendMessage(translateColourCodes(errorClr + errorHeader + replaceVariableInStr(errorMessage("player_not_online_1"),
+                "{player}", StringUtils.join(sentInvalid, ", "))));
+        else if (sentInvalid.size() > 1) player.sendMessage(translateColourCodes(errorClr + errorHeader + replaceVariableInStr(errorMessage("player_not_online_2"),
+                "{player}", StringUtils.join(sentInvalid, ", "))));
         player.sendMessage("<-------------------------------------------------->");
     }
 

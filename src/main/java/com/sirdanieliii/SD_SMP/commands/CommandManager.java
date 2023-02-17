@@ -1,6 +1,12 @@
 package com.sirdanieliii.SD_SMP.commands;
 
-import com.sirdanieliii.SD_SMP.commands.subcommands.*;
+import com.sirdanieliii.SD_SMP.commands.subcommands.coords.coordsClear;
+import com.sirdanieliii.SD_SMP.commands.subcommands.coords.coordsList;
+import com.sirdanieliii.SD_SMP.commands.subcommands.coords.coordsSend;
+import com.sirdanieliii.SD_SMP.commands.subcommands.coords.coordsSet;
+import com.sirdanieliii.SD_SMP.commands.subcommands.death.*;
+import com.sirdanieliii.SD_SMP.commands.subcommands.ivanDog;
+import com.sirdanieliii.SD_SMP.commands.subcommands.ivanDonkey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;

@@ -56,22 +56,7 @@ welcome:
   fade_out: 20
 
 # --------------------------------------
-# Custom Message Toggles
-# → See /custom_messages to edit the messages
-# --------------------------------------
-custom-join-messages-enable: true
-custom-join-messages-clr: '&E'
-# Toggle to put a ':)' at the end of each join message
-custom-join-messages-smiley-face: true
-
-custom-quit-messages-enable: true
-custom-quit-messages-clr: '&C'
-
-custom-sleep-messages-enable: true
-custom-sleep-messages-clr: '&B'
-
-# --------------------------------------
-# Toggleable Gameplay Changes
+# Gameplay Changes
 # --------------------------------------
 # Like PVP servers. The lightning won't destroy anything and/or create fire
 lightning_on_player_kill: true
@@ -91,3 +76,28 @@ elytra_flight:
   overworld: true
   nether: true
   the_end: true
+
+# --------------------------------------
+# Scoreboards
+# --------------------------------------
+# Health Display Under Nametag
+# update_interval is in ticks
+health_under_name:
+  enabled: true
+  text_after_health: '&C❤'
+  update_interval: 5
+
+# --------------------------------------
+# Custom Messages
+# → See messages.yml to add/remove specific messages
+# --------------------------------------
+custom-join-messages-enable: true
+custom-join-messages-clr: '&E'
+# Put a ':)' at the end of each join message
+custom-join-messages-smiley-face: true
+
+custom-quit-messages-enable: true
+custom-quit-messages-clr: '&C'
+
+custom-sleep-messages-enable: true
+custom-sleep-messages-clr: '&B'
