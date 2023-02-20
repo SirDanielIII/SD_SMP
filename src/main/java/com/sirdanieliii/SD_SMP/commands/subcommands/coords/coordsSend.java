@@ -85,39 +85,52 @@ public class coordsSend extends SubCommand {
             for (String i : Arrays.asList("x", "y", "z")) coords.add(getCoordValue(config, args[2].toLowerCase(), args[1], i));
             dimension = returnDimensionClr(args[2].toLowerCase(), false).substring(2);
         }
-        ArrayList<Player> sentValid = new ArrayList<>();
+        ArrayList<String> sentValid = new ArrayList<>();
         ArrayList<String> sentInvalid = new ArrayList<>();
+        boolean sentToYourself = false;
         for (int i = startArg; i < args.length; i++) {
             Player target = Bukkit.getPlayerExact(args[i]);
             if (target != null) { // If player is valid
-                if (!sentValid.contains(target)) {
+                if (!sentValid.contains(target.getDisplayName())) { // Player not found in sentValid (first occurrence)
                     if (target == player) {
-                        player.sendMessage(errorMessage("sent_to_yourself"));
-                        sentValid.add(target);
-                    } else {
+                        sentToYourself = true;
+                    } else { // Send coordinate to player
                         target.sendMessage(translateColourCodes("&7&O" + player.getDisplayName() + " whispers to you: "));
                         if (args[1].equalsIgnoreCase("here")) target.sendMessage(translateColourCodes(
                                 "&7&O→ I am currently at [" + coords.get(0) + " " + coords.get(1) + " " + coords.get(2) + "] in " + dimension));
                         else target.sendMessage(translateColourCodes(
                                 "&7&O→ " + args[1] + " is at [" + coords.get(0) + " " + coords.get(1) + " " + coords.get(2) + "] in " + dimension));
-                        sentValid.add(target); // Add to list of valid players to avoid duplicate messaging
+                        sentValid.add(target.getDisplayName()); // Add to list of valid players to avoid duplicate messaging
                     }
                 }
-            } else if (!sentInvalid.contains(args[i])) sentInvalid.add((args[i])); // Add player to a set of invalid players
+            } else if (!sentInvalid.contains(args[i])) sentInvalid.add((args[i])); // Add null player to a set of invalid players
         }
+        // If only specified argument was the player itself
+        if (sentToYourself && sentValid.size() == 0 && sentInvalid.size() == 0) {
+            player.sendMessage(errorMessage("sent_to_yourself"));
+            return;
+        }
+        // Otherwise:
         player.sendMessage(translateColourCodes("------------ | &6&LCOORDS Send &R&F| ------------>"));
-        player.sendMessage(translateColourCodes(cmdHeader("coords") +
-                "&ACoordinate successfully sent to &B" + StringUtils.join(sentValid, ", ")));
-        if (sentInvalid.size() == 1) player.sendMessage(translateColourCodes(errorClr + errorHeader + replaceVariableInStr(errorMessage("player_not_online_1"),
-                "{player}", StringUtils.join(sentInvalid, ", "))));
-        else if (sentInvalid.size() > 1) player.sendMessage(translateColourCodes(errorClr + errorHeader + replaceVariableInStr(errorMessage("player_not_online_2"),
-                "{player}", StringUtils.join(sentInvalid, ", "))));
+        if (sentValid.size() == 1) {
+            player.sendMessage(translateColourCodes(cmdHeader("coords") +
+                    "&ACoordinate successfully sent to &B" + sentValid.get(0)));
+        } else if (sentValid.size() > 1) {
+            player.sendMessage(translateColourCodes(cmdHeader("coords") +
+                    "&ACoordinate successfully sent to &B" + StringUtils.join(sentValid.subList(0, sentValid.size() - 1), ", "))
+                    + " and " + sentValid.get(sentValid.size() - 1));
+        }
+        if (sentInvalid.size() == 1) player.sendMessage(translateColourCodes(replaceVariableInStr(errorMessage("player_not_online_1"),
+                "{player}", sentInvalid.get(0))));
+        else if (sentInvalid.size() > 1) player.sendMessage(translateColourCodes(replaceVariableInStr(errorMessage("player_not_online_2"),
+                "{player}", StringUtils.join(sentInvalid.subList(0, sentInvalid.size() - 1), ", ") + " and " + sentInvalid.get(sentInvalid.size() - 1))));
+        if (sentToYourself) player.sendMessage(errorMessage("sent_to_yourself"));
         player.sendMessage("<-------------------------------------------------->");
     }
 
     @Override
     public List<String> getSubcommandArgs(Player player, String[] args) {
-        // /coords send <here [players] | <name> <dimension> [players]>
+        // /coords send <here> [players] OR /coords send <name> <dimension> [players]>
         YamlDocument config = getPlayerConfig(player);
         ArrayList<String> secondArgs = new ArrayList<>(List.of("here"));
         List<String> list = new ArrayList<>();
@@ -128,12 +141,12 @@ public class coordsSend extends SubCommand {
             }
         }
         if (args.length == 2) {
-            for (String str : secondArgs) if (str.toLowerCase().startsWith(args[1].toLowerCase())) list.add(str);
+            for (String str : secondArgs) if (str.startsWith(args[1])) list.add(str); // Case-sensitive
             return list;
         }
         if (args.length == 3) {
-            if (!args[1].equalsIgnoreCase("here")) {
-                for (String str : allDimensionsStr) if (str.toLowerCase().startsWith(args[2].toLowerCase())) list.add(str);
+            if (!args[1].equalsIgnoreCase("here")) { // Add dimensions only if the name is found in them
+                for (String str : nameMatchReturnDimension(config, args[1])) if (str.toLowerCase().startsWith(args[2].toLowerCase())) list.add(str);
                 return list;
             }
         }

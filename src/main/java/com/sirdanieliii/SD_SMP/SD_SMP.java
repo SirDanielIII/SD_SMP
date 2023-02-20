@@ -41,13 +41,15 @@ public class SD_SMP extends JavaPlugin {
         Objects.requireNonNull(getCommand("smp")).setExecutor(new SMP());
         Objects.requireNonNull(getCommand("wand")).setExecutor(new Wand());
         if (healthUnderName) {
-            registerHealthScoreboard();
-            addAllPlayersToScoreboard();
+            registerHealthScoreboard(); // Register scoreboard on plugin start
+            addAllPlayersToScoreboard(); // In case of forced plugin reloads
         }
     }
 
     @Override
     public void onDisable() {
+        this.getLogger().info("Disabling scoreboards...");
+        disableHealthScoreboard();
         this.getLogger().info("Cancelling tasks...");
         this.getServer().getScheduler().cancelTasks(this);
     }
@@ -61,11 +63,20 @@ Parse ~10, ~-10
 /coords send here SirDaniel_da3rd saodjsad adl dasoi dsaji dio sajd jij dsaj ijds ij dj i jd
 -> Add limit to how many people are listed, or put it into one message
 When setting ~ ~ ~ to nether, convert the values into coordinates in the nether,
+-> Make parse ~ method
+
+
+
 and disallow the activity
 
 https://docs.adventure.kyori.net/minimessage/index.html
 
 Add "/coords set " + args[1] + " here --force" to documentation
+-> Auto detect duplicates
 
-Text below 40 for scoreboard
+-> Add first join message?
+
+
+Add option to detect world for
+/coords send yeet <players>
  */

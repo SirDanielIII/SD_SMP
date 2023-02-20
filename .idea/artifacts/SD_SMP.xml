@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="SD_SMP">
-    <output-path>$PROJECT_DIR$</output-path>
-    <root id="archive" name="SD_SMP.jar" />
-  </artifact>
-</component>

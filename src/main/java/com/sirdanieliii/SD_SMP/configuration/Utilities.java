@@ -62,7 +62,7 @@ public class Utilities {
         return translateColourCodes(msg.replace(toReplace, replace));
     }
 
-    public static String replaceVariableInStr(String msg, String toReplace1, String toReplace2, String replace1, String replace2) {
+    public static String replaceVariableInStr(String msg, String toReplace1, String replace1, String toReplace2, String replace2) {
         return translateColourCodes(msg.replace(toReplace1, replace1).replace(toReplace2, replace2));
     }
 

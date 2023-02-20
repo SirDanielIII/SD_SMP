@@ -22,7 +22,8 @@ public class CoordsUtility {
         return null;
     }
 
-    public static ArrayList<Integer> getCurrentCoords(Player player) {
+    public static ArrayList<Integer>
+    getCurrentCoords(Player player) {
         ArrayList<Integer> coords = new ArrayList<>();
         coords.add((int) player.getLocation().getX());
         coords.add((int) player.getLocation().getY());
