@@ -1,0 +1,9 @@
+UUID: 2e5214eb-005e-4a6a-ac7a-9b38728d6667
+name: Buildss
+murders: 0.0
+death_by_player: 1.0
+death_by_other: 8.0
+coordinates:
+  overworld: {}
+  nether: {}
+  the_end: {}

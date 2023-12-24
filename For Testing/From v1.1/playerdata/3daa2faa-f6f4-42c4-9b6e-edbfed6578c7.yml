@@ -1,0 +1,9 @@
+UUID: 3daa2faa-f6f4-42c4-9b6e-edbfed6578c7
+name: SomeoneMC
+murders: 0.0
+death_by_player: 0.0
+death_by_other: 1.0
+coordinates:
+  overworld: {}
+  nether: {}
+  the_end: {}

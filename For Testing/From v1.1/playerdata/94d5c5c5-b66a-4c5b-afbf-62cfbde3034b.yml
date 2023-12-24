@@ -1,0 +1,61 @@
+UUID: 94d5c5c5-b66a-4c5b-afbf-62cfbde3034b
+name: Leedling
+murders: 0.0
+death_by_player: 3.0
+death_by_other: 11.0
+coordinates:
+  overworld:
+    Geode:
+      X: 1723
+      Y: -36
+      Z: -1451
+    Bunker:
+      X: 1492
+      Y: 112
+      Z: -1438
+    Seatemple:
+      X: 2602
+      Y: 62
+      Z: -1878
+    Purpleskyisland:
+      X: 1728
+      Y: 145
+      Z: -365
+    Kibbutz:
+      X: -340
+      Y: 136
+      Z: -1304
+    Anotherseatemple:
+      X: -924
+      Y: 62
+      Z: -922
+    Bigterracottamountain:
+      X: -877
+      Y: 63
+      Z: -723
+    Bigfloatingland:
+      X: -1848
+      Y: 62
+      Z: -508
+    Zombiespawner:
+      X: 1780
+      Y: -2
+      Z: -1408
+    Wheatisland:
+      X: -584
+      Y: 225
+      Z: -8572
+    Twoseatemples:
+      X: -701
+      Y: 62
+      Z: -8780
+    Mooshroom:
+      X: 4872
+      Y: 147
+      Z: 3564
+    Badlands:
+      X: 6738
+      Y: 87
+      Z: 3493
+  nether: {}
+  the_end: {}

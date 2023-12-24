@@ -1,4 +1,4 @@
-# --- DO NOT CHANGE THIS ---------------
+# --- DO NOT TOUCH THIS ----------------
 config-version: 2
 # --------------------------------------
 # COLOUR FORMATTING GUIDE (Colours require string to be surrounded by quotes)
@@ -31,8 +31,11 @@ config-version: 2
 # Example for Pink: &#FFC0CB or &#ffc0cb
 # --------------------------------------
 
+# --------------------------------------
+# General Configuration
+# --------------------------------------
 # Name that appears in /smp command
-name: '&A&LSMP'
+name: '&#f50057&LSMP'
 
 # Mostly for logging purposes
 cmd_header: '&A[&FSD_SMP&A]'
@@ -55,9 +58,17 @@ welcome:
   stay: 70
   fade_out: 20
 
+# How many lines in the body are shown at a time when text in the chat is paginated
+# Note 1: This ignores the two lines from the header and footer
+# Note 2: /coords list will require this
+lines_per_paginated_chat: 18
+
 # --------------------------------------
 # Gameplay Changes
 # --------------------------------------
+# Enable colour codes (E.G. &C) and hex values (E.G. &#0085F5) for signs.
+sign_colour_codes: true
+
 # Like PVP servers. The lightning won't destroy anything and/or create fire
 lightning_on_player_kill: true
 

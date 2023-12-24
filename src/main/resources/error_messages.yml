@@ -1,5 +1,19 @@
-# --- DO NOT CHANGE THIS ---------------
+# --- DO NOT TOUCH THESE ---------------
 config-version: 1
+
+coords_set: "/coords set <name> <here|x y z> <dimension|world> [world]"
+coords_list: "/coords list <name|all> <dimension> [world]"
+coords_clear: "/coords clear <name|all> <dimension> [world]"
+coords_send: "/coords send <name|here> <dimension|player> <world|players> [players]"
+death_kdr: "/death kdr"
+death_kills: "/death kills"
+death_nonplayer: "/death nonplayer"
+death_player: "/death player"
+death_total: "/death total"
+ivan_dog: "/ivan dog"
+ivan_donkey: "/ivan donkey"
+wand: "/wand"
+smp: "/smp reload"
 # --------------------------------------
 # COLOUR FORMATTING GUIDE (Colours require string to be surrounded by quotes)
 #  &0	Black
@@ -29,43 +43,37 @@ config-version: 1
 # CUSTOM COLOURS
 # Add '&' before hex code (not case-sensitive)
 # Example for Pink: &#FFC0CB or &#ffc0cb
+# --------------------------------------
 
 error_header: "&4[&C&L!&R&4]"
 error_clr: "&C"
 
-# Command Syntax
-coords_set: "/coords set <name> [X Y Z] <dimension>"
-coords_list: "/coords list <name | all> <dimension>"
-coords_clear: "/coords clear <name | all> [dimension(s)]"
-coords_send: "/coords send <here [players] | <name> <dimension> [players]>"
-death_kdr: "/death kdr"
-death_kills: "/death kills"
-death_nonplayer: "/death nonplayer"
-death_player: "/death player"
-death_total: "/death total"
-ivan_dog: "/ivan dog"
-ivan_donkey: "/ivan donkey"
-wand: "/wand"
-smp: "/smp <reload>"
-
 # Errors for /coords
-coord_str_not_int: "[X Y Z] coordinates must be integer, not string (except ~)"
-invalid_xyz: "[X Y Z] coordinates are incomplete or invalid"
-no_args_to_set_coord: "Missing [X Y Z] & dimension"
-missing_dimension: "Missing dimension &7(overworld / nether / the_end)"
+special_characters: "Coord name can only have letters, numbers, and _, -, '"
+coord_str_not_int: "[x y z] coordinates must be integer, not string"
+invalid_xyz: "[x y z] coordinates are incomplete or invalid"
+no_args_to_set_coord: "Missing coordinates [x y z] & world"
+missing_dimension: "Missing dimension &7(overworld / nether / the_end / custom)"
+missing_dimension_in_server: "Missing the server's main {dimension}! It may have been deleted."
 no_args_to_send_coord: "Missing dimension and player(s)"
 missing_players: "Missing player(s)"
 player_not_online_1: "{player} isn't online or does not exist!"
 player_not_online_2: "{player} aren't online or do not exist!"
 sent_to_yourself: "Why would you send the coordinates to yourself lol"
 no_saved_coords_1: "You have no saved coordinates"
-no_saved_coords_2: "You have no saved coordinates in {dimension}"
+no_saved_coords_2: "You have no saved coordinates in {world}"
 invalid_coords_1: "Could not find coordinate(s) with that name!"
-invalid_coords_2: "{coord_name} coordinate not found in {dimension}!"
-coords_duplicate_1: "Multiple instances of \"{coord_name}\" have been found! Which one(s) would you like to delete?"
-coords_duplicate_2: "You are about to overwrite {coord_name} from {dimension}"
-invalid_dimension_1: "Invalid dimension &7(overworld / nether / the_end)"
-invalid_dimension_2: "Invalid dimension(s) &7(overworld / nether / the_end)"
+invalid_coords_2: "{coord_name} coordinate not found in {world}!"
+coords_duplicate_1: "Multiple instances of \"{coord_name }\" have been found! Which one(s) would you like to delete?"
+coords_duplicate_2: "You are about to overwrite {coord_name} from {world}"
+invalid_world_1: "{world} does not exist!\nPlease see tab-completion for valid arguments"
+invalid_world_2: "Dimension and world do not match!\nPlease see tab-completion for valid arguments"
+invalid_dimension: "Invalid dimension!"
+invalid_dimension_for_world: "Your world, {world}, doesn't have {dimension}!"
+custom_dimension_not_linked: "CUSTOM dimensions are not linked to the main worlds' dimensions"
+invalid_match_dimension: "No worlds exist with that dimension"
+custom_is_specifier: "\"custom\" acts more as a specifier for the next arg here since no default worlds are of the custom dimension"
+
 
 # General Errors
 player_only: "Sorry, but only players can use this command!"
@@ -79,3 +87,4 @@ disabled_elytra_flight: "Elytra flight is not currently allowed in this world!"
 force_moved_elytra: "&EYour Elytra has been moved into your inventory!"
 force_dropped_elytra: "&EYour Elytra has been dropped onto the ground!"
 too_many_arguments: "Too many arguments! \nSyntax: {cmd_syntax}"
+missing_properties_file: "server.properties file is missing or broken; continuing may result in undefined behaviour!"

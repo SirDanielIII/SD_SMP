@@ -1,4 +1,4 @@
-# --- DO NOT CHANGE THIS ---------------
+# --- DO NOT TOUCH THIS ----------------
 config-version: 1
 # --------------------------------------
 # COLOUR FORMATTING GUIDE (Colours require string to be surrounded by quotes)
@@ -58,7 +58,8 @@ join_messages:
   - is mega brain
   - doesn't know what day it is today
   - doesn't pay taxes
-  - is lonely :(
+  - is considering tax fraud
+  - is lonely
   - is bing chilling
   - wears socks to bed
   - wants a hug
@@ -85,6 +86,42 @@ join_messages:
   - needs a small loan of a million dollars
   - wants to build a (huge) wall
   - doesn't cut their toenails
+  - is ready to dominate the game
+  - is a professional procrastinator
+  - thinks they can fly in Minecraft
+  - wants to be a unicorn in real life
+  - is a lover of all things pink
+  - can recite the entire script of The Lion King
+  - can recite the entire The Bee Movie script
+  - is a master of memes
+  - has a collection of rubber ducks
+  - thinks they have the best dance moves
+  - has a secret obsession with unicorns
+  - wants to be a superhero when they grow up
+  - can't resist a good pun
+  - is the reigning champion of rock-paper-scissors
+  - loves to sing in the shower
+  - thinks pineapple belongs on pizza
+  - is a caffeine addict
+  - is convinced that aliens exist
+  - has a pet rock named Rocky
+  - thinks that chocolate should be its own food group
+  - can solve a Rubik's Cube in under a minute
+  - is a champion of hide-and-seek
+  - is always in the mood for ice cream
+  - thinks that unicorns are the answer to all problems
+  - wants to become a famous YouTuber
+  - is a big fan of Taylor Swift's music
+  - is a Swifty
+  - thinks that the best things in life are free
+  - thinks that cats are better than dogs
+  - is a self-proclaimed "foodie"
+  - thinks that nothing beats a good nap
+  - is convinced that the Loch Ness Monster is real
+  - is a master of puns and dad jokes
+  - is a hopeless romantic
+  - thinks that it's always the video games' fault
+  - likes pineapple cakes
 
 # On Player Quit (If enabled) | E.G. Player <message>
 quit_messages:
@@ -122,7 +159,7 @@ quit_messages:
   - doesn't like the people here
   - got cyberbullied out of the server
   - is getting the chopsticks
-  - getting the whoppin' by their mother
+  - is getting the whoppin' by their mother
   - crashed
   - went to go get the milk
   - is coming back... right?
@@ -168,12 +205,15 @@ sleep_messages:
   - wandered off to bed
   - is trying to sleep their fix schedule
   - is making love with their bed
-  - sleeping after a hard day's work
+  - is sleeping after a hard day's work
   - is snoozing
   - is rethinking their life decisions as they drift off to bed
   - slowly drifts into a peaceful sleep
   - cried themselves to sleep
   - fell victim to the effects of sleep deprivation
+  - went to sleep
+  - went to bed
+  - says it's their bedtime now
 
 
 # Death Statistics Messages
@@ -184,6 +224,7 @@ describe_death:
   - incompetence
   - being dogwater
   - not getting gooder
+  - skill issue
 
 # [PVP, VERB] → E.G. You have been <message> ...
 describe_kill:

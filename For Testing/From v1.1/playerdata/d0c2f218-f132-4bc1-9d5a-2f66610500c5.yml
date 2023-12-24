@@ -1,0 +1,25 @@
+UUID: d0c2f218-f132-4bc1-9d5a-2f66610500c5
+name: Kar1insky
+murders: 0.0
+death_by_player: 0.0
+death_by_other: 2.0
+coordinates:
+  overworld:
+    Offykibbutz:
+      X: -394
+      Y: 151
+      Z: -1323
+    Mountain1jungleocean:
+      X: 152
+      Y: 148
+      Z: -956
+    Cavebase1:
+      X: 15
+      Y: 147
+      Z: -689
+  nether:
+    Home:
+      X: -83
+      Y: 80
+      Z: -239
+  the_end: {}

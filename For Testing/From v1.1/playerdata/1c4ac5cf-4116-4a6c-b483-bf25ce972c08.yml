@@ -1,0 +1,9 @@
+UUID: 1c4ac5cf-4116-4a6c-b483-bf25ce972c08
+name: TotoroToggled
+murders: 1.0
+death_by_player: 3.0
+death_by_other: 9.0
+coordinates:
+    overworld: {}
+    nether: {}
+    the_end: {}

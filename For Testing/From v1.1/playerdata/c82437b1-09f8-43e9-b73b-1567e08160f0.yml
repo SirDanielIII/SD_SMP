@@ -1,0 +1,9 @@
+UUID: c82437b1-09f8-43e9-b73b-1567e08160f0
+name: JT_Destruction1
+murders: 1.0
+death_by_player: 1.0
+death_by_other: 3.0
+coordinates:
+    overworld: {}
+    nether: {}
+    the_end: {}

@@ -1,0 +1,29 @@
+UUID: befb5022-46b9-471c-a33c-07004e09863f
+name: RoshGamingOffy
+murders: 1.0
+death_by_player: 2.0
+death_by_other: 29.0
+coordinates:
+  overworld:
+    Kibbutz:
+      X: -375
+      Y: 150
+      Z: -1352
+    Hidden:
+      X: -599
+      Y: 100
+      Z: -2300
+    Afk:
+      X: -613
+      Y: 256
+      Z: -2264
+    Trappedhouse:
+      X: -503
+      Y: 71
+      Z: -940
+    Underwatertemple:
+      X: -1424
+      Y: 69
+      Z: 7809
+  nether: {}
+  the_end: {}

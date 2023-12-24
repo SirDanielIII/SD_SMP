@@ -1,0 +1,9 @@
+UUID: 3d7ba000-c399-4c82-a802-028f6c1d4b93
+name: oBeacon
+murders: 0.0
+death_by_player: 0.0
+death_by_other: 0.0
+coordinates:
+    overworld: {}
+    nether: {}
+    the_end: {}

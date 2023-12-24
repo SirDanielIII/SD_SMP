@@ -4,7 +4,7 @@
   <groupId>org.sirdanieliii</groupId>
   <artifactId>SD_SMP</artifactId>
   <name>SD_SMP</name>
-  <version>2.0.0-BETA-01</version>
+  <version>2.0.0-ALPHA-02</version>
   <description>A plugin that aims to provide basic tools and gameplay tweaks for a Minecraft SMP</description>
   <url>https://www.youtube.com/@SirDanielIII</url>
   <build>
@@ -34,14 +34,6 @@
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <relocations>
-            <relocation>
-              <pattern>dev.dejvokep.boostedyaml</pattern>
-              <shadedPattern>sirdanieliii.SD_SMP.libs</shadedPattern>
-            </relocation>
-          </relocations>
-        </configuration>
       </plugin>
     </plugins>
   </build>

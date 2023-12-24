@@ -1,0 +1,9 @@
+UUID: 84504271-199b-43b5-afe9-ff953bda4085
+name: Risamoon
+murders: 0.0
+death_by_player: 1.0
+death_by_other: 6.0
+coordinates:
+    overworld: {}
+    nether: {}
+    the_end: {}

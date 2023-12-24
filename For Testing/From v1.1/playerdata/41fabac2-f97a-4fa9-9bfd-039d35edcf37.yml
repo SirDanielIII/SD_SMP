@@ -1,0 +1,10 @@
+UUID: 41fabac2-f97a-4fa9-9bfd-039d35edcf37
+name: no_one_go_there
+murders: 16.0
+total_deaths: 0.0
+death_by_player: 4.0
+death_by_other: 30.0
+coordinates:
+  overworld: {}
+  nether: {}
+  the_end: {}

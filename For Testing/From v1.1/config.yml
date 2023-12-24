@@ -1,0 +1,91 @@
+config-version: EARLY ACCESS
+MoTD:
+  '1': A Minecraft SMP
+  '2': ''
+welcome:
+  title: §BLost Tribe SMP
+  subtitle: §6Welcome to §4Season 3
+enable-custom-join-messages: true
+join-messages:
+- wonders where the lore in the SMP went
+- didn't qualify for World Cup
+- needs to get gooder
+- always sings on-key
+- is awesome
+- is awesomesauce
+- is a silly little goose
+- is not deserving of an insult
+- doesn't wear socks
+- is a mensch
+- is big brain
+- doesn't even lift
+- is a jelly donut
+- can't breathe underwater
+- can't tie their own shoes
+- has nothing better to do right now
+- can't count to 10
+- doesn't speak Luxembourgish
+- knows the Muffin Man
+enable-custom-quit-messages: true
+quit-messages:
+- was kicked by God
+- was banned by God
+- left to touch grass
+- folded
+- went to go get a snack
+- wanted to touch grass
+- went to find their dad at the grocery store
+- rage quit
+- got cancelled
+- went to go play Fortnite
+- has a Valorant addiction
+- opened Premiere Pro
+- opened After Effects
+- was cringe and left
+- didn't want to play anymore
+- left the game
+- got a life
+- dipped
+- has to do their homework
+- had to log off because their mom said so
+- yeeted themself
+- says bye
+- got tired of the people here
+- left to ponder their life decisions
+- §KLISD FH DFZIO UGHDRIO
+- left the stove on
+enable-custom-sleep-messages: true
+sleep-messages:
+- fell asleep
+- dozed off dreaming
+- crashed like Sir Daniel III's PC
+- went AWOL
+- committed sleep
+- initiated hibernation
+- went to dream world
+- snores loudly
+- started to sleep
+- died of exhaustion
+- collapsed
+- started napping
+- started dreaming
+- is having a nightmare
+- has gone out like a lamp
+- wandered off to bed
+- regenerating their life force
+- commited sleepicide
+kill:
+- brutally murdered
+- slaughtered
+- clapped
+- massacred
+- slayed
+- dookie'ed on
+- 360 OOGA BOOGA BOOGA'ED
+- killed
+death:
+- your own stupidity
+- lack of skill
+- incompetence
+- not having any earnings
+plugin-version: 1.0

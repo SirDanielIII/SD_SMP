@@ -1,0 +1,53 @@
+UUID: e542f7a7-944e-4cc4-931e-6c8101a3897f
+name: CrazyGamingTick
+murders: 214.0
+death_by_player: 7.0
+death_by_other: 43.0
+coordinates:
+  overworld:
+    Village:
+      X: 3493
+      Y: 64
+      Z: 488
+    Crazygamingtick:
+      X: 6198
+      Y: 62
+      Z: -8069
+    Ocean:
+      X: 6198
+      Y: 62
+      Z: -8069
+    Oceanm:
+      X: 6198
+      Y: 62
+      Z: -8069
+    Monument2:
+      X: 6760
+      Y: 63
+      Z: -8484
+    Swamp!:
+      X: 4767
+      Y: 64
+      Z: -22072
+    Xp:
+      X: 2181
+      Y: 30
+      Z: 290
+    Endportal:
+      X: 2241
+      Y: -45
+      Z: 292
+  nether:
+    Portalendnether:
+      X: 284
+      Y: 52
+      Z: 33
+  the_end:
+    Gateway:
+      X: 351
+      Y: 62
+      Z: -1025
+    Endcity:
+      X: -1153
+      Y: 80
+      Z: 2654

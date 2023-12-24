@@ -1,0 +1,11 @@
+UUID: c101d6a5-6e06-44f8-8e0c-f12a39742c18
+name: blihk
+murders: 0.0
+death_by_player: 1.0
+death_by_other: 1.0
+coordinates:
+  overworld:
+    Cratervillage:
+      X: 10670410
+      Y: 108
+      Z: -10113016

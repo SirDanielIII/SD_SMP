@@ -1,0 +1,29 @@
+UUID: 00000000-0000-0000-0009-01f02154b5b3
+name: .Bedroock_Bro
+murders: 2.0
+death_by_player: 1.0
+death_by_other: 42.0
+coordinates:
+  overworld:
+    Home:
+      X: -2194
+      Y: 77
+      Z: 2379
+    Village:
+      X: -1308
+      Y: 63
+      Z: 2221
+    Spawner:
+      X: -2268
+      Y: 70
+      Z: 2433
+  nether:
+    Nether_Base:
+      X: 229
+      Y: 55
+      Z: -99
+    Nether_Portal:
+      X: -212
+      Y: 54
+      Z: 182
+  the_end: {}

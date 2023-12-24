@@ -1,0 +1,9 @@
+UUID: dca40931-0b5d-44d5-bd5c-3b05071a8caf
+name: bunker12345
+murders: 0.0
+death_by_player: 0.0
+death_by_other: 0.0
+coordinates:
+    overworld: {}
+    nether: {}
+    the_end: {}

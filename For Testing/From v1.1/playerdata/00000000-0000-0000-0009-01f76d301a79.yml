@@ -1,0 +1,13 @@
+UUID: 00000000-0000-0000-0009-01f76d301a79
+name: .CoinBoss1828113
+murders: 1.0
+death_by_player: 2.0
+death_by_other: 13.0
+coordinates:
+  overworld:
+    Base:
+      X: -106
+      Y: 107
+      Z: 3702
+  nether: {}
+  the_end: {}

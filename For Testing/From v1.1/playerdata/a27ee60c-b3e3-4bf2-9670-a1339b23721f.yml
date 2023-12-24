@@ -1,0 +1,11 @@
+UUID: a27ee60c-b3e3-4bf2-9670-a1339b23721f
+name: EpiphanyGaming
+murders: 10.0
+death_by_player: 5.0
+death_by_other: 28.0
+coordinates:
+  overworld:
+    Calcite:
+      X: 10669791
+      Y: 65
+      Z: -10114365

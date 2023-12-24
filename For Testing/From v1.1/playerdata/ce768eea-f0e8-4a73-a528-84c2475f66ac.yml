@@ -1,0 +1,13 @@
+UUID: ce768eea-f0e8-4a73-a528-84c2475f66ac
+name: CallM3Gaming
+murders: 115.0
+death_by_player: 4.0
+death_by_other: 57.0
+coordinates:
+  overworld:
+    Me:
+      X: 1
+      Y: 1
+      Z: 1
+  nether: {}
+  the_end: {}

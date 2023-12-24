@@ -1,0 +1,89 @@
+UUID: 28c4458e-0376-49d6-bb70-16070cd82791
+name: ThyCryogenicWolf
+murders: 8.0
+death_by_player: 6.0
+death_by_other: 19.0
+coordinates:
+  overworld:
+    Home:
+      X: -9647
+      Y: 112
+      Z: -3643
+    Ravine:
+      X: -9520
+      Y: 63
+      Z: -2118
+    Treasure:
+      X: -11911
+      Y: 63
+      Z: -1737
+    Pumpkins:
+      X: -12176
+      Y: 62
+      Z: -1654
+    Village:
+      X: -13259
+      Y: 75
+      Z: -170
+    Cave:
+      X: -12930
+      Y: 64
+      Z: -453
+    Cave_Wolf:
+      X: 10670563
+      Y: 46
+      Z: -10114111
+    Village_And_Ocean_Monument:
+      X: 10670077
+      Y: 64
+      Z: -10114865
+    Tropical_Fish:
+      X: 10670066
+      Y: 62
+      Z: -10115947
+    Ocean_Monument_2:
+      X: 10669788
+      Y: 62
+      Z: -10116346
+    Jungle:
+      X: 10669753
+      Y: 62
+      Z: -10116719
+    A_Black_Island?:
+      X: 10669533
+      Y: 63
+      Z: -10117000
+    Coral_Reef:
+      X: 10669701
+      Y: 62
+      Z: -10117219
+    Deep_Coral_Reef:
+      X: 10669472
+      Y: 62
+      Z: -10117341
+    Coral_Reef_3:
+      X: 10670176
+      Y: 62
+      Z: -10117561
+    Coral_Reef_4:
+      X: 10669722
+      Y: 62
+      Z: -10117964
+    Village_2:
+      X: 10669303
+      Y: 62
+      Z: -10118091
+    Coral_Reef_Small:
+      X: 10669429
+      Y: 62
+      Z: -10118301
+    Village_3:
+      X: 10669407
+      Y: 62
+      Z: -10118401
+    Ocean_Monument_3:
+      X: 10667761
+      Y: 62
+      Z: -10118417
+  nether: {}
+  the_end: {}

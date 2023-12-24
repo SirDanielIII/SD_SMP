@@ -1,0 +1,197 @@
+UUID: b9df1e66-eb80-4b4d-8a35-61bd647837b4
+name: SirDaniel_da3rd
+murders: 49.0
+death_by_player: 15.0
+death_by_other: 194.0
+coordinates:
+  overworld:
+    Woodland_Mansion-1:
+      X: -1122
+      Y: 84
+      Z: 9357
+    Floatingisland_Oceanmonument:
+      X: -14131
+      Y: 63
+      Z: 1265
+    Stronghold:
+      X: -784
+      Y: -8
+      Z: -1774
+    Home:
+      X: 10670500
+      Y: 63
+      Z: -10114145
+    Kibbutz:
+      X: -349
+      Y: 146
+      Z: -1327
+    From_Roof-10mil:
+      X: 10696796
+      Y: 75
+      Z: -10139813
+    Zombie_Spawner:
+      X: 10670435
+      Y: -44
+      Z: -10114065
+    Spider_Spawner:
+      X: 10670531
+      Y: 4
+      Z: -10114095
+    Home_Nether_Portal:
+      X: 10670449
+      Y: -54
+      Z: -10114201
+    Home_Portal:
+      X: 10670449
+      Y: -54
+      Z: -10114201
+    Callm3gaming_Base:
+      X: -779
+      Y: 50
+      Z: 17012
+    Spider_Spawner-2:
+      X: 10670673
+      Y: -40
+      Z: -10113924
+    Huge_Cavern:
+      X: 10670355
+      Y: 30
+      Z: -10113326
+    Huge_Cavern-Zombiespawner:
+      X: 10670350
+      Y: -29
+      Z: -10113374
+    Somebody'S_Base:
+      X: 3200
+      Y: 80
+      Z: -150
+    Bedroock_Bro_Base:
+      X: -2163
+      Y: 70
+      Z: 2373
+    Possible_Base-1:
+      X: 3200
+      Y: 72
+      Z: -150
+    Possible_Base-2:
+      X: 9
+      Y: 63
+      Z: -1061
+    Huge_Mantle_Cave:
+      X: 764
+      Y: -47
+      Z: -1589
+    Offy_Creeper_Farm:
+      X: -616
+      Y: 208
+      Z: -2258
+    Nemy_Water_Temple:
+      X: -2928
+      Y: 56
+      Z: 25204
+    Juicy_Base:
+      X: -2752
+      Y: 43
+      Z: 29611
+    Ocean_Monument:
+      X: 10670273
+      Y: 61
+      Z: -10114881
+    Nemy_Old_Base:
+      X: -351
+      Y: 54
+      Z: 3687
+    Huge_Mountain_With_Terracotta:
+      X: -863
+      Y: 74
+      Z: -560
+    Creeper_Farm:
+      X: 10668924
+      Y: 63
+      Z: -10108156
+    Creeper_Farm_Temple:
+      X: 10669129
+      Y: 61
+      Z: -10108263
+    Creeper_Farm_Pillager:
+      X: 10668326
+      Y: 73
+      Z: -10108278
+    Creeper_Farm_Portal:
+      X: 10668652
+      Y: 69
+      Z: -10108233
+    Rice_Farm_2:
+      X: 221
+      Y: 151
+      Z: 248
+  nether:
+    Spawn:
+      X: -50
+      Y: 78
+      Z: -129
+    Bastion-1:
+      X: -310
+      Y: 73
+      Z: -331
+    Bastion-2:
+      X: -1226
+      Y: 70
+      Z: -413
+    Netherite-1:
+      X: 46
+      Y: 103
+      Z: -263
+    Fortress-1:
+      X: -1557
+      Y: 68
+      Z: -425
+    Roof_Portal-10mil:
+      X: 1337098
+      Y: 129
+      Z: -1267473
+    Home_Portal:
+      X: 1333811
+      Y: 68
+      Z: -1264285
+    Home_Bastion:
+      X: 1333819
+      Y: 38
+      Z: -1264416
+    Queeny_Base_Hideout_Portal:
+      X: 396
+      Y: 80
+      Z: -17
+    Home_Portal-Netherite_Mine:
+      X: 1333898
+      Y: 86
+      Z: -1264282
+    Home_Portal-Netherite_Mine-Bottom:
+      X: 1333911
+      Y: 12
+      Z: -1264282
+    Nether_Fortress:
+      X: 1333412
+      Y: 68
+      Z: -1264039
+    Nemy_Portal_Maybe:
+      X: -359
+      Y: 70
+      Z: 2727
+    Nemy_Portal:
+      X: -351
+      Y: 54
+      Z: 3687
+    Castle_Portal_Entrance:
+      X: -46
+      Y: 67
+      Z: -191
+  the_end:
+    Enderman_Farm:
+      X: -397
+      Y: 1
+      Z: -64
+    Sculk_Sensors:
+      X: -15220
+      Y: 65
+      Z: -3338

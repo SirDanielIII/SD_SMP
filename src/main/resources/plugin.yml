@@ -1,12 +1,13 @@
 name: SD_SMP
 version: ${project.version}
 author: Sir Daniel III
-main: com.sirdanieliii.SD_SMP.SD_SMP
+main: ca.sirdanieliii.SD_SMP.SD_SMP
 api-version: 1.16
+softdepend: [ Multiverse-Core ]
 commands:
-  coords:
-    description: Saves coords so you won't get lost
-    usage: /coords <action> <arguments>
+#  coords:
+#    description: Saves coords so you won't get lost
+#    usage: /coords <action> <arguments>
   death:
     description: Statistics about your deaths and murders :D
     usage: /death <stat>
@@ -19,9 +20,10 @@ commands:
   smp:
     description: Displays every SD_SMP command
     usage: /smp
-  reload:
-    description: Reloads SD_SMP's configuration files
-    usage: /smp reload
+    aliases: sd_smp
+#  reload:
+#    description: Reloads SD_SMP's configuration files
+#    usage: /smp reload
 permissions:
   sd_smp.smp.reload:
     description: Lets you reload the config files
@@ -47,7 +49,7 @@ permissions:
       sd_smp.coords.list: true
       sd_smp.coords.send: true
       sd_smp.coords.set: true
-#      sd_smp.coords.teleport: true
+  #      sd_smp.coords.teleport: true
   sd_smp.coords.clear:
     description: Clears a saved coordinate
     default: true
@@ -60,9 +62,9 @@ permissions:
   sd_smp.coords.set:
     description: Sets a saved coordinate
     default: true
-#  sd_smp.coords.teleport:
-#    description: Allows you to teleport to a saved coordinate
-#    default: op
+  #  sd_smp.coords.teleport:
+  #    description: Allows you to teleport to a saved coordinate
+  #    default: op
   sd_smp.death.*:
     description: Gives access to all Death commands
     children:

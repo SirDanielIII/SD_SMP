@@ -1,0 +1,9 @@
+UUID: 6a5a8c80-de90-4263-921e-f100695a8ac2
+name: ChickaD
+murders: 0.0
+death_by_player: 0.0
+death_by_other: 25.0
+coordinates:
+  overworld: {}
+  nether: {}
+  the_end: {}

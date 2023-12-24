@@ -1,0 +1,13 @@
+UUID: 5c77fd9c-6c44-4019-914d-a245fb446dec
+name: WIR3Z_Fierce
+murders: 17.0
+death_by_player: 35.0
+death_by_other: 105.0
+coordinates:
+  overworld:
+    Home:
+      X: 3560
+      Y: -59
+      Z: 467
+  nether: {}
+  the_end: {}

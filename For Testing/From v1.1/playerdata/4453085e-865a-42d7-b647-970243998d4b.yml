@@ -1,0 +1,93 @@
+UUID: 4453085e-865a-42d7-b647-970243998d4b
+name: SulfonicSteak68
+murders: 91.0
+death_by_player: 13.0
+death_by_other: 98.0
+coordinates:
+  overworld:
+    Monument:
+      X: 6198
+      Y: 62
+      Z: -8069
+    Mesa:
+      X: 5401
+      Y: 63
+      Z: -8046
+    Base:
+      X: -761
+      Y: 62
+      Z: 17033
+    Monument2:
+      X: 12139
+      Y: 62
+      Z: -8020
+    Grinder:
+      X: 13258
+      Y: 89
+      Z: -6903
+    Itay:
+      X: -600
+      Y: 51
+      Z: -880
+    Offy:
+      X: -611
+      Y: 256
+      Z: -2261
+    Daniel?:
+      X: 4957
+      Y: 227
+      Z: -814
+    Horse:
+      X: 12600
+      Y: 64
+      Z: -7207
+    Turtle:
+      X: 14180
+      Y: 68
+      Z: -4496
+    Raid:
+      X: 13444
+      Y: 160
+      Z: -6441
+    Pillager:
+      X: -1625
+      Y: 70
+      Z: 2093
+    Biscuit:
+      X: -4469
+      Y: 111
+      Z: 4444
+    Spider2:
+      X: 13248
+      Y: -17
+      Z: -7034
+    Spider3:
+      X: 13747
+      Y: -24
+      Z: -6829
+    Noone:
+      X: -2443
+      Y: 30
+      Z: 33066
+    Daniel:
+      X: 10670600
+      Y: -33
+      Z: -10114186
+    Slime_Chunk:
+      X: -1631
+      Y: -28
+      Z: -465
+  nether:
+    Piggies:
+      X: -2091
+      Y: 175
+      Z: -1454
+    Portal:
+      X: 1658
+      Y: 61
+      Z: -909
+    Blaze:
+      X: 1666
+      Y: 67
+      Z: -634
+  the_end: {}
