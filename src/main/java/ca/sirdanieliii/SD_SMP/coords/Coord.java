@@ -10,75 +10,76 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.*;
 
+import static ca.sirdanieliii.SD_SMP.coords.CoordsUtility.getWorldDimension;
 import static ca.sirdanieliii.SD_SMP.utilities.Utilities.*;
 
 public class Coord {
-    private enum Axis {
-        X, Y, Z;
-    }
-
     private final Player player;
-    private final UUID worldUiD;
+    private final UUID worldUid;
     private final String name;
-    private int x;
-    private int y;
-    private int z;
-
-    public Coord(Player player, UUID worldUiD, String name) {
-        this.player = player;
-        this.worldUiD = worldUiD;
-        this.name = name;
-        this.x = player.getLocation().getBlockX();
-        this.y = player.getLocation().getBlockY();
-        this.z = player.getLocation().getBlockZ();
+    private final int x;
+    private final int y;
+    private final int z;
+    public Coord(Player player, UUID worldUid, String name) {
+        this(player, worldUid, name, player.getLocation().getBlockX(), player.getLocation().getBlockY(), player.getLocation().getBlockZ());
     }
 
-    public Coord(Player player, UUID worldUiD, String name, int x, int y, int z) {
+    public Coord(Player player, UUID worldUid, String name, int x, int y, int z) {
         this.player = player;
-        this.worldUiD = worldUiD;
-        this.name = name;
+        this.worldUid = worldUid;
+        this.name = cleanStrForYMLKey(name);
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public Coord(Player player, UUID worldUiD, String name, String x, String y, String z) throws NullPointerException, NumberFormatException {
+    public Coord(Player player, UUID worldUid, String name, String x, String y, String z) {
         this.player = player;
-        this.worldUiD = worldUiD;
+        this.worldUid = worldUid;
         this.name = cleanStrForYMLKey(name);
-        if (name == null) {
+        this.x = parseNumberArg(x, player, Axis.X);
+        this.y = parseNumberArg(y, player, Axis.Y);
+        this.z = parseNumberArg(z, player, Axis.Z);
+    }
+
+    public Coord(Player player, String name, String x, String y, String z, String dimension) {
+        this(player, name, x, y, z, dimension, getDimensionWorldUid(player, dimension));
+    }
+
+    public Coord(Player player, String name, String x, String y, String z, String dimension, String world) {
+        this(player, name, x, y, z, dimension, CoordsUtility.getWorldUid(world));
+    }
+
+    private Coord(Player player, String name, String x, String y, String z, String dimension, UUID worldUid) {
+        this.player = player;
+        this.name = cleanStrForYMLKey(name);
+        this.x = parseNumberArg(x, player, Axis.X);
+        this.y = parseNumberArg(y, player, Axis.Y);
+        this.z = parseNumberArg(z, player, Axis.Z);
+        this.worldUid = worldUid;
+
+        if (this.name == null) {
             player.sendMessage(ConfigManager.errorMessage("special_characters"));
-            throw new NullPointerException();
+            return;
         }
-        try {
-            this.x = parseNumberArg(x, player, Axis.X);
-            this.y = parseNumberArg(y, player, Axis.Y);
-            this.z = parseNumberArg(z, player, Axis.Z);
-        } catch (NumberFormatException exception) {
-            player.sendMessage(ConfigManager.errorMessage("coord_str_not_int"));
-            throw new NumberFormatException();
+
+        if (this.worldUid == null) {
+            player.sendMessage(ConfigManager.errorMessage("invalid_world"));
+            return;
+        }
+
+        Dimension specifiedDimension = Dimension.getDimensionEnum(dimension);
+        if (specifiedDimension == null) {
+            player.sendMessage(ConfigManager.errorMessage("invalid_dimension"));
         }
     }
 
-    public Coord(Player player, String name, String x, String y, String z, String dimension) throws NullPointerException, NumberFormatException {
-        this.player = player;
-        this.name = cleanStrForYMLKey(name);
-        if (name == null) {
-            player.sendMessage(ConfigManager.errorMessage("special_characters"));
-            throw new NullPointerException();
-        }
-        try {
-            this.x = parseNumberArg(x, player, Axis.X);
-            this.y = parseNumberArg(y, player, Axis.Y);
-            this.z = parseNumberArg(z, player, Axis.Z);
-        } catch (NumberFormatException exception) {
-            player.sendMessage(ConfigManager.errorMessage("coord_str_not_int"));
-            throw new NumberFormatException();
-        }
+    private static UUID getDimensionWorldUid(Player player, String dimension) {
         Dimension specifiedDimension = Dimension.getDimensionEnum(dimension);
         if (specifiedDimension == null) {
             player.sendMessage(ConfigManager.errorMessage("invalid_dimension"));
@@ -86,91 +87,15 @@ public class Coord {
         }
 
         UUID[] mainWorlds = CoordsUtility.getDefaultWorldIDs();
-
-        switch (specifiedDimension) {
-            case OVERWORLD -> {
-                worldUiD = mainWorlds[0];
-            }
-            case NETHER -> {
-                worldUiD = mainWorlds[1];
-            }
-            case THE_END -> {
-                worldUiD = mainWorlds[2];
-            }
+        return switch (specifiedDimension) {
+            case OVERWORLD -> mainWorlds[0];
+            case NETHER -> mainWorlds[1];
+            case THE_END -> mainWorlds[2];
             default -> {
                 player.sendMessage(ConfigManager.errorMessage("custom_dimension_not_linked"));
                 throw new NullPointerException();
             }
-        }
-        if (worldUiD == null) {
-            player.sendMessage(replaceStr(ConfigManager.errorMessage("missing_dimension_in_server"), "{dimension}", specifiedDimension.formattedStr(false, false, false)));
-            throw new NullPointerException();
-        } // If it passes this check, then we know the world is valid
-    }
-
-    public Coord(Player player, String name, String x, String y, String z, String dimension, String world) throws NullPointerException, NumberFormatException {
-        this.player = player;
-        this.name = cleanStrForYMLKey(name);
-        if (name == null) {
-            player.sendMessage(ConfigManager.errorMessage("special_characters"));
-            throw new NullPointerException();
-        }
-        try {
-            this.x = parseNumberArg(x, player, Axis.X);
-            this.y = parseNumberArg(y, player, Axis.Y);
-            this.z = parseNumberArg(z, player, Axis.Z);
-        } catch (NumberFormatException exception) {
-            player.sendMessage(ConfigManager.errorMessage("coord_str_not_int"));
-            throw new NumberFormatException();
-        }
-        Dimension specifiedDimension = Dimension.getDimensionEnum(dimension);
-        if (specifiedDimension == null) {
-            player.sendMessage(ConfigManager.errorMessage("invalid_dimension"));
-            throw new NullPointerException();
-        }
-        worldUiD = CoordsUtility.getWorldUid(world);
-        if (worldUiD == null) {
-            player.sendMessage(replaceStr(ConfigManager.errorMessage("invalid_world_1"), "{world}", world));
-            throw new NullPointerException();
-        } // If it passes this check, then we know the world is valid
-    }
-
-    public boolean save(ConfigYML config, boolean force) {
-        if (hasDuplicateCoordName(config) && !force) {
-            player.sendMessage(translateMsgClr("------------ | " + CommandManager.cmdClr("coords", true).toUpperCase() + "COORDS &R&F| ------------>"));
-            TextComponent errorStr = replaceStr(ConfigManager.errorMessage("coords_duplicate_2"), Map.of("{coord_name}",
-                    getCoordComponent(), "{world}", CoordsUtility.getWorldComponent(worldUiD)));
-            player.spigot().sendMessage(errorStr);
-            TextComponent choice = new TextComponent(">>> ");
-            TextComponent confirm = translateMsgClrComponent(String.format("&EClick to confirm overwrite of \"%s\"", name));
-            confirm.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(translateMsgClr("&CThis action is not reversible!"))));
-            confirm.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
-                    "/coords set " + name + " " + x + " " + y + " " + z + " " + CoordsUtility.getWorldName(worldUiD) + " --force"));
-            choice.addExtra(confirm);
-            player.spigot().sendMessage(choice);
-            player.sendMessage(ConfigManager.blockFooter);
-            return false;
-        }
-        CoordsUtility.addNewWorldToPlayerConfig(config, worldUiD);
-        config.getConfig().set(String.format("coordinates.%s.coords.%s.x", worldUiD, name), x);
-        config.getConfig().set(String.format("coordinates.%s.coords.%s.y", worldUiD, name), y);
-        config.getConfig().set(String.format("coordinates.%s.coords.%s.z", worldUiD, name), z);
-        config.save();
-        TextComponent returnMsg = translateMsgClrComponent(String.format("%s&FSaved &B%s ", CommandManager.cmdHeader("coords"), name));
-        returnMsg.addExtra(getCoordComponent());
-        returnMsg.addExtra(translateMsgClrComponent("&Fin "));
-        returnMsg.addExtra(CoordsUtility.getWorldComponent(worldUiD));
-        player.spigot().sendMessage(returnMsg);
-        return true;
-    }
-
-    public TextComponent getCoordComponent() {
-        String colour = Dimension.getClr(CoordsUtility.getWorldDimension(worldUiD));
-        TextComponent component = translateMsgClrComponent(String.format("%s[&F%d %d %d%s]&R", colour, x, y, z, colour));
-        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(translateMsgClr("Click for teleport command"))));
-        component.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, translateMsgClr(
-                String.format("/tp %s %d %d %d", player.getDisplayName(), x, y, z))));
-        return component;
+        };
     }
 
     public static void showAllCoords(ConfigPlayer config, Player p, int page) {
@@ -188,39 +113,72 @@ public class Coord {
         paginatedData.sendPaginatedMessage(p);
     }
 
-    /**
-     * Parses an integer out of an argument from a command, with '~' representing the player's current coordinate
-     *
-     * @param arg    given string argument
-     * @param player a Minecraft player
-     * @param axis   either 'x', 'y', or 'z'
-     * @return an integer
-     * @throws NumberFormatException if there are string characters in the argument
-     */
-    private int parseNumberArg(String arg, Player player, Axis axis) throws NumberFormatException {
-        if (arg.charAt(0) == '~') {
-            double axisNum = 0;
-            switch (axis) {
-                case X -> axisNum = player.getLocation().getX();
-                case Y -> axisNum = player.getLocation().getY();
-                case Z -> axisNum = player.getLocation().getZ();
-            }
-            if (arg.length() == 1) return (int) axisNum;
-            else return (int) (axisNum + Integer.parseInt(arg.substring(1)));
-        }
-        return Integer.parseInt(arg);
-    }
-
-    /**
-     * @param config player configuration file
-     * @return true if there already exists a coordinate saved with given name, false otherwise
-     */
-    private boolean hasDuplicateCoordName(ConfigYML config) {
-        try {
-            return Objects.requireNonNull(config.getConfig().getConfigurationSection(
-                    String.format("coordinates.%s.coords", worldUiD.toString()))).getKeys(false).contains(name);
-        } catch (NullPointerException e) {
+    public boolean save(ConfigYML config, boolean force) {
+        if (hasDuplicateCoordName(config) && !force) {
+            displayDuplicateCoordMessage();
             return false;
         }
+
+        CoordsUtility.addNewWorldToPlayerConfig(config, worldUid);
+        String path = String.format("coordinates.%s.coords.%s", worldUid, name);
+        config.getConfig().set(path + ".x", x);
+        config.getConfig().set(path + ".y", y);
+        config.getConfig().set(path + ".z", z);
+        config.save();
+
+        TextComponent returnMsg = translateMsgClrComponent(String.format("%s&FSaved &B%s ", CommandManager.cmdHeader("coords"), name));
+        returnMsg.addExtra(getCoordComponent());
+        returnMsg.addExtra(" ");
+        returnMsg.addExtra(translateMsgClrComponent("&Fin "));
+        returnMsg.addExtra(CoordsUtility.getWorldComponent(worldUid));
+        player.spigot().sendMessage(returnMsg);
+
+        return true;
+    }
+
+    private void displayDuplicateCoordMessage() {
+        player.sendMessage(translateMsgClr("------------ | " + CommandManager.cmdClr("coords", true).toUpperCase() + "COORDS &R&F| ------------>"));
+        TextComponent errorStr = replaceStr(ConfigManager.errorMessage("coords_duplicate_2"), Map.of(
+                "{coord_name}", getCoordComponent(), "{world}", CoordsUtility.getWorldComponent(worldUid)));
+        player.spigot().sendMessage(errorStr);
+
+        TextComponent choice = new TextComponent(">>> ");
+        TextComponent confirm = translateMsgClrComponent(String.format("&EClick to confirm overwrite of \"%s\"", name));
+        confirm.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(translateMsgClr("&CThis action is not reversible!"))));
+        confirm.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,
+                String.format("/coords set %s %d %d %d %s %s --force", name, x, y, z, Dimension.getDimensionEnum(getWorldDimension(worldUid)), CoordsUtility.getWorldName(worldUid))));
+        choice.addExtra(confirm);
+        player.spigot().sendMessage(choice);
+        player.sendMessage(ConfigManager.BLOCK_FOOTER);
+    }
+
+    public TextComponent getCoordComponent() {
+        String colour = Dimension.getClr(getWorldDimension(worldUid));
+        TextComponent component = translateMsgClrComponent(String.format("%s[&F%d %d %d%s]", colour, x, y, z, colour));
+        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(translateMsgClr("Click for teleport command"))));
+        component.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format("/tp %s %d %d %d", player.getDisplayName(), x, y, z)));
+        return component;
+    }
+
+    private int parseNumberArg(String arg, Player player, Axis axis) {
+        double axisNum = switch (axis) {
+            case X -> player.getLocation().getX();
+            case Y -> player.getLocation().getY();
+            case Z -> player.getLocation().getZ();
+        };
+        return arg.charAt(0) == '~' ? (arg.length() == 1 ? (int) axisNum : (int) (axisNum + Integer.parseInt(arg.substring(1)))) : Integer.parseInt(arg);
+    }
+
+    private boolean hasDuplicateCoordName(ConfigYML config) {
+        Bukkit.broadcastMessage("Duplicate: " + Optional.ofNullable(config.getConfig().getConfigurationSection(String.format("coordinates.%s.coords", worldUid)))
+                .map(section -> section.getKeys(false).contains(name))
+                .orElse(false));
+        return Optional.ofNullable(config.getConfig().getConfigurationSection(String.format("coordinates.%s.coords", worldUid)))
+                .map(section -> section.getKeys(false).contains(name))
+                .orElse(false);
+    }
+
+    private enum Axis {
+        X, Y, Z
     }
 }

@@ -1,38 +1,38 @@
 package ca.sirdanieliii.SD_SMP.coords;
 
-
 import ca.sirdanieliii.SD_SMP.utilities.Utilities;
 import org.bukkit.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.stream.Stream;
 
 public enum Dimension {
-    OVERWORLD,
-    NETHER,
-    THE_END,
-    CUSTOM;
+    OVERWORLD(World.Environment.NORMAL, "&A"),
+    NETHER(World.Environment.NETHER, "&C"),
+    THE_END(World.Environment.THE_END, "&D"),
+    CUSTOM(null, "&7");
+
+    private static final Map<World.Environment, Dimension> ENVIRONMENT_TO_DIMENSION = Map.of(
+            World.Environment.NORMAL, OVERWORLD,
+            World.Environment.NETHER, NETHER,
+            World.Environment.THE_END, THE_END
+    );
+
+    public final World.Environment environment;
+    private final String color;
+
+    Dimension(World.Environment environment, String color) {
+        this.environment = environment;
+        this.color = color;
+    }
 
     public static String getClr(World.Environment environment) {
-        if (environment == World.Environment.NORMAL) {
-            return "&A";
-        } else if (environment == World.Environment.NETHER) {
-            return "&C";
-        } else if (environment == World.Environment.THE_END) {
-            return "&D";
-        }
-        return "&7";
+        return ENVIRONMENT_TO_DIMENSION.getOrDefault(environment, CUSTOM).color;
     }
 
     public static Dimension getDimensionEnum(World.Environment environment) {
-        if (environment.equals(World.Environment.NORMAL)) {
-            return Dimension.OVERWORLD;
-        } else if (environment.equals(World.Environment.NETHER)) {
-            return Dimension.NETHER;
-        } else if (environment.equals(World.Environment.THE_END)) {
-            return Dimension.THE_END;
-        }
-        return Dimension.CUSTOM;
+        return ENVIRONMENT_TO_DIMENSION.getOrDefault(environment, CUSTOM);
     }
 
     @Nullable
@@ -52,22 +52,15 @@ public enum Dimension {
     }
 
     public String formattedStr(boolean colour, boolean bold, boolean titleCase) {
-        String name = this.toString();
-        if (titleCase) name = Utilities.toTitleCase(name.replace("_", " "));
+        String name = this.toString().replace("_", " ");
+        if (titleCase) name = Utilities.toTitleCase(name);
         if (bold) name = "&L" + name;
-        if (colour) name = this.getClr() + name;
+        if (colour) name = this.color + name;
         return Utilities.translateMsgClr(name);
     }
 
     public String getClr() {
-        if (this.equals(World.Environment.NORMAL)) {
-            return "&A";
-        } else if (this.equals(World.Environment.NETHER)) {
-            return "&C";
-        } else if (this.equals(World.Environment.THE_END)) {
-            return "&D";
-        }
-        return "&7";
+        return this.color;
     }
 
     public boolean equals(String environment) {
@@ -77,23 +70,14 @@ public enum Dimension {
         if (Stream.of("The End", "The_End").anyMatch(environment::equalsIgnoreCase)) {
             return this.equals(Dimension.THE_END);
         }
-        return environment.equalsIgnoreCase(super.name());
+        return environment.equalsIgnoreCase(this.name());
     }
 
     public boolean equals(World.Environment environment) {
-        if (environment == null) {
-            return false;
-        }
-        if (super.equals(Dimension.OVERWORLD) && environment.equals(World.Environment.NORMAL)) {
-            return true;
-        }
-        return environment.name().equalsIgnoreCase(super.name());
+        return environment != null && environment.equals(this.environment);
     }
 
     public boolean equals(World world) {
-        if (world == null) {
-            return false;
-        }
-        return equals(world.getEnvironment());
+        return world != null && this.equals(world.getEnvironment());
     }
 }

@@ -2,6 +2,7 @@ package ca.sirdanieliii.SD_SMP.configuration.configs;
 
 import ca.sirdanieliii.SD_SMP.SD_SMP;
 import ca.sirdanieliii.SD_SMP.configuration.ConfigYML;
+import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -21,6 +22,25 @@ public class ConfigPlayer extends ConfigYML {
 
     public ConfigPlayer(String path, String filename, String referencePath, String referenceFile) {
         super(path, filename, referencePath, referenceFile);
+    }
+
+    /**
+     * Corrects the death_by_nonplayer count by referring to the total amount of deaths & player deaths.
+     * YOU MUST SAVE THE CONFIG MANUALLY AFTER USING THIS METHOD!!!
+     *
+     * @param config player's config
+     * @param player a Minecraft player
+     */
+    public static void correctDeathValues(ConfigPlayer config, Player player) {
+        int deathsOther = config.getConfig().getInt("death_by_nonplayer") + 1;
+        int deathsPlayer = config.getConfig().getInt("death_by_player");
+        int deathsTotal = player.getStatistic(Statistic.DEATHS);
+        // Fix death by non_players count
+        if (deathsOther + deathsPlayer != deathsTotal) {
+            deathsOther = deathsTotal - deathsPlayer;
+        }
+        config.getConfig().set("death_by_nonplayer", deathsOther);
+        config.getConfig().set("death_total", deathsTotal);
     }
 
     public boolean update(Player player) {
@@ -72,6 +92,7 @@ public class ConfigPlayer extends ConfigYML {
             newFile.getConfig().set("kills", this.getConfig().getInt("murders"));
             newFile.getConfig().set("death_by_player", this.getConfig().getInt("death_by_player"));
             newFile.getConfig().set("death_by_nonplayer", this.getConfig().getInt("death_by_other"));
+            newFile.getConfig().set("death_total", player.getStatistic(Statistic.DEATHS));
             newFile.save();
             if (this.delete()) { // Delete "old" file
                 this.reload(newFile.getFile()); // Update variables to reference renamed file
@@ -84,10 +105,11 @@ public class ConfigPlayer extends ConfigYML {
         return false;
     }
 
-    public void updateName(Player player) {
+    public void updateValuesOnJoin(Player player) {
         if (Arrays.asList(1, 2).contains(this.getVersion())) {
             this.getConfig().set("uuid", player.getUniqueId().toString());
             this.getConfig().set("name", player.getDisplayName());
+            correctDeathValues(this, player);
             this.save();
         }
     }

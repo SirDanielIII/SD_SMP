@@ -40,8 +40,10 @@ public class deathPlayer extends SubCommand {
         double deaths = config.getConfig().getDouble("death_by_player");
         if (deaths == 0) player.sendMessage(Utilities.translateMsgClr(CommandManager.cmdHeader("death") + "&7You have never been killed by a player :O"));
         else {
-            if (deaths == 1) player.sendMessage(Utilities.translateMsgClr(CommandManager.cmdHeader("death") + "&FYou have been " + Utilities.randomMsgFromLst(ConfigManager.describeKill) + " &Conce!"));
-            else player.sendMessage(Utilities.translateMsgClr(CommandManager.cmdHeader("death") + "&FYou have been " + Utilities.randomMsgFromLst(ConfigManager.describeKill) + " &C" + (int) deaths + " times!"));
+            if (deaths == 1)
+                player.sendMessage(Utilities.translateMsgClr(CommandManager.cmdHeader("death") + "&FYou have been " + Utilities.randomMsgFromLst(ConfigManager.describeKill) + " &Conce!"));
+            else
+                player.sendMessage(Utilities.translateMsgClr(CommandManager.cmdHeader("death") + "&FYou have been " + Utilities.randomMsgFromLst(ConfigManager.describeKill) + " &C" + (int) deaths + " times!"));
         }
         return true;
     }

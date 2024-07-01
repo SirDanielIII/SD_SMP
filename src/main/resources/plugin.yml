@@ -5,9 +5,9 @@ main: ca.sirdanieliii.SD_SMP.SD_SMP
 api-version: 1.16
 softdepend: [ Multiverse-Core ]
 commands:
-#  coords:
-#    description: Saves coords so you won't get lost
-#    usage: /coords <action> <arguments>
+  coords:
+    description: Saves coords so you won't get lost
+    usage: /coords <action> <arguments>
   death:
     description: Statistics about your deaths and murders :D
     usage: /death <stat>
@@ -18,12 +18,9 @@ commands:
     description: Spawns a weapon of the Gods
     usage: /wand
   smp:
-    description: Displays every SD_SMP command
-    usage: /smp
+    description: Displays every SD_SMP command + has reload functionality
+    usage: /smp [reload]
     aliases: sd_smp
-#  reload:
-#    description: Reloads SD_SMP's configuration files
-#    usage: /smp reload
 permissions:
   sd_smp.smp.reload:
     description: Lets you reload the config files

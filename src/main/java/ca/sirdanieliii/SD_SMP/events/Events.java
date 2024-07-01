@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static ca.sirdanieliii.SD_SMP.configuration.ConfigManager.signColourCodeSupport;
+import static ca.sirdanieliii.SD_SMP.configuration.configs.ConfigPlayer.correctDeathValues;
 import static ca.sirdanieliii.SD_SMP.utilities.Utilities.translateMsgClr;
 
 public class Events implements Listener {
@@ -44,8 +45,8 @@ public class Events implements Listener {
             }
         }
         ConfigManager.setupPlayerConfig(player);
-        if (ConfigManager.welcome_enable) {
-            player.sendTitle(translateMsgClr(ConfigManager.welcome.get(0)), translateMsgClr(ConfigManager.welcome.get(1)), ConfigManager.welcome_fade_in, ConfigManager.welcome_stay, ConfigManager.welcome_fade_out);
+        if (ConfigManager.welcomeEnable) {
+            player.sendTitle(translateMsgClr(ConfigManager.welcome.get(0)), translateMsgClr(ConfigManager.welcome.get(1)), ConfigManager.welcomeFadeIn, ConfigManager.welcomeStay, ConfigManager.welcomeFadeOut);
         }
         if (ConfigManager.healthUnderName) {
             Scoreboards.addPlayerToScoreboard(player);
@@ -82,12 +83,12 @@ public class Events implements Listener {
     public static void onPlayerDeathEvent(PlayerDeathEvent event) {
         Player player = event.getEntity();
         Player killer = player.getKiller();
-        int deaths;
+        int deathsOther;
         ConfigPlayer config = new ConfigPlayer(player);
         if (killer != null) {
             // Add to death count (Player)
-            deaths = config.getConfig().getInt("death_by_player") + 1;
-            config.getConfig().set("death_by_player", deaths);
+            deathsOther = config.getConfig().getInt("death_by_player") + 1;
+            config.getConfig().set("death_by_player", deathsOther);
             config.save();
             // Add to kill count (Killer)
             config = new ConfigPlayer(player);
@@ -99,8 +100,7 @@ public class Events implements Listener {
                 player.getWorld().strikeLightningEffect(player.getLocation());
             }
         } else {
-            deaths = config.getConfig().getInt("death_by_nonplayer") + 1;
-            config.getConfig().set("death_by_nonplayer", deaths);
+            correctDeathValues(config, player);
             config.save();
         }
     }
@@ -169,47 +169,41 @@ public class Events implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public static void onElytraFly(EntityToggleGlideEvent event) {
-        Player player = (Player) event.getEntity();
-        ItemStack elytra;
-        boolean dropElytra = true;
-        List<World.Environment> dimensions = new ArrayList<>();
-        if (!ConfigManager.elytraFlightOverworld) dimensions.add(World.Environment.NORMAL);
-        if (!ConfigManager.elytraFlightNether) dimensions.add(World.Environment.NETHER);
-        if (!ConfigManager.elytraFlightTheEnd) dimensions.add(World.Environment.THE_END);
-        // Loop through dimensions where Elytra are disabled
-        for (World.Environment i : dimensions) {
-            if (player.getWorld().getEnvironment().equals(i)) {
-                if (Objects.requireNonNull(player.getInventory().getChestplate()).getType().equals(Material.ELYTRA)) {
-                    elytra = player.getInventory().getChestplate();
-                    event.setCancelled(true);  // Disable elytra if player is in dimension, only if they're wearing an Elytra (fixes bug)
-                    player.sendMessage(ConfigManager.errorMessage("disabled_elytra_flight"));
-                } else elytra = null;
-                try {
-                    for (int slot = 9; slot < 36; slot++) { // Loop through inventory contents, skipping the main hotbar, side & armour slots
-                        if (player.getInventory().getItem(slot) == null) { // Check if inventory slot is empty
-                            if (elytra.getType().equals(Material.ELYTRA)) { // Only proceed is elytra item-stack is actually an elytra and not null, etc
-                                player.getInventory().setItem(slot, elytra); // Copy player's elytra into inventory
-                                player.sendMessage(ConfigManager.generalMsgs.get("force_moved_elytra"));
-                            }
-                            // Remove Elytra from player if wearing one
-                            if (player.getInventory().getChestplate().getType().equals(Material.ELYTRA))
-                                player.getInventory().setChestplate(null);
-                            dropElytra = false;
-                            break;
-                        }
-                    }
-                    if (dropElytra && elytra.getType().equals(Material.ELYTRA)) {  // Proceed if elytra needs to be dropped and elytra item-stack is not null, etc
-                        player.getWorld().dropItem(player.getLocation(), Objects.requireNonNull(elytra)); // Drop elytra if no inventory space
-                        // Remove Elytra from player if wearing one
-                        if (player.getInventory().getChestplate().getType().equals(Material.ELYTRA))
-                            player.getInventory().setChestplate(null);
-                        player.sendMessage(translateMsgClr(ConfigManager.generalMsgs.get("force_dropped_elytra")));
-                    }
-                } catch (NullPointerException ignored) {
-                }
+        if (!(event.getEntity() instanceof Player player)) return;
+
+        ItemStack elytra = player.getInventory().getChestplate();
+
+        // Check if player is wearing Elytra
+        if (elytra == null || elytra.getType() != Material.ELYTRA) return;
+
+        List<World.Environment> disabledDimensions = new ArrayList<>();
+        if (!ConfigManager.elytraFlightOverworld) disabledDimensions.add(World.Environment.NORMAL);
+        if (!ConfigManager.elytraFlightNether) disabledDimensions.add(World.Environment.NETHER);
+        if (!ConfigManager.elytraFlightTheEnd) disabledDimensions.add(World.Environment.THE_END);
+
+        // Check if the player's current dimension disables Elytra flight
+        if (!disabledDimensions.contains(player.getWorld().getEnvironment())) return;
+
+        event.setCancelled(true); // Disable Elytra flight
+        player.sendMessage(ConfigManager.errorMessage("disabled_elytra_flight"));
+
+        // Remove Elytra from chestplate slot
+        player.getInventory().setChestplate(null);
+
+        // Try to move Elytra to an empty inventory slot
+        for (int slot = 9; slot < 36; slot++) { // Exclude hotbar and armor slots
+            if (player.getInventory().getItem(slot) == null) {
+                player.getInventory().setItem(slot, elytra);
+                player.sendMessage(ConfigManager.generalMsgs.get("force_moved_elytra"));
+                return;
             }
         }
+
+        // If no empty slots, drop Elytra at player's location
+        player.getWorld().dropItem(player.getLocation(), elytra);
+        player.sendMessage(translateMsgClr(ConfigManager.generalMsgs.get("force_dropped_elytra")));
     }
+
 
     @EventHandler
     public static void powers(PlayerInteractEvent event) { // Wand Powers

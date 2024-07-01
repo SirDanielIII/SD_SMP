@@ -7,6 +7,7 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -34,8 +35,11 @@ public class SMP implements TabExecutor {
                 if (ConfigManager.healthUnderName) Scoreboards.reloadHealthScoreboard();
                 else Scoreboards.disableHealthScoreboard();
                 // Return Messages
-                sender.sendMessage(translateMsgClr(ConfigManager.cmdHeader + " &FAll configs, settings and tasks have been reloaded!"));
-                if (sender instanceof Player) SD_SMP.getThisPlugin().getLogger().info(sender.getName() + "has reloaded the " + ConfigManager.pluginName + " plugin!");
+                sender.sendMessage(translateMsgClr(ConfigManager.cmdHeader + " &EAll configs, settings and tasks have been reloaded!"));
+                if (sender instanceof Player) {
+                    SD_SMP.getThisPlugin().getLogger().info(
+                            sender.getName() + "has reloaded the " + ChatColor.stripColor(translateMsgClr(ConfigManager.pluginName)) + " plugin!");
+                }
                 return true;
             }
             sender.sendMessage(ConfigManager.errorMessage("smp"));
@@ -47,7 +51,7 @@ public class SMP implements TabExecutor {
         cmdReload.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, ConfigManager.generalMsgs.get("smp")));
         cmdReload.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(translateMsgClr("&7Reloads all configs, settings and tasks for this plugin"))));
         sender.spigot().sendMessage(cmdReload);
-        for (List<SubCommand> subcommands : CommandManager.cmdCategories.values()) {
+        for (List<SubCommand> subcommands : CommandManager.CMD_CATEGORIES.values()) {
             for (SubCommand subcommand : subcommands) {
                 TextComponent command = translateMsgClrComponent("→ " + CommandManager.cmdClr(subcommand.getCmdGroup(), false) + subcommand.getSyntax());
                 command.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, subcommand.getSyntax()));
@@ -59,7 +63,7 @@ public class SMP implements TabExecutor {
         cmdWand.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, Wand.getSyntax()));
         cmdWand.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(translateMsgClr("&7" + Wand.getDescription()))));
         sender.spigot().sendMessage(cmdWand);
-        sender.sendMessage(ConfigManager.blockFooter);
+        sender.sendMessage(ConfigManager.BLOCK_FOOTER);
         return true;
     }
 

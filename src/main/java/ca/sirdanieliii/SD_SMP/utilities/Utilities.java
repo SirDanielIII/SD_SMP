@@ -1,10 +1,11 @@
 package ca.sirdanieliii.SD_SMP.utilities;
 
-import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -14,52 +15,22 @@ import java.util.regex.Pattern;
 import static java.lang.Character.isAlphabetic;
 
 public class Utilities {
-    public static String getCardinalDirection(Player event) {
-        double rotation = (event.getLocation().getYaw() - 90) % 360;
-        if (rotation < 0) {
-            rotation += 360.0;
-        }
-        if (0 <= rotation && rotation < 22.5) {
-            return "W";
-        } else if (22.5 <= rotation && rotation < 67.5) {
-            return "NW";
-        } else if (67.5 <= rotation && rotation < 112.5) {
-            return "N";
-        } else if (112.5 <= rotation && rotation < 157.5) {
-            return "NE";
-        } else if (157.5 <= rotation && rotation < 202.5) {
-            return "E";
-        } else if (202.5 <= rotation && rotation < 247.5) {
-            return "SE";
-        } else if (247.5 <= rotation && rotation < 292.5) {
-            return "S";
-        } else if (292.5 <= rotation && rotation < 337.5) {
-            return "SW";
-        } else if (337.5 <= rotation && rotation < 360.0) {
-            return "N";
-        } else {
-            return null;
-        }
-    }
-
-    // Get Offset Based off Direction
-    public static Vector offsetFromDirection(Player event, Double offset) {
-        Vector loc = null;
-        switch (Objects.requireNonNull(getCardinalDirection(event))) {
-            case ("N") -> loc = new Vector(0, 0, -offset);
-            case ("E") -> loc = new Vector(offset, 0, 0);
-            case ("S") -> loc = new Vector(0, 0, offset);
-            case ("W") -> loc = new Vector(-offset, 0, 0);
-            case ("NE") -> loc = new Vector(offset, 0, -offset);
-            case ("SE") -> loc = new Vector(offset, 0, offset);
-            case ("NW") -> loc = new Vector(-offset, 0, -offset);
-            case ("SW") -> loc = new Vector(-offset, 0, offset);
-        }
-        return loc;
+    /**
+     * Finds a safe location 2 blocks in front of the player.
+     *
+     * @param player The player for whom to find the location.
+     * @return The highest block's location, 2 blocks in front of the player.
+     */
+    public static Location getSafeLocationInFront(Player player) {
+        Location playerLocation = player.getLocation();
+        Location targetLocation = playerLocation.clone().add(playerLocation.getDirection().setY(0).normalize().multiply(2));
+        World world = targetLocation.getWorld();
+        assert world != null;
+        return world.getHighestBlockAt(targetLocation.getBlockX(), targetLocation.getBlockZ()).getLocation();
     }
 
     public static String randomMsgFromLst(List<String> lst) {
-        if (lst.size() == 0) throw new IllegalArgumentException("List is empty");
+        if (lst.isEmpty()) throw new IllegalArgumentException("Given list is empty");
         return lst.get(new Random().nextInt(lst.size()));
     }
 
@@ -150,7 +121,7 @@ public class Utilities {
             if (texts[i].equalsIgnoreCase("&")) {
                 i++; // Get the next string
                 if (texts[i].charAt(0) == '#') finalMsg.append(net.md_5.bungee.api.ChatColor.of(texts[i].substring(0, 7))).append(texts[i].substring(7));
-                else finalMsg.append(ChatColor.translateAlternateColorCodes('&', "&" + texts[i]));
+                else finalMsg.append(net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', "&" + texts[i]));
             } else finalMsg.append(texts[i]);
         }
         return finalMsg.toString();
@@ -179,33 +150,86 @@ public class Utilities {
                         subComponent.setText(" ");
                     }
                     switch (Character.toLowerCase(texts[i].charAt(0))) {
-                        case '0' -> subComponent.setColor(ChatColor.BLACK);
-                        case '1' -> subComponent.setColor(ChatColor.DARK_BLUE);
-                        case '2' -> subComponent.setColor(ChatColor.DARK_GREEN);
-                        case '3' -> subComponent.setColor(ChatColor.DARK_AQUA);
-                        case '4' -> subComponent.setColor(ChatColor.DARK_RED);
-                        case '5' -> subComponent.setColor(ChatColor.DARK_PURPLE);
-                        case '6' -> subComponent.setColor(ChatColor.GOLD);
-                        case '7' -> subComponent.setColor(ChatColor.GRAY);
-                        case '8' -> subComponent.setColor(ChatColor.DARK_GRAY);
-                        case '9' -> subComponent.setColor(ChatColor.BLUE);
-                        case 'a' -> subComponent.setColor(ChatColor.GREEN);
-                        case 'b' -> subComponent.setColor(ChatColor.AQUA);
-                        case 'c' -> subComponent.setColor(ChatColor.RED);
-                        case 'd' -> subComponent.setColor(ChatColor.LIGHT_PURPLE);
-                        case 'e' -> subComponent.setColor(ChatColor.YELLOW);
-                        case 'f' -> subComponent.setColor(ChatColor.WHITE);
+                        case '0' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.BLACK);
+                        case '1' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.DARK_BLUE);
+                        case '2' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.DARK_GREEN);
+                        case '3' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.DARK_AQUA);
+                        case '4' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.DARK_RED);
+                        case '5' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.DARK_PURPLE);
+                        case '6' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.GOLD);
+                        case '7' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.GRAY);
+                        case '8' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.DARK_GRAY);
+                        case '9' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.BLUE);
+                        case 'a' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.GREEN);
+                        case 'b' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.AQUA);
+                        case 'c' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.RED);
+                        case 'd' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.LIGHT_PURPLE);
+                        case 'e' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.YELLOW);
+                        case 'f', 'r' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.WHITE);
                         case 'k' -> subComponent.setObfuscated(true);
                         case 'l' -> subComponent.setBold(true);
                         case 'm' -> subComponent.setStrikethrough(true);
                         case 'n' -> subComponent.setUnderlined(true);
                         case 'o' -> subComponent.setItalic(true);
-                        case 'r' -> subComponent.setColor(ChatColor.RESET);
                     }
                     builder.append(subComponent);
                 }
             } else {
                 builder.append(texts[i]);
+            }
+        }
+        return new TextComponent(builder.create());
+    }
+
+    public static TextComponent translateMsgClrComponent(TextComponent inputComponent) {
+        ComponentBuilder builder = new ComponentBuilder();
+        for (BaseComponent baseComponent : inputComponent.getExtra()) {
+            if (baseComponent instanceof TextComponent subComponent) {
+                String text = subComponent.getText();
+                String[] texts = text.split(String.format("((?<=%1$s)|(?=%1$s))", "&"));
+                for (int i = 0; i < texts.length; i++) {
+                    if (texts[i].equalsIgnoreCase("&")) {
+                        // Get the next string
+                        i++;
+                        if (texts[i].charAt(0) == '#') {
+                            subComponent.setText(texts[i].substring(7));
+                            subComponent.setColor(net.md_5.bungee.api.ChatColor.of(texts[i].substring(0, 7)));
+                            builder.append(subComponent);
+                        } else {
+                            if (texts[i].length() > 1) {
+                                subComponent.setText(texts[i].substring(1));
+                            } else {
+                                subComponent.setText(" ");
+                            }
+                            switch (Character.toLowerCase(texts[i].charAt(0))) {
+                                case '0' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.BLACK);
+                                case '1' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.DARK_BLUE);
+                                case '2' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.DARK_GREEN);
+                                case '3' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.DARK_AQUA);
+                                case '4' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.DARK_RED);
+                                case '5' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.DARK_PURPLE);
+                                case '6' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.GOLD);
+                                case '7' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.GRAY);
+                                case '8' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.DARK_GRAY);
+                                case '9' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.BLUE);
+                                case 'a' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.GREEN);
+                                case 'b' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.AQUA);
+                                case 'c' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.RED);
+                                case 'd' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.LIGHT_PURPLE);
+                                case 'e' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.YELLOW);
+                                case 'f', 'r' -> subComponent.setColor(net.md_5.bungee.api.ChatColor.WHITE);
+                                case 'k' -> subComponent.setObfuscated(true);
+                                case 'l' -> subComponent.setBold(true);
+                                case 'm' -> subComponent.setStrikethrough(true);
+                                case 'n' -> subComponent.setUnderlined(true);
+                                case 'o' -> subComponent.setItalic(true);
+                            }
+                            builder.append(subComponent);
+                        }
+                    } else {
+                        builder.append(texts[i]);
+                    }
+                }
             }
         }
         return new TextComponent(builder.create());
@@ -220,7 +244,7 @@ public class Utilities {
                 finalStr.append(c);
             }
         }
-        if (finalStr.length() != 0) return finalStr.toString();
+        if (!finalStr.isEmpty()) return finalStr.toString();
         else return null;
     }
 }

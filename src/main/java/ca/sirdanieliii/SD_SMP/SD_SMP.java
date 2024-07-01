@@ -24,10 +24,6 @@ public final class SD_SMP extends JavaPlugin {
         return instance;
     }
 
-    public static Server getThisPluginServer() {
-        return getThisPlugin().getServer();
-    }
-
     @Override
     public void onEnable() {
         ConfigManager.reloadConfigs();
@@ -35,7 +31,7 @@ public final class SD_SMP extends JavaPlugin {
         ItemManager.init();
         // Custom Commands
         Objects.requireNonNull(getCommand("ivan")).setExecutor(new CommandManager());
-//        Objects.requireNonNull(getCommand("coords")).setExecutor(new CommandManager());
+        Objects.requireNonNull(getCommand("coords")).setExecutor(new CommandManager());
         Objects.requireNonNull(getCommand("death")).setExecutor(new CommandManager());
         Objects.requireNonNull(getCommand("smp")).setExecutor(new SMP());
         Objects.requireNonNull(getCommand("wand")).setExecutor(new Wand());

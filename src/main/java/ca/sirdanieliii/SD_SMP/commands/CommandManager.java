@@ -17,91 +17,79 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static ca.sirdanieliii.SD_SMP.configuration.ConfigManager.blockFooter;
+import static ca.sirdanieliii.SD_SMP.configuration.ConfigManager.BLOCK_FOOTER;
 import static ca.sirdanieliii.SD_SMP.utilities.Utilities.translateMsgClr;
 import static ca.sirdanieliii.SD_SMP.utilities.Utilities.translateMsgClrComponent;
 
 public class CommandManager implements TabExecutor {
-    public static Map<String, List<SubCommand>> cmdCategories = new HashMap<>();
-    List<SubCommand> ivan = new ArrayList<>();
-    List<SubCommand> coords = new ArrayList<>();
-    List<SubCommand> death = new ArrayList<>();
+
+    public static Map<String, List<SubCommand>> CMD_CATEGORIES;
 
     public CommandManager() {
-        ivan.add(new ivanDog());
-        ivan.add(new ivanDonkey());
-        coords.add(new coordsClear());
-        coords.add(new coordsList());
-        coords.add(new coordsSend());
-        coords.add(new coordsSet());
-        death.add(new deathKDR());
-        death.add(new deathKills());
-        death.add(new deathNonPlayer());
-        death.add(new deathPlayer());
-        death.add(new deathTotal());
-        cmdCategories.put("ivan", ivan);
-        cmdCategories.put("death", death);
-        cmdCategories.put("coords", coords);
+        List<SubCommand> ivan = Arrays.asList(new ivanDog(), new ivanDonkey());
+        List<SubCommand> coords = Arrays.asList(new coordsClear(), new coordsList(), new coordsSend(), new coordsSet());
+        List<SubCommand> death = Arrays.asList(new deathKDR(), new deathKills(), new deathNonPlayer(), new deathPlayer(), new deathTotal());
+
+        CMD_CATEGORIES = Map.of(
+                "ivan", ivan,
+                "coords", coords,
+                "death", death
+        );
     }
 
-    public static ArrayList<SubCommand> getSubcommands(String key) {
-        return (ArrayList<SubCommand>) cmdCategories.get(key);
+    public static List<SubCommand> getSubcommands(String key) {
+        return CMD_CATEGORIES.getOrDefault(key, Collections.emptyList());
     }
 
     public static String cmdHeader(String type) {
         return switch (type.toLowerCase()) {
-            case ("coords") -> "&6[&FCoords&6] ";
-            case ("death") -> "&4[&FDeath&4] ";
-            case ("ivan") -> "&B[&FIvan&B] ";
+            case "coords" -> "&6[&FCoords&6] ";
+            case "death" -> "&4[&FDeath&4] ";
+            case "ivan" -> "&#0085F5[&FIvan&#0085F5] ";
             default -> "";
         };
     }
 
     public static String cmdClr(String type, boolean bold) {
-        String s;
-        switch (type.toLowerCase()) {
-            case ("coords") -> s = "&6";
-            case ("death") -> s = "&4";
-            case ("ivan") -> s = "&B";
-            case ("smp") -> s = "&#f50057";
-            case ("wand") -> s = "&D";
-            default -> s = "&F";
-        }
-        if (bold) s += "&L";
-        return s;
+        String colorCode = switch (type.toLowerCase()) {
+            case "coords" -> "&6";
+            case "death" -> "&4";
+            case "ivan" -> "&B";
+            case "smp" -> "&#f50057";
+            case "wand" -> "&D";
+            default -> "&F";
+        };
+        return bold ? colorCode + "&L" : colorCode;
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) return false;
-        if (args.length > 0) { // Provided arguments
-            for (SubCommand subcommand : getSubcommands(cmd.getName())) { // Loop through all subcommands of category
+
+        if (args.length > 0) {
+            for (SubCommand subcommand : getSubcommands(cmd.getName())) {
                 if (args[0].equalsIgnoreCase(subcommand.getName())) {
-                    subcommand.perform(player, args);  // Check for any command family matches and perform it
+                    subcommand.perform(player, args);
                     return true;
                 }
             }
         }
-        displaySubCommands(player, cmd.getName());  // If no subcommand matches, display all possible subcommands
+        displaySubCommands(player, cmd.getName());
         return true;
     }
 
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String alias, String[] args) {
-        if (args.length == 1) { // E.G. /command [TAB-COMPLETE]
-            ArrayList<String> subcommandArgs = new ArrayList<>();
-            for (int i = 0; i < getSubcommands(cmd.getName()).size(); i++)
-                subcommandArgs.add(getSubcommands(cmd.getName()).get(i).getName());  // Get subcommand names as tab-complete
+        if (args.length == 1) {
+            List<String> subcommandArgs = new ArrayList<>();
+            getSubcommands(cmd.getName()).forEach(subcommand -> subcommandArgs.add(subcommand.getName()));
             return subcommandArgs;
-        } else if (args.length >= 2) { // /command subcommand [TAB-COMPLETE]
-            for (int i = 0; i < getSubcommands(cmd.getName()).size(); i++) {
-                if (args[0].equalsIgnoreCase(getSubcommands(cmd.getName()).get(i).getName())) {
-                    return getSubcommands(cmd.getName()).get(i).getSubcommandArgs((Player) sender, args);  // Get matching subcommand's tab-complete
+        } else if (args.length >= 2) {
+            for (SubCommand subcommand : getSubcommands(cmd.getName())) {
+                if (args[0].equalsIgnoreCase(subcommand.getName())) {
+                    return subcommand.getSubcommandArgs((Player) sender, args);
                 }
             }
         }
@@ -109,14 +97,14 @@ public class CommandManager implements TabExecutor {
     }
 
     private void displaySubCommands(Player player, String cmd) {
-        String name = cmdClr(cmd, true) + cmd.toUpperCase();
-        player.sendMessage(translateMsgClr("------------ | " + name + " &R&F| ------------>"));
-        for (SubCommand subcommand : cmdCategories.get(cmd)) {
-            TextComponent command = translateMsgClrComponent("→ " + cmdClr(subcommand.getCmdGroup(), false) + subcommand.getSyntax());
-            command.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, subcommand.getSyntax()));
-            command.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(translateMsgClr("&7" + subcommand.getDescription()))));
-            player.spigot().sendMessage(command);
+        String header = cmdClr(cmd, true) + cmd.toUpperCase();
+        player.sendMessage(translateMsgClr("------------ | " + header + " &R&F| ------------>"));
+        for (SubCommand subcommand : getSubcommands(cmd)) {
+            TextComponent commandComponent = translateMsgClrComponent("→ " + cmdClr(subcommand.getCmdGroup(), false) + subcommand.getSyntax());
+            commandComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, subcommand.getSyntax()));
+            commandComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(translateMsgClr("&7" + subcommand.getDescription()))));
+            player.spigot().sendMessage(commandComponent);
         }
-        player.sendMessage(blockFooter);
+        player.sendMessage(BLOCK_FOOTER);
     }
 }

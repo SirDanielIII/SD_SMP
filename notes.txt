@@ -1,13 +1,7 @@
 When updating a version, if an option is missing the entire thing gets dumped onto preexisting values
-
 When reloading the document, check if things are missing or not and add back the default values
 
-Convert /death commands to grab from Minecraft statistics (more accurate)
-
-Missing error when no subcommand is detected
---> /ivan sfd9iofus
-
-
+Next thing to do: Test out Coord.showAllCoords
 
 /* Notes
 Add tracking command
@@ -30,5 +24,29 @@ Add option to detect world for
 
 Add global top scoreboard
 
-Fix reload bug
- */
+
+Folder structure
+
+players:
+  <player-uuid>:
+    coords:
+      <name>: # The name of the coordinate set by the player
+        world: <world-name> # The name of the world
+        x: <x-coordinate>
+        y: <y-coordinate>
+        z: <z-coordinate>
+        dimension: <dimension> # overworld, nether, the_end, or custom
+
+Example:
+players:
+  1234-5678-91011:
+    coords:
+      home:
+        world: world
+        x: 100
+        y: 64
+        z: -200
+        dimension: overworld
+
+
+Make teleport command for coords just teleport with permission, and it sends you to the right world

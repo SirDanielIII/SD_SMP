@@ -10,8 +10,6 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ca.sirdanieliii.SD_SMP.utilities.Utilities.replaceStr;
-
 public class coordsList extends SubCommand {
     @Override
     public String getName() {
@@ -60,7 +58,8 @@ public class coordsList extends SubCommand {
             case (3) -> { // /coords list <name|all> dimension or /coords list all <page>
 
 
-            } case (4) -> { // /coords list <name|all> [dimension] [world] or /coords list all <dimension> <page>
+            }
+            case (4) -> { // /coords list <name|all> [dimension] [world] or /coords list all <dimension> <page>
 
             }
             // Number of arguments are more than 7

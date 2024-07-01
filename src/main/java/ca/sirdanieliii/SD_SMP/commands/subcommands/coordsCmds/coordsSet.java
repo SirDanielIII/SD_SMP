@@ -1,8 +1,8 @@
 package ca.sirdanieliii.SD_SMP.commands.subcommands.coordsCmds;
 
+import ca.sirdanieliii.SD_SMP.commands.SubCommand;
 import ca.sirdanieliii.SD_SMP.configuration.ConfigManager;
 import ca.sirdanieliii.SD_SMP.configuration.configs.ConfigPlayer;
-import ca.sirdanieliii.SD_SMP.commands.SubCommand;
 import ca.sirdanieliii.SD_SMP.coords.Coord;
 import ca.sirdanieliii.SD_SMP.coords.Dimension;
 import org.bukkit.Bukkit;
@@ -12,10 +12,10 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ca.sirdanieliii.SD_SMP.utilities.Utilities.cleanStrForYMLKey;
 import static ca.sirdanieliii.SD_SMP.utilities.Utilities.replaceStr;
 
 public class coordsSet extends SubCommand {
+
     @Override
     public String getName() {
         return "set";
@@ -38,160 +38,124 @@ public class coordsSet extends SubCommand {
 
     @Override
     public boolean perform(Player player, String[] args) {
-        if (!(player.hasPermission("sd_smp.coords.set"))) {
+        if (!player.hasPermission("sd_smp.coords.set")) {
             player.sendMessage(ConfigManager.errorMessage("permission"));
             return false;
         }
+
         ConfigPlayer config = new ConfigPlayer(player);
-        switch (args.length) {
-            case (1) -> { // coords set
+
+        return switch (args.length) {
+            case 1 -> {
                 player.sendMessage(ConfigManager.errorMessage("coords_set"));
-                return false;
+                yield false;
             }
-            case (2) -> { // /coords set name
+            case 2 -> {
                 player.sendMessage(ConfigManager.errorMessage("no_args_to_set_coord"));
-                return false;
+                yield false;
             }
-            case (3) -> { // /coords set name here or /coords set name <x>
+            case 3 -> {
                 if (args[2].equalsIgnoreCase("here")) {
-                    Coord coord;
-                    try {
-                        coord = new Coord(player, player.getWorld().getUID(), args[1]);
-                    } catch (NullPointerException | NumberFormatException exception) {
-                        return false;
-                    }
-                    return coord.save(config, false);
+                    yield saveCoord(player, config, args[1], false);
                 }
                 player.sendMessage(ConfigManager.errorMessage("invalid_xyz"));
-                return false;
+                yield false;
             }
-            case (4) -> { // /coords set name <x> <y>
-                String name = cleanStrForYMLKey(args[1]);
-                if (name == null) {
-                    player.sendMessage(ConfigManager.errorMessage("special_characters"));
-                    return false;
+            case 4 -> {
+                if (args[2].equalsIgnoreCase("here") && args[3].equals("--force")) {
+                    yield saveCoord(player, config, args[1], true);
+                } else if (args[2].equalsIgnoreCase("here")) { // Argument does not equal "--force"
+                    yield tooManyArguments(player);
                 }
-                if (!args[2].equalsIgnoreCase("here") && !args[3].equals("--force")) {
-                    player.sendMessage(ConfigManager.errorMessage("invalid_xyz"));
-                    return false;
-                }
-                // /coords set name here --force
-                Coord coord;
-                try {
-                    coord = new Coord(player, player.getWorld().getUID(), args[1]);
-                } catch (NullPointerException | NumberFormatException exception) {
-                    return false;
-                }
-                coord.save(config, true);
-                return true;
+                player.sendMessage(ConfigManager.errorMessage("invalid_xyz"));
+                yield false;
             }
-            case (5) -> { // /coords set name <x> <y> <z>
-                Coord coord;
-                try {
-                    coord = new Coord(player, player.getWorld().getUID(), args[1], args[2], args[3], args[4]);
-                } catch (NullPointerException | NumberFormatException exception) {
-                    return false;
+            case 5 -> saveCoord(player, config, args[1], args[2], args[3], args[4]);
+            case 6 -> saveCoord(player, config, args[1], args[2], args[3], args[4], args[5]);
+            case 7 -> saveCoord(player, config, args[1], args[2], args[3], args[4], args[5], args[6], false);
+            case 8 -> {
+                if (args[7].equals("--force")) {
+                    saveCoord(player, config, args[1], args[2], args[3], args[4], args[5], args[6], true);
+                    yield true;
                 }
-                coord.save(config, false);
+                yield tooManyArguments(player);
             }
-            case (6) -> {
-                /*
-                /coords set name <x> <y> <z> <overworld | nether | the_end>
-                   -> The 6th argument here refers to the main world's Overworld, Nether & The End.
-                 */
-                Coord coord;
-                try {
-                    coord = new Coord(player, args[1], args[2], args[3], args[4], args[5]);
-                } catch (NullPointerException | NumberFormatException exception) {
-                    return false;
-                }
-                coord.save(config, false);
-            }
-            case (7) -> {
-                /*
-                /coords set name <x> <y> <z> <overworld | nether | the_end> <world>
-                   -> The 6th argument here refers to the main world's Overworld, Nether & The End.
-                   -> The 7th argument here is a specific world. arg[5] will filter the tab-completion to
-                      show worlds that are only of that dimension.
-                /coords set name <x> <y> <z> <overworld | nether | the_end> --force
-                 */
-                Coord coord;
+            default -> tooManyArguments(player);
+        };
+    }
 
-                if (args[6].equals("--force")) {
-                    try {
-                        coord = new Coord(player, args[1], args[2], args[3], args[4], args[5]);
-                    } catch (NullPointerException | NumberFormatException exception) {
-                        return false;
-                    }
-                    coord.save(config, true);
-                } else {
-                    try {
-                        coord = new Coord(player, args[1], args[2], args[3], args[4], args[5], args[6]);
-                    } catch (NullPointerException | NumberFormatException exception) {
-                        return false;
-                    }
-                    coord.save(config, false);
-                }
-            }
-            // Number of arguments are more than 7
-            default -> {
-                player.sendMessage(replaceStr(ConfigManager.errorMessage("too_many_arguments"), "{cmd_syntax}", ConfigManager.generalMsgs.get("coords_set")));
-            }
+    private boolean saveCoord(Player player, ConfigPlayer config, String name, boolean force) {
+        try {
+            Coord coord = new Coord(player, player.getWorld().getUID(), name);
+            return coord.save(config, force);
+        } catch (NullPointerException | NumberFormatException e) {
+            return false;
         }
-        return false;
+    }
+
+    private boolean saveCoord(Player player, ConfigPlayer config, String name, String x, String y, String z) {
+        try {
+            Coord coord = new Coord(player, player.getWorld().getUID(), name, x, y, z);
+            return coord.save(config, false);
+        } catch (NullPointerException | NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private boolean saveCoord(Player player, ConfigPlayer config, String name, String x, String y, String z, String dimension) {
+        try {
+            Coord coord = new Coord(player, name, x, y, z, dimension);
+            return coord.save(config, false);
+        } catch (NullPointerException | NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private boolean saveCoord(Player player, ConfigPlayer config, String name, String x, String y, String z, String dimension, String world, boolean force) {
+        try {
+            Coord coord = new Coord(player, name, x, y, z, dimension, world);
+            return coord.save(config, force);
+        } catch (NullPointerException | NumberFormatException e) {
+            return false;
+        }
     }
 
     @Override
     public List<String> getSubcommandArgs(Player player, String[] args) {
-        // /coords set <name> <X Y Z> [dimension] [world]
-        ArrayList<String> secondArgs = new ArrayList<>(List.of("name"));
-        ArrayList<String> thirdArgs = new ArrayList<>(List.of("here", "~"));
-        ArrayList<String> fourthArgs = new ArrayList<>(List.of("~"));
-        ArrayList<String> fifthArgs = new ArrayList<>(List.of("~"));
-        ArrayList<String> sixthArgs = new ArrayList<>(List.of("overworld", "nether", "the_end"));
-        ArrayList<World> allWorlds = new ArrayList<>();
-        for (World w : Bukkit.getWorlds()) {
-            allWorlds.add(w);
-            if (Dimension.CUSTOM.equals(w.getEnvironment())) {
-                sixthArgs.add("custom");
-            }
-        }
-        List<String> list = new ArrayList<>();
+        List<String> suggestions = new ArrayList<>();
+        List<String> dimensions = List.of("overworld", "nether", "the_end");
+
         switch (args.length) {
-            case (2) -> {
-                for (String str : secondArgs) if (str.toLowerCase().startsWith(args[1].toLowerCase())) list.add(str);
-            }
-            case (3) -> {
-                for (String str : thirdArgs) if (str.toLowerCase().startsWith(args[2].toLowerCase())) list.add(str);
-            }
-            case (4) -> {
-                if (!args[2].equalsIgnoreCase("here")) {
-                    for (String str : fourthArgs) if (str.toLowerCase().startsWith(args[3].toLowerCase())) list.add(str);
-                }
-            }
-            case (5) -> {
-                if (!args[2].equalsIgnoreCase("here"))
-                    for (String str : fifthArgs) if (str.toLowerCase().startsWith(args[4].toLowerCase())) list.add(str);
-            }
-            case (6) -> {
-                if (!args[2].equalsIgnoreCase("here")) {
-                    for (String str : sixthArgs) if (str.toLowerCase().startsWith(args[5].toLowerCase())) list.add(str);
-                    for (World w : allWorlds) if (w.getName().startsWith(args[5])) list.add(w.getName()); // World names are case-sensitive
-                }
-            }
-            case (7) -> { // /coords set name <x> <y> <z> <overworld | nether | the_end> <world>
-                if (!args[2].equalsIgnoreCase("here")) {
-                    if (sixthArgs.contains(args[5].toLowerCase())) {
-                        Dimension target = Dimension.getDimensionEnum(args[5]);
-                        if (target != null) {
-                            for (World w : allWorlds) {
-                                if (target.equals(w.getEnvironment())) if (w.getName().startsWith(args[6])) list.add(w.getName());
+            case 2 -> suggestions.add("name");
+            case 3 -> suggestions.addAll(List.of("here", "~"));
+            case 4, 5 -> suggestions.add("~");
+            case 6 -> suggestions.addAll(dimensions);
+            case 7 -> {
+                if (dimensions.contains(args[5].toLowerCase())) {
+                    Dimension dimension = Dimension.getDimensionEnum(args[5]);
+                    if (dimension != null) {
+                        for (World world : Bukkit.getWorlds()) {
+                            if (dimension.equals(world.getEnvironment())) {
+                                suggestions.add(world.getName());
                             }
                         }
                     }
                 }
             }
         }
-        return list;
+
+        return filterSuggestions(suggestions, args);
+    }
+
+    private List<String> filterSuggestions(List<String> suggestions, String[] args) {
+        String currentArg = args[args.length - 1].toLowerCase();
+        return suggestions.stream()
+                .filter(suggestion -> suggestion.toLowerCase().startsWith(currentArg))
+                .toList();
+    }
+
+    private boolean tooManyArguments(Player player) {
+        player.sendMessage(replaceStr(ConfigManager.errorMessage("too_many_arguments"), "{cmd_syntax}", ConfigManager.generalMsgs.get("coords_set")));
+        return false;
     }
 }

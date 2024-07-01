@@ -18,6 +18,25 @@ import static ca.sirdanieliii.SD_SMP.utilities.Utilities.translateMsgClr;
 import static ca.sirdanieliii.SD_SMP.utilities.Utilities.translateMsgClrComponent;
 
 public class coordsClear extends SubCommand {
+    /**
+     * @param player Minecraft player
+     * @param force  Boolean determining whether all the coords gets deleted or not
+     */
+    public static boolean clearAllCoords(ConfigPlayer conf, Player player, boolean force) {
+        if (!force) {
+            TextComponent confirmMsg = translateMsgClrComponent("&E>>> Click to &Cclear all &E your coords!");
+            confirmMsg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(translateMsgClr("&CThis action is irreversible!"))));
+            confirmMsg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/coords clear all --force"));
+            player.sendMessage(translateMsgClr(CommandManager.cmdHeader("coords") + "&FAre you sure you want clear ALL your coords?"));
+            player.spigot().sendMessage(confirmMsg);
+        } else {
+            conf.getConfig().set("coordinates", new Array[]{});
+            player.sendMessage(translateMsgClr(CommandManager.cmdHeader("coords") + "&FAll coords &Cremoved &Asuccessfully!"));
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public String getName() {
         return "clear";
@@ -57,25 +76,6 @@ public class coordsClear extends SubCommand {
         } else if (args.length >= 3) { // If dimension is specified
         }
         return true;
-    }
-
-    /**
-     * @param player Minecraft player
-     * @param force  Boolean determining whether all the coords gets deleted or not
-     */
-    public static boolean clearAllCoords(ConfigPlayer conf, Player player, boolean force) {
-        if (!force) {
-            TextComponent confirmMsg = translateMsgClrComponent("&E>>> Click to &Cclear all &E your coords!");
-            confirmMsg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(translateMsgClr("&CThis action is irreversible!"))));
-            confirmMsg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/coords clear all --force"));
-            player.sendMessage(translateMsgClr(CommandManager.cmdHeader("coords") + "&FAre you sure you want clear ALL your coords?"));
-            player.spigot().sendMessage(confirmMsg);
-        } else {
-            conf.getConfig().set("coordinates", new Array[]{});
-            player.sendMessage(translateMsgClr(CommandManager.cmdHeader("coords") + "&FAll coords &Cremoved &Asuccessfully!"));
-            return true;
-        }
-        return false;
     }
 
     @Override

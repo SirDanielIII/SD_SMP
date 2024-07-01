@@ -9,9 +9,11 @@ import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Wolf;
-import org.bukkit.util.Vector;
 
 import java.util.List;
+
+import static ca.sirdanieliii.SD_SMP.utilities.Utilities.getSafeLocationInFront;
+import static ca.sirdanieliii.SD_SMP.utilities.Utilities.translateMsgClr;
 
 public class ivanDog extends SubCommand {
     @Override
@@ -40,11 +42,10 @@ public class ivanDog extends SubCommand {
             player.sendMessage(ConfigManager.errorMessage("permission"));
             return false;
         }
-        Vector offset = Utilities.offsetFromDirection(player, 2.0D); // Calculates 2 block forward offset
-        Wolf wolf = (Wolf) player.getWorld().spawnEntity(player.getLocation().add(offset), EntityType.WOLF);
+        Wolf wolf = (Wolf) player.getWorld().spawnEntity(getSafeLocationInFront(player), EntityType.WOLF);
         wolf.setTamed(true);
         wolf.setOwner(player);
-        wolf.setCustomName("Ivan");
+        wolf.setCustomName(translateMsgClr("&#0085F5Ivan"));
         wolf.setCollarColor(DyeColor.LIGHT_BLUE);
         wolf.setSitting(true);
         player.playSound(player.getLocation(), Sound.ENTITY_WOLF_PANT, 1, 1);
