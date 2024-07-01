@@ -194,7 +194,7 @@ public class Events implements Listener {
         for (int slot = 9; slot < 36; slot++) { // Exclude hotbar and armor slots
             if (player.getInventory().getItem(slot) == null) {
                 player.getInventory().setItem(slot, elytra);
-                player.sendMessage(ConfigManager.generalMsgs.get("force_moved_elytra"));
+                player.sendMessage(translateMsgClr(ConfigManager.generalMsgs.get("force_moved_elytra")));
                 return;
             }
         }
