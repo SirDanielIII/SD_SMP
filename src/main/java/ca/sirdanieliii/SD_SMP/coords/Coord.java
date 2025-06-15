@@ -3,19 +3,21 @@ package ca.sirdanieliii.SD_SMP.coords;
 import ca.sirdanieliii.SD_SMP.commands.CommandManager;
 import ca.sirdanieliii.SD_SMP.configuration.ConfigManager;
 import ca.sirdanieliii.SD_SMP.configuration.ConfigYML;
-import ca.sirdanieliii.SD_SMP.configuration.configs.ConfigPlayer;
-import ca.sirdanieliii.SD_SMP.utilities.ChatPaginator;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
-import static ca.sirdanieliii.SD_SMP.coords.CoordsUtility.getWorldDimension;
+import static ca.sirdanieliii.SD_SMP.commands.CommandManager.cmdHeader;
+import static ca.sirdanieliii.SD_SMP.coords.CoordsUtility.*;
 import static ca.sirdanieliii.SD_SMP.utilities.Utilities.*;
 
 public class Coord {
@@ -25,6 +27,7 @@ public class Coord {
     private final int x;
     private final int y;
     private final int z;
+
     public Coord(Player player, UUID worldUid, String name) {
         this(player, worldUid, name, player.getLocation().getBlockX(), player.getLocation().getBlockY(), player.getLocation().getBlockZ());
     }
@@ -98,21 +101,6 @@ public class Coord {
         };
     }
 
-    public static void showAllCoords(ConfigPlayer config, Player p, int page) {
-        List<TextComponent> data = new ArrayList<>();
-        for (String id : Objects.requireNonNull(config.getConfig().getConfigurationSection("coordinates")).getKeys(false)) {
-            String name = config.getConfig().getString(String.format("coordinates.%s.name", id));
-            Coord coord = new Coord(p, CoordsUtility.getWorldUid(id), name,
-                    config.getConfig().getInt(String.format("coordinates.%s.%s.x", id, name)),
-                    config.getConfig().getInt(String.format("coordinates.%s.%s.y", id, name)),
-                    config.getConfig().getInt(String.format("coordinates.%s.%s.z", id, name)));
-            data.add(coord.getCoordComponent());
-        }
-        ChatPaginator paginatedData = new ChatPaginator(translateMsgClrComponent(CommandManager.cmdClr("coords", true) + "COORDS LIST"), data, page, ChatColor.WHITE);
-        paginatedData.configureFooter("<<<", ">>>", null, "/coords list all " + (page + 1), ChatColor.GOLD, ChatColor.GRAY, ChatColor.WHITE);
-        paginatedData.sendPaginatedMessage(p);
-    }
-
     public boolean save(ConfigYML config, boolean force) {
         if (hasDuplicateCoordName(config) && !force) {
             displayDuplicateCoordMessage();
@@ -126,8 +114,8 @@ public class Coord {
         config.getConfig().set(path + ".z", z);
         config.save();
 
-        TextComponent returnMsg = translateMsgClrComponent(String.format("%s&FSaved &B%s ", CommandManager.cmdHeader("coords"), name));
-        returnMsg.addExtra(getCoordComponent());
+        TextComponent returnMsg = translateMsgClrComponent(String.format("%s&FSaved &B%s ", cmdHeader("coords"), name));
+        returnMsg.addExtra(getCoordComponent(player));
         returnMsg.addExtra(" ");
         returnMsg.addExtra(translateMsgClrComponent("&Fin "));
         returnMsg.addExtra(CoordsUtility.getWorldComponent(worldUid));
@@ -136,10 +124,30 @@ public class Coord {
         return true;
     }
 
+    public void displayCoordToPlayer() {
+        TextComponent coord = translateMsgClrComponent(String.format("%s&B%s &Fis at ", cmdHeader("coords"), name));
+        coord.addExtra(getCoordComponent(player));
+        coord.addExtra(translateMsgClrComponent("&Ffrom"));
+        coord.addExtra(getWorldComponent(worldUid));
+        player.spigot().sendMessage(coord);
+    }
+
+    public Dimension getDimension() {
+        return Dimension.getDimensionEnum(Objects.requireNonNull(Bukkit.getWorld(worldUid)).getEnvironment());
+    }
+
+    public World getWorld() {
+        return Objects.requireNonNull(Bukkit.getWorld(worldUid));
+    }
+
+    public String getName() {
+        return name;
+    }
+
     private void displayDuplicateCoordMessage() {
         player.sendMessage(translateMsgClr("------------ | " + CommandManager.cmdClr("coords", true).toUpperCase() + "COORDS &R&F| ------------>"));
         TextComponent errorStr = replaceStr(ConfigManager.errorMessage("coords_duplicate_2"), Map.of(
-                "{coord_name}", getCoordComponent(), "{world}", CoordsUtility.getWorldComponent(worldUid)));
+                "{coord_name}", getCoordComponent(player), "{world}", CoordsUtility.getWorldComponent(worldUid)));
         player.spigot().sendMessage(errorStr);
 
         TextComponent choice = new TextComponent(">>> ");
@@ -152,20 +160,53 @@ public class Coord {
         player.sendMessage(ConfigManager.BLOCK_FOOTER);
     }
 
-    public TextComponent getCoordComponent() {
+    public TextComponent getCoordComponent(Player player) {
         String colour = Dimension.getClr(getWorldDimension(worldUid));
         TextComponent component = translateMsgClrComponent(String.format("%s[&F%d %d %d%s]", colour, x, y, z, colour));
-        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(translateMsgClr("Click for teleport command"))));
-        component.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format("/tp %s %d %d %d", player.getDisplayName(), x, y, z)));
+
+        component.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(translateMsgClr("Click to teleport &C(requires permission)"))));
+
+        ClickEvent.Action action = player.hasPermission("sd_smp.coords.teleport")
+                ? ClickEvent.Action.RUN_COMMAND
+                : ClickEvent.Action.SUGGEST_COMMAND;
+        /*
+          Vanilla Minecraft treats world folders as case-sensitive (e.g. "MyWorld" vs "myworld").
+          However, Bukkit/Spigot and Multiverse-Core normalize all world names to lowercase, making lookups case-insensitive.
+          Therefore, you cannot create or import two Spigot worlds whose names differ only by case, as they will be treated the same.
+         */
+        String worldArg;
+        if (worldUid.equals(getWorldUuid(Dimension.OVERWORLD))) {
+            worldArg = "minecraft:overworld";
+        } else if (worldUid.equals(getWorldUuid(Dimension.NETHER))) {
+            worldArg = "minecraft:the_nether";
+        } else if (worldUid.equals(getWorldUuid(Dimension.THE_END))) {
+            worldArg = "minecraft:the_end";
+        } else {
+            worldArg = String.format("minecraft:%s", getWorld().getName().toLowerCase());
+        }
+        String command = String.format("/execute in %s run tp %s %d %d %d", worldArg, player.getName(), x, y, z);
+        component.setClickEvent(new ClickEvent(action, command));
         return component;
     }
 
+    /**
+     * Parses a coordinate argument for a specific axis, supporting relative coordinates (e.g., "~5").
+     *
+     * @param arg    The coordinate argument as a string. Can be a plain integer or a relative value prefixed with '~'.
+     * @param player The player whose current location is used as a base for relative coordinates.
+     * @param axis   The axis (X, Y, or Z) to interpret the coordinate against.
+     * @return The parsed absolute coordinate as an integer.
+     */
     private int parseNumberArg(String arg, Player player, Axis axis) {
         double axisNum = switch (axis) {
             case X -> player.getLocation().getX();
             case Y -> player.getLocation().getY();
             case Z -> player.getLocation().getZ();
         };
+        // If the argument starts with '~', it's a relative coordinate:
+        //   - If it's just '~', return the player's current position on the given axis.
+        //   - If it's something like '~5', add 5 to the player's current position.
+        //   - Otherwise, parse and return the absolute coordinate.
         return arg.charAt(0) == '~' ? (arg.length() == 1 ? (int) axisNum : (int) (axisNum + Integer.parseInt(arg.substring(1)))) : Integer.parseInt(arg);
     }
 

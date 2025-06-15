@@ -1,0 +1,42 @@
+# --- DO NOT TOUCH THIS ----------------
+config-version: 2
+# --------------------------------------
+uuid: b9df1e66-eb80-4b4d-8a35-61bd647837b4
+name: SirDaniel_da3rd
+kills: 0
+death_by_player: 0
+death_by_nonplayer: 190
+death_total: 190
+coordinates:
+  a5cc3250-4093-49f7-9138-edb8b4ffdf47:
+    world_name: Test
+    dimension: overworld
+    coords:
+      name:
+        x: -2
+        y: 1
+        z: 1
+  1a2d373a-ca2d-4d7a-b7db-f9db13c86f8f:
+    world_name: Test_the_end
+    dimension: the_end
+    coords:
+      yeet:
+        x: 3
+        y: 1
+        z: 4
+  7fe86f0d-6383-4c9a-a365-7e64af437550:
+    world_name: Test_nether
+    dimension: nether
+    coords:
+      name:
+        x: -6
+        y: 50
+        z: 0
+  3e372f3f-c6e2-41b4-9a02-35596b4452dd:
+    world_name: SnowyMountainArena
+    dimension: overworld
+    coords:
+      yeet:
+        x: -8
+        y: 1
+        z: 3

@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 import static ca.sirdanieliii.SD_SMP.configuration.ConfigManager.BLOCK_FOOTER;
+import static ca.sirdanieliii.SD_SMP.configuration.ConfigManager.errorMessage;
 import static ca.sirdanieliii.SD_SMP.utilities.Utilities.translateMsgClr;
 import static ca.sirdanieliii.SD_SMP.utilities.Utilities.translateMsgClrComponent;
 
@@ -66,7 +67,10 @@ public class CommandManager implements TabExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, String[] args) {
-        if (!(sender instanceof Player player)) return false;
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage(errorMessage("player_only"));
+            return false;
+        }
 
         if (args.length > 0) {
             for (SubCommand subcommand : getSubcommands(cmd.getName())) {

@@ -247,4 +247,16 @@ public class Utilities {
         if (!finalStr.isEmpty()) return finalStr.toString();
         else return null;
     }
+
+    public static boolean isStringNumber(String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 }

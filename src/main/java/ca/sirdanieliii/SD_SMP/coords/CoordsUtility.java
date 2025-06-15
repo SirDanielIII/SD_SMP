@@ -1,7 +1,5 @@
 package ca.sirdanieliii.SD_SMP.coords;
 
-import ca.sirdanieliii.SD_SMP.SD_SMP;
-import ca.sirdanieliii.SD_SMP.configuration.ConfigManager;
 import ca.sirdanieliii.SD_SMP.configuration.ConfigYML;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -12,10 +10,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.UUID;
 
 import static ca.sirdanieliii.SD_SMP.utilities.Utilities.translateMsgClr;
 import static ca.sirdanieliii.SD_SMP.utilities.Utilities.translateMsgClrComponent;
@@ -193,45 +191,40 @@ public final class CoordsUtility {
     }
 
     /**
-     * Gets the default worlds' IDs (Overworld, Nether, The End)
-     *
-     * @return array of IDs, with index 0 for Overworld, index 1 for Nether, and index 2 for The End
+     * Returns the folder‐name of your main (level-name) world.
      */
-    public static UUID[] getDefaultWorldIDs() {
-        UUID[] ids = new UUID[3];
-        String worldName = getMainWorldName();
-        if (Bukkit.getWorld(Objects.requireNonNull(getWorldUid(worldName))) != null) {
-            ids[0] = getWorldUid(worldName);
-        }
-        if (Bukkit.getWorld(Objects.requireNonNull(getWorldUid(worldName + "_nether"))) != null) {
-            ids[1] = getWorldUid(worldName + "_nether");
-        }
-        if (Bukkit.getWorld(Objects.requireNonNull(getWorldUid(worldName + "_the_end"))) != null) {
-            ids[2] = getWorldUid(worldName + "_the_end");
-        }
-        return ids;
+    public static String getMainWorldName() {
+        return Bukkit.getWorlds().get(0).getName();
     }
 
     /**
-     * Retrieves the server's default world name from the server.properties file
+     * Returns the UUID of the world for the given Dimension.
+     * Overworld = no suffix, Nether = "_nether", The End = "_the_end".
      *
-     * @return default world name
+     * @param dim which dimension
+     * @return the world’s UUID, or null if that world isn’t loaded
      */
-    public static String getMainWorldName() {
-        Properties serverProperties = new Properties();
-        String mainWorldName;
-        try {
-            serverProperties.load(Files.newInputStream(Paths.get("server.properties")));
-            mainWorldName = serverProperties.getProperty("level-name");
-            if (mainWorldName == null) {
-                SD_SMP.getThisPlugin().getLogger().severe(ConfigManager.errorMessage("missing_properties_file"));
-                mainWorldName = "world";
-            }
-        } catch (IOException e) {
-            SD_SMP.getThisPlugin().getLogger().severe(ConfigManager.errorMessage("missing_properties_file"));
-            throw new RuntimeException(e);
-        }
-        return mainWorldName;
+    public static UUID getWorldUuid(Dimension dim) {
+        String base = getMainWorldName();
+        String suffix = switch (dim) {
+            case NETHER -> "_nether";
+            case THE_END -> "_the_end";
+            default -> "";
+        };
+        World w = Bukkit.getWorld(base + suffix);
+        return (w != null) ? w.getUID() : null;
+    }
+
+    /**
+     * Get an array of the three default world UUIDs in the order
+     * [OVERWORLD, NETHER, THE_END].  Unloaded dims will be null.
+     */
+    public static UUID[] getDefaultWorldIDs() {
+        return new UUID[]{
+                getWorldUuid(Dimension.OVERWORLD),
+                getWorldUuid(Dimension.NETHER),
+                getWorldUuid(Dimension.THE_END)
+        };
     }
 
 //    /*

@@ -46,7 +46,7 @@ permissions:
       sd_smp.coords.list: true
       sd_smp.coords.send: true
       sd_smp.coords.set: true
-  #      sd_smp.coords.teleport: true
+      sd_smp.coords.teleport: true
   sd_smp.coords.clear:
     description: Clears a saved coordinate
     default: true
@@ -59,9 +59,9 @@ permissions:
   sd_smp.coords.set:
     description: Sets a saved coordinate
     default: true
-  #  sd_smp.coords.teleport:
-  #    description: Allows you to teleport to a saved coordinate
-  #    default: op
+    sd_smp.coords.teleport:
+      description: Allows you to instantly teleport to a clicked coordinate in chat
+      default: op
   sd_smp.death.*:
     description: Gives access to all Death commands
     children:

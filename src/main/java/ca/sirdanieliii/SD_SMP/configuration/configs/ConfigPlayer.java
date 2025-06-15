@@ -92,7 +92,7 @@ public class ConfigPlayer extends ConfigYML {
             newFile.getConfig().set("kills", this.getConfig().getInt("murders"));
             newFile.getConfig().set("death_by_player", this.getConfig().getInt("death_by_player"));
             newFile.getConfig().set("death_by_nonplayer", this.getConfig().getInt("death_by_other"));
-            newFile.getConfig().set("death_total", player.getStatistic(Statistic.DEATHS));
+            correctDeathValues(this, player);
             newFile.save();
             if (this.delete()) { // Delete "old" file
                 this.reload(newFile.getFile()); // Update variables to reference renamed file

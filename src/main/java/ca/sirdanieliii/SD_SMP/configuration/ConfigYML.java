@@ -19,7 +19,7 @@ public class ConfigYML implements Config {
     private FileConfiguration config;
 
     public ConfigYML(String path, String filename) {
-        file = new File(getThisPlugin().getDataFolder() + path, filename + ".yml");
+        file = new File(getThisPlugin().getDataFolder() + "/" + path, filename + ".yml");
         if (!file.exists()) {
             try {
                 if (file.createNewFile()) {
