@@ -1,164 +1,280 @@
-# Sir Daniel's SMP Plugin (SD_SMP)
+# SD_SMP
 
-This Spigot plugin aims to provide basic quality of life additions & tools to a Minecraft SMP, making it a must have for your servers! 😎
+A lightweight Spigot plugin that adds quality-of-life tools for your SMP server, from custom MOTDs and welcome titles to feature-rich coordinate management system and
+player death/kill statistics.
 
-Verion Compatibility: 1.16.5-1.20.2
+### 🧪 Version Compatibility
 
-## Customizable Features
-All features listed below are editable in SD_SMP's main config file!
+**Tested Minecraft Versions:**
 
-∘ Server MoTD (does not work on BungeeCord)
-
-∘ Welcome message on join (title & subtitle)
-
-∘ Custom player messages for joining, quiting & sleeping (all configurable)
-  
-∘ Lightning on player kill
-
-∘ End Portal entry toggle
-
-∘ Netherite & Elytra balancing toggles
-
-## Command List
-### SMP Commands
 ```
-/smp
-  → Returns all available commands from this plugin
-  
-/coords
-  → Returns all available /coords commands
-  
-/death
-  → Returns all available /death commands
-
-/ivan
-  → Returns all available /ivan commands
-  
-/wand
-  → Summons a powerful wand of the Gods
-  → Use this to one-tap or explode anything in the game, or cyberbully your server members
-```
-### COORDS - Basic Coordinate Saving System
-```
-/coords clear <name | all> [dimension(s)]
-  → Clears saved coordinate(s)
-
-/coords set <name> [X Y Z] <dimension>
-  → Saves specific coordinate under given name
-
-/coords list <name | all> <dimension>
-  → Lists saved coordinate(s)
-
-/coords send <here [players] | <name> <dimension> [players]>
-  → Sends a saved coordinate or your current location to other player(s)
-```
-### DEATH - Death & Player Kills Statistics
-```
-/death kdr
-  → Returns your kill-death (K/D) ratio
-  → Calculated using player kills & PVP deaths
-  
-/death kills
-  → Returns your player kill count
-  
-/death nonplayer
-  → Returns your death count, excluding PVP
-  
-/death player
-  → Returns your PVP death count
-  
-/death total
-  → Returns your lifetime death count
-```
-### Ivan
-```
-/ivan dog
-  → Summons a dog named "Ivan"
-  
-/ivan donkey
-  → Summons a donkey named "Ivan"
+1.16.5 → 1.21.5
 ```
 
-# The Config Files
-Main Config: https://github.com/SirDanielIII/SD_SMP/blob/master/src/main/resources/config.yml
+✅ Compatible with **Spigot**, **Paper**, and other Spigot-based forks.
 
-Error Messages: https://github.com/SirDanielIII/SD_SMP/blob/master/src/main/resources/error_messages.yml
+---
 
-Player Config: https://github.com/SirDanielIII/SD_SMP/blob/master/src/main/resources/default_player_config.yml
+## 📋 Table of Contents
 
-# PERMISSIONS (as of Version 2.0)
-```
-sd_smp.god.wand:
-  description: Lets you use the wand
-  default: op
-  
-sd_smp.ivan.*:
-  description: Gives access to all Ivan commands
-  children:
-    sd_smp.ivan.dog: true
-    sd_smp.ivan.donkey: true
+1. [Features](#-features)
+2. [Commands](#-commands)
+3. [Configuration](#-configuration)
+4. [Permissions](#-permissions)
+
+---
+
+## 🔧 Features
+
+All of these are toggleable or editable in `config.yml`:
+
+- 📝 **Server MOTD**
+- 👋 **Join/Welcome Message** (title & subtitle)
+- 💤 **Custom Join / Quit / Sleep Messages**
+- ⚡ **Lightning on Player Kill**
+- ⛔ **End-Portal Entry Toggle**
+- ⚠️ **Netherite & Elytra Balancing**
+- 🗺️ **Coordinate Manager** (`/coords`)
+- ⚔️ **Death & Kill Statistics** (`/death`)
+- 🐶 **"Ivan" Pet Summoner** (`/ivan`)
+- 💀 **Wand of the Gods** (`/wand`)
+
+---
+
+## 💬 Commands
+
+### `/smp`
+
+> Lists all SD_SMP subcommands.
+
+### `/coords`  — Coordinate Management System
+
+```txt
+/coords set   <name> [X Y Z] [dimension]
+    → Save a coordinate  
     
-sd_smp.ivan.dog:
-  description: Spawns a dog named Ivan
-  default: op
-  
-sd_smp.ivan.donkey:
-  description: Spawns a donkey named Ivan
-  default: op
-  
-sd_smp.coords.*:
-  description: Gives access to all Coords commands
-  children:
-    sd_smp.coords.clear: true
-    sd_smp.coords.list: true
-    sd_smp.coords.send: true
-    sd_smp.coords.set: true
+/coords list  [name|all] [dimension]
+    → List saved coords  
     
-sd_smp.coords.clear:
-  description: Clears a saved coordinate
-  default: true
-  
-sd_smp.coords.list:
-  description: Lists a saved coordinate
-  default: true
-  
-sd_smp.coords.send:
-  description: Sends a saved coordinate
-  default: true
-  
-sd_smp.coords.set:
-  description: Sets a saved coordinate
-  default: true
-  
-sd_smp.death.*:
-  description: Gives access to all Death commands
-  children:
-    sd_smp.death.kdr: true
-    sd_smp.death.murders: true
-    sd_smp.death.nonplayer: true
-    sd_smp.death.player: true
-    sd_smp.death.total: true
+/coords clear [name|all] [dimension]
+    → Clear saved coords  
     
-sd_smp.death.kdr:
-  description: Returns KDR value
-  default: true
-  
-sd_smp.death.murders:
-  description: Returns murder count
-  default: true
-  
-sd_smp.death.nonplayer:
-  description: Returns death count (No PVP)
-  default: true
-  
-sd_smp.death.player:
-  description: Returns death count (Only PVP)
-  default: true
-  
-sd_smp.death.total:
-  description: Returns lifetime death count
-  default: true
+/coords send  <here [players] | <name> [players]>
+    → Send coords to other players  
 ```
 
-## Libraries Used
-* BoostedYAML
+### `/death`  — Player Death & Kill Statistics
+
+```txt
+/death kdr       → Kill-death ratio  
+/death kills     → Player kill count  
+/death player    → PVP death count  
+/death nonplayer → Mob/non-player death count  
+/death total     → Lifetime death count  
+```
+
+### `/ivan`  — Summoning an "Ivan"
+
+```txt
+/ivan dog    → Summon a dog named Ivan  
+/ivan donkey → Summon a donkey named Ivan  
+```
+
+### `/wand`  — The Wand of the Gods
+
+```txt
+/wand → Summon a powerful wand (one-tap, explosions, etc.)  
+```
+
+---
+
+## ⚙️ Configuration
+
+The following are the config files, where you can edit the plugin's settings, messages, and error messages!
+
+<details>
+<summary>config.yml</summary>
+
+```yaml
+# --- DO NOT TOUCH THIS ----------------
+config-version: 2
+# --------------------------------------
+# COLOUR FORMATTING GUIDE (Colours require string to be surrounded by quotes)
+#  &0	Black
+#  &1	Dark Blue
+#  &2	Dark Green
+#  &3	Dark Aqua
+#  &4	Dark Red
+#  &5	Dark Purple
+#  &6	Gold
+#  &7	Gray
+#  &8	Dark Gray
+#  &9	Blue
+#  &A	Green
+#  &B	Aqua
+#  &C	Red
+#  &D	Light Purple
+#  &E	Yellow
+#  &F	White
+#  &K	Obfuscated (Magic / Enchantment Table)
+#  &L	Bold
+#  &M	Strikethrough
+#  &N	Underline
+#  &O	Italic
+#  &R	Reset
+#  \n   Next Line
+
+# CUSTOM COLOURS
+# Add '&' before hex code (not case-sensitive)
+# Example for Pink: &#FFC0CB or &#ffc0cb
+# --------------------------------------
+
+# --------------------------------------
+# General Configuration
+# --------------------------------------
+# Name that appears in /smp command
+name: '&#f50057&LSMP'
+
+# Mostly for logging purposes
+cmd_header: '&A[&FSD_SMP&A]'
+
+# Message Of The Day - Individual Servers ONLY
+# If your server is running in a proxy server (BungeeCord, Waterfall, etc),
+# the following WILL NOT SHOW IN THE SERVER LISTING!!!
+motd:
+  enabled: true
+  line_1: A Minecraft SMP
+  line_2: ''
+
+# Welcome message when you join
+# The numbers below is time in ticks
+welcome:
+  enabled: true
+  title: '&FHello There'
+  subtitle: '&6Welcome to the SMP :)'
+  fade_in: 20
+  stay: 70
+  fade_out: 20
+
+# How many lines in the body are shown at a time when text in the chat is paginated
+# Note 1: This ignores the two lines from the header and footer
+# Note 2: /coords list will require this
+lines_per_paginated_chat: 18
+
+# --------------------------------------
+# Gameplay Changes
+# --------------------------------------
+# Enable colour codes (E.G. &C) and hex values (E.G. &#0085F5) for signs.
+sign_colour_codes: true
+
+# Like PVP servers. The lightning won't destroy anything and/or create fire
+lightning_on_player_kill: true
+
+# Prevents a player from entering a portal
+disable_nether_portal: false
+disable_end_portal: false
+
+# Netherite related toggles
+disable_mining_netherite: false
+disable_smithing_table: false
+disable_crafting_netherite_tools: false
+disable_crafting_netherite_armour: false
+
+# Option to disable players flying with an Elytra
+elytra_flight:
+  overworld: true
+  nether: true
+  the_end: true
+
+# --------------------------------------
+# Scoreboards
+# --------------------------------------
+# Health Display Under Nametag
+# update_interval is in ticks
+health_under_name:
+  enabled: true
+  text_after_health: '&C❤'
+  update_interval: 5
+
+# --------------------------------------
+# Custom Messages
+# → See messages.yml to add/remove specific messages
+# --------------------------------------
+custom-join-messages-enable: true
+custom-join-messages-clr: '&E'
+# Put a ':)' at the end of each join message
+custom-join-messages-smiley-face: true
+
+custom-quit-messages-enable: true
+custom-quit-messages-clr: '&C'
+
+custom-sleep-messages-enable: true
+custom-sleep-messages-clr: '&B'
+```
+
+</details>
+
+<details>
+<summary>error_messages.yml</summary>
+
+```yaml
+# Has not been finalized for coords-rework branch
+# https://github.com/SirDanielIII/SD_SMP/blob/master/src/main/resources/messages.yml
+```
+
+</details>
+
+<details>
+<summary>messages.yml</summary>
+
+```yaml
+# Has not been finalized for coords-rework branch
+# https://github.com/SirDanielIII/SD_SMP/blob/master/src/main/resources/error_messages.yml
+```
+
+</details>
+
+### Default Player Config
+
+<details>
+<summary>Click here to see a player's default config!</summary>
+
+```yaml
+# --- DO NOT TOUCH THIS ----------------
+config-version: 2
+# --------------------------------------
+uuid: ''
+name: ''
+kills: 0
+death_by_player: 0
+death_by_nonplayer: 0
+death_total: 0
+coordinates: [ ]
+```
+
+</details>
+
+---
+
+## 🔐 Permissions
+
+| Node                     | Description                  | Default |
+|--------------------------|------------------------------|---------|
+| `sd_smp.god.wand`        | Use the Wand of the Gods     | `op`    |
+| `sd_smp.ivan.*`          | All Ivan summoning commands  | `op`    |
+| `sd_smp.ivan.dog`        | Summon a dog                 | `op`    |
+| `sd_smp.ivan.donkey`     | Summon a donkey              | `op`    |
+| `sd_smp.coords.*`        | All coords commands          | `true`  |
+| `sd_smp.coords.set`      | `/coords set`                | `true`  |
+| `sd_smp.coords.list`     | `/coords list`               | `true`  |
+| `sd_smp.coords.clear`    | `/coords clear`              | `true`  |
+| `sd_smp.coords.send`     | `/coords send`               | `true`  |
+| `sd_smp.coords.teleport` | Click-to-teleport permission | `op`    |
+| `sd_smp.death.*`         | All death commands           | `true`  |
+| `sd_smp.death.kdr`       | `/death kdr`                 | `true`  |
+| `sd_smp.death.kills`     | `/death kills`               | `true`  |
+| `sd_smp.death.player`    | `/death player`              | `true`  |
+| `sd_smp.death.nonplayer` | `/death nonplayer`           | `true`  |
+| `sd_smp.death.total`     | `/death total`               | `true`  |
+
+---
