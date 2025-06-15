@@ -48,9 +48,6 @@ public class Events implements Listener {
         if (ConfigManager.welcomeEnable) {
             player.sendTitle(translateMsgClr(ConfigManager.welcome.get(0)), translateMsgClr(ConfigManager.welcome.get(1)), ConfigManager.welcomeFadeIn, ConfigManager.welcomeStay, ConfigManager.welcomeFadeOut);
         }
-        if (ConfigManager.healthUnderName) {
-            Scoreboards.addPlayerToScoreboard(player);
-        }
     }
 
     @EventHandler
@@ -62,9 +59,7 @@ public class Events implements Listener {
             event.setQuitMessage(translateMsgClr(ConfigManager.customQuitMessagesClr + player.getName() + " " + message));
         }
         // Cancel player scoreboard to avoid errors when quitting the server
-        if (Scoreboards.scoreboardTasks.containsKey(player.getUniqueId())) {
-            Scoreboards.scoreboardTasks.get(player.getUniqueId()).stopThisScoreboardTask(Scoreboards.scoreboardTasks);
-        }
+        Scoreboards.clearPlayerHealthObjective(player);
     }
 
     @EventHandler

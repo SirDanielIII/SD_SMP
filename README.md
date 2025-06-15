@@ -50,16 +50,16 @@ All of these are toggleable or editable in `config.yml`:
 ### `/coords`  — Coordinate Management System
 
 ```txt
-/coords set   <name> [X Y Z] [dimension]
+/coords set <name> [X Y Z] [dimension]
     → Save a coordinate  
     
-/coords list  [name|all] [dimension]
+/coords list [name|all] [dimension]
     → List saved coords  
     
 /coords clear [name|all] [dimension]
     → Clear saved coords  
     
-/coords send  <here [players] | <name> [players]>
+/coords send <here [players] | <name> [players]>
     → Send coords to other players  
 ```
 

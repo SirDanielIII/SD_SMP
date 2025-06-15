@@ -7,7 +7,6 @@ import ca.sirdanieliii.SD_SMP.configuration.ConfigManager;
 import ca.sirdanieliii.SD_SMP.events.Events;
 import ca.sirdanieliii.SD_SMP.events.Scoreboards;
 import ca.sirdanieliii.SD_SMP.items.ItemManager;
-import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -36,8 +35,7 @@ public final class SD_SMP extends JavaPlugin {
         Objects.requireNonNull(getCommand("smp")).setExecutor(new SMP());
         Objects.requireNonNull(getCommand("wand")).setExecutor(new Wand());
         if (ConfigManager.healthUnderName) {
-            Scoreboards.registerHealthScoreboard(); // Register scoreboard on plugin start
-            Scoreboards.addAllPlayersToScoreboard(); // In case of server forced plugin reloads
+            Scoreboards.reloadHealthScoreboard();
         }
         this.getLogger().info(String.format("Version %s has finished loading", this.getDescription().getVersion()));
     }

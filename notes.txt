@@ -1,6 +1,10 @@
 When updating a version, if an option is missing the entire thing gets dumped onto preexisting values
 When reloading the document, check if things are missing or not and add back the default values
 
+
+Changelog
+- Reworked health scoreboard to be compatible with other scoreboards from other plugins/minigames/pre-existing scoreboards
+
 Next thing to do:
     Test out Coord.showAllCoords
     Double check if the main world is the first one in the Bukkit.getWorlds() world list
