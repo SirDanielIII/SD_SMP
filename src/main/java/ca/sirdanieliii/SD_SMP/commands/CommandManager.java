@@ -1,9 +1,9 @@
 package ca.sirdanieliii.SD_SMP.commands;
 
-import ca.sirdanieliii.SD_SMP.commands.subcommands.coordsCmds.coordsClear;
-import ca.sirdanieliii.SD_SMP.commands.subcommands.coordsCmds.coordsList;
-import ca.sirdanieliii.SD_SMP.commands.subcommands.coordsCmds.coordsSend;
-import ca.sirdanieliii.SD_SMP.commands.subcommands.coordsCmds.coordsSet;
+import ca.sirdanieliii.SD_SMP.commands.subcommands.coords.coordsClear;
+import ca.sirdanieliii.SD_SMP.commands.subcommands.coords.coordsList;
+import ca.sirdanieliii.SD_SMP.commands.subcommands.coords.coordsSend;
+import ca.sirdanieliii.SD_SMP.commands.subcommands.coords.coordsSet;
 import ca.sirdanieliii.SD_SMP.commands.subcommands.death.*;
 import ca.sirdanieliii.SD_SMP.commands.subcommands.ivan.ivanDog;
 import ca.sirdanieliii.SD_SMP.commands.subcommands.ivan.ivanDonkey;

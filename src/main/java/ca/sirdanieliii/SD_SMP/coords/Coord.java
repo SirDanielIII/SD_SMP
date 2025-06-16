@@ -9,7 +9,9 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Objects;
@@ -56,6 +58,15 @@ public class Coord {
 
     public Coord(Player player, String name, String x, String y, String z, String dimension, String world) {
         this(player, name, x, y, z, dimension, CoordsUtility.getWorldUid(world));
+    }
+
+    /**
+     * @param player       A Minecraft player
+     * @param worldUid     World ID
+     * @param coordSection The coordinate's name should be the key, and XYZ values as the children.
+     */
+    public Coord(Player player, UUID worldUid, @NotNull ConfigurationSection coordSection) {
+        this(player, worldUid, coordSection.getName(), coordSection.getInt("x"), coordSection.getInt("y"), coordSection.getInt("z"));
     }
 
     private Coord(Player player, String name, String x, String y, String z, String dimension, UUID worldUid) {
@@ -175,11 +186,11 @@ public class Coord {
           Therefore, you cannot create or import two Spigot worlds whose names differ only by case, as they will be treated the same.
          */
         String worldArg;
-        if (worldUid.equals(getWorldUuid(Dimension.OVERWORLD))) {
+        if (worldUid.equals(getMainWorldID(Dimension.OVERWORLD))) {
             worldArg = "minecraft:overworld";
-        } else if (worldUid.equals(getWorldUuid(Dimension.NETHER))) {
+        } else if (worldUid.equals(getMainWorldID(Dimension.NETHER))) {
             worldArg = "minecraft:the_nether";
-        } else if (worldUid.equals(getWorldUuid(Dimension.THE_END))) {
+        } else if (worldUid.equals(getMainWorldID(Dimension.THE_END))) {
             worldArg = "minecraft:the_end";
         } else {
             worldArg = String.format("minecraft:%s", getWorld().getName().toLowerCase());

@@ -28,3 +28,4 @@ Future Features
 3. Store a server id under each world
 4. /coords track [coordinate]
 5. /coords pulls up a GUI instead, with the original /coords replaced with /coords help
+6. Put the coord names in alphabetical order so we can utilize binary search (add toggle in config)

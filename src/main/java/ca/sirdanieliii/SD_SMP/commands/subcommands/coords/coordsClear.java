@@ -1,4 +1,4 @@
-package ca.sirdanieliii.SD_SMP.commands.subcommands.coordsCmds;
+package ca.sirdanieliii.SD_SMP.commands.subcommands.coords;
 
 import ca.sirdanieliii.SD_SMP.commands.CommandManager;
 import ca.sirdanieliii.SD_SMP.commands.SubCommand;

@@ -204,7 +204,7 @@ public final class CoordsUtility {
      * @param dim which dimension
      * @return the world’s UUID, or null if that world isn’t loaded
      */
-    public static UUID getWorldUuid(Dimension dim) {
+    public static UUID getMainWorldID(Dimension dim) {
         String base = getMainWorldName();
         String suffix = switch (dim) {
             case NETHER -> "_nether";
@@ -221,9 +221,9 @@ public final class CoordsUtility {
      */
     public static UUID[] getDefaultWorldIDs() {
         return new UUID[]{
-                getWorldUuid(Dimension.OVERWORLD),
-                getWorldUuid(Dimension.NETHER),
-                getWorldUuid(Dimension.THE_END)
+                getMainWorldID(Dimension.OVERWORLD),
+                getMainWorldID(Dimension.NETHER),
+                getMainWorldID(Dimension.THE_END)
         };
     }
 
